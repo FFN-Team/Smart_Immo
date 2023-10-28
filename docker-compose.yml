@@ -11,6 +11,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=technimmo
     command: ["postgres", "-c", "wal_level=logical"]
     volumes:
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
