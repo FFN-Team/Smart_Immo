@@ -1,0 +1,51 @@
+name: Java CI with Maven
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v0
+
+    - name: Set up Java
+      uses: actions/setup-java@v0
+      with:
+        java-version: '21'
+
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+  test:
+    needs: [ build ]
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v0
+
+      - name: Set up Java
+        uses: actions/setup-java@v0
+        with:
+          java-version: '21'
+
+      - name: Execute tests
+        run: mvn clean test
+
+      - name: Generate Code Coverage Report
+        run: mvn jacoco:report
+
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: "${{github.workspace}}/smartimmo/src/main/java"
+        with:
+          coverageLocations: ${{github.workspace}}/smartimmo/target/site/jacoco/jacoco.xml:jacoco
