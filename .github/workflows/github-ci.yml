@@ -1,0 +1,61 @@
+name: GitHub Actions CI
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout le code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+
+      - name: Start Docker
+        run: docker-compose up -d
+
+      - name: Build le projet
+        run: |
+          ./mvnw compile -Dhttps.protocols=TLSv1.2 \
+            -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN \
+            -Dorg.slf4j.simpleLogger.showDateTime=true \
+            -Djava.awt.headless=true \
+            --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
+
+      - name: Stop Docker
+        run: docker-compose down
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout le code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+
+      - name: Start Docker
+        run: docker-compose up -d
+
+      - name: Test le projet
+        run: |
+          ./mvnw test -Dhttps.protocols=TLSv1.2 \
+            -Dmaven.repo.local=$GITHUB_WORKSPACE/.m2/repository \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN \
+            -Dorg.slf4j.simpleLogger.showDateTime=true \
+            -Djava.awt.headless=true \
+            --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
+
+      - name: Stop Docker
+        run: docker-compose down
