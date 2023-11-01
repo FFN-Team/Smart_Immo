@@ -1,17 +1,13 @@
+# Remarque : pour que le docker fonctionne correctement,
+# il ne doit pas y avoir plusieurs serveurs qui tournent sur le port voulu.
 version: "3.8"
-name: "technimmo"
-
 services:
-
-  # PostgreSQL
-  db-pg-technimmo:
-    image: postgres:14.7-alpine
+  technimmo:
+    image: postgres
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=technimmo
-    command: ["postgres", "-c", "wal_level=logical"]
     volumes:
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
