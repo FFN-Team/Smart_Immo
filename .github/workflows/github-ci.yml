@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - main
+      - configuration/TI-4-Code-covery-tests-and-Jacoco
 
 jobs:
   build:
