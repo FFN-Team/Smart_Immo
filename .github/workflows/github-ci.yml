@@ -50,9 +50,11 @@ jobs:
 
       - name: Execute tests
         run: mvn clean test
+        working-directory: smartimmo
 
       - name: Generate Code Coverage Report
         run: mvn jacoco:report
+        working-directory: smartimmo
 
       - name: Code Climate Coverage Action
         uses: paambaati/codeclimate-action@v5.0.0
