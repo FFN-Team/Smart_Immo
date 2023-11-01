@@ -1,4 +1,5 @@
 name: GitHub Actions CI
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
   push:
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout le code
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Java
@@ -22,7 +23,7 @@ jobs:
       - name: Start Docker
         run: docker-compose up -d
 
-      - name: Build le projet
+      - name: Build with Maven
         run: mvn clean install -DskipTests
         working-directory: smartimmo
 
@@ -30,10 +31,12 @@ jobs:
         run: docker-compose down
 
   test:
+    needs: [ build ]
+    name: test
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout le code
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Java
@@ -45,9 +48,21 @@ jobs:
       - name: Start Docker
         run: docker-compose up -d
 
-      - name: Test le projet
-        run: mvn clean install
+      - name: Execute tests
+        run: mvn clean test
         working-directory: smartimmo
+
+      - name: Generate Code Coverage Report
+        run: mvn jacoco:report
+        working-directory: smartimmo
+
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: "${{github.workspace}}/smartimmo/src/main/java"
+        with:
+          coverageLocations: ${{github.workspace}}/smartimmo/target/site/jacoco/jacoco.xml:jacoco
 
       - name: Stop Docker
         run: docker-compose down
