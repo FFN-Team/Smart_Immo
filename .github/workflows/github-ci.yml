@@ -3,7 +3,7 @@ name: GitHub Actions CI
 on:
   push:
     branches:
-      - develop
+      - configuration/TI-1-CI-integration
 
 jobs:
   build:
