@@ -10,11 +10,19 @@ public class Bien {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="bien_id")
-    private Integer id;
+    private Long id;
 
     @Column(name="nom_bien")
     private String nomBien;
 
+    @Column(name = "description")
     private String description;
 
+    public String getNomBien() {
+        return nomBien;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
