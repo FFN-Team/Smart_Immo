@@ -19,8 +19,8 @@
 - run [docker-compose.yml](docker-compose.yml)
 
 ## Setting up TechnImmo
-
 - run `mvn clean install`
+- run `mvn flyway:migrate` to migrate data
 
 # Run the application in local 
 
