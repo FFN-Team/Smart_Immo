@@ -1,7 +1,6 @@
 package com.gangdestrois.smartimmo.controller;
 
 import com.gangdestrois.smartimmo.model.dto.response.BienResponse;
-import com.gangdestrois.smartimmo.model.entity.Bien;
 import com.gangdestrois.smartimmo.service.BienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
