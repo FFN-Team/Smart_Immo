@@ -13,12 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/biens")
 public class BienController {
-    private BienApi bienApi;
+    private final BienApi bienApi;
+
+    public BienController(BienApi bienApi) {
+        this.bienApi = bienApi;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BienResponse> retrieve(){
+    public List<BienResponse> retrieve() {
         return bienApi.retrieve().stream().map(BienResponse::fromModel).toList();
     }
-
 }
