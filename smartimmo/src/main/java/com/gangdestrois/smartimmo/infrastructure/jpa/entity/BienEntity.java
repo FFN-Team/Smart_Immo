@@ -1,11 +1,12 @@
-package com.gangdestrois.smartimmo.model.entity;
+package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 
+import com.gangdestrois.smartimmo.domain.bien.model.Bien;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="bien")
-public class Bien {
+public class BienEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +19,7 @@ public class Bien {
     @Column(name = "description")
     private String description;
 
-    public String getNomBien() {
-        return nomBien;
-    }
-
-    public String getDescription() {
-        return description;
+    public Bien toModel() {
+        return new Bien(id, nomBien, description);
     }
 }
