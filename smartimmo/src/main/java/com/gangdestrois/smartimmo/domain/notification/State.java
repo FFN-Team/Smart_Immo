@@ -1,5 +1,7 @@
 package com.gangdestrois.smartimmo.domain.notification;
 
-public class Notification extends Event {
-
+public enum State {
+    OPEN,
+    READ,
+    ARCHIVED
 }

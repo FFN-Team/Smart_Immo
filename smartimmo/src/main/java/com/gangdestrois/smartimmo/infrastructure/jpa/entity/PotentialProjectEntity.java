@@ -1,13 +1,13 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.project.ProjetAnticipe;
+import com.gangdestrois.smartimmo.domain.project.PotentialProject;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "projet")
-public class ProjetAnticipeEntity {
+public class PotentialProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bien_id")
@@ -16,7 +16,7 @@ public class ProjetAnticipeEntity {
     @Column(name = "date_prevue")
     private LocalDate datePrevue;
 
-    public ProjetAnticipe toModel() {
-        return new ProjetAnticipe(id, datePrevue);
+    public PotentialProject toModel() {
+        return new PotentialProject(id, datePrevue);
     }
 }

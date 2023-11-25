@@ -1,13 +1,23 @@
 package com.gangdestrois.smartimmo.domain.notification;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EventManager {
-    Map<EventType, EventListener> listeners;
+    private final Map<EventType, EventListener> listeners;
 
     public EventManager() {
         this.listeners = new HashMap<>();
+    }
+
+    public Set<Event> eventsFromEventType(EventType... eventTypes) {
+        return Arrays.stream(eventTypes)
+                .map(eventType -> listeners.get(eventType).eventsFromEventType(eventType))
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
 
     public void subscribe(EventType eventType, EventListener listener) {
@@ -18,7 +28,8 @@ public class EventManager {
         listeners.remove(eventType, listener);
     }
 
-    public void notify(EventType eventType, Event event) {
+    public Set<Event> notify(EventType eventType, Event event) {
         listeners.get(eventType).update(eventType, event);
+        return eventsFromEventType(eventType);
     }
 }
