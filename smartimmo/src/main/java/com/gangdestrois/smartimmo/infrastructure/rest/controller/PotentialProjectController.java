@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.notification.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.project.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialProjectEventResponse;
 import org.springframework.http.HttpStatus;
@@ -15,15 +16,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/projets")
 public class PotentialProjectController {
     private final PotentialProjectApi potentialProjectApi;
+    private final NotificationAlertListener notificationAlertListener;
 
-    public PotentialProjectController(PotentialProjectApi potentialProjectApi) {
+    public PotentialProjectController(PotentialProjectApi potentialProjectApi,
+                                      NotificationAlertListener notificationAlertListener) {
         this.potentialProjectApi = potentialProjectApi;
+        this.notificationAlertListener = notificationAlertListener;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Set<PotentialProjectEventResponse> retrieve() {
-        return potentialProjectApi.notifyPotentialProjects().stream()
+    public Set<PotentialProjectEventResponse> notifyPotentialProjects() {
+        return potentialProjectApi.notifyPotentialProjects(notificationAlertListener).stream()
                 .map(PotentialProjectEventResponse::fromModel)
                 .collect(Collectors.toSet());
     }
