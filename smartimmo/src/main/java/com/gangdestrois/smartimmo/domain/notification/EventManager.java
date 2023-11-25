@@ -28,8 +28,7 @@ public class EventManager {
         listeners.remove(eventType, listener);
     }
 
-    public Set<Event> notify(EventType eventType, Event event) {
+    public void notify(EventType eventType, Event event) {
         listeners.get(eventType).update(eventType, event);
-        return eventsFromEventType(eventType);
     }
 }

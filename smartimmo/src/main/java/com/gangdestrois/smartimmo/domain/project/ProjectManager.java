@@ -23,10 +23,9 @@ public class ProjectManager implements PotentialProjectApi {
     }
 
     public Set<Event> notifyPotentialProjects() {
-        return projectSpi.findProjectsByDueDate(LocalDate.now().plusMonths(6))
-                .stream()
-                .map(potentialProject -> eventManager.notify(PROJECT_DUE_DATE_APPROACHING, potentialProject.mapToEvent()))
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+         projectSpi.findPotentialProjectsByDueDate(LocalDate.now().plusMonths(6))
+                .forEach(potentialProject -> eventManager
+                        .notify(PROJECT_DUE_DATE_APPROACHING, potentialProject.mapToEvent()));
+         return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING);
     }
 }

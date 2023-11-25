@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ProjectSpi {
-    List<PotentialProject> findProjectsByDueDate(LocalDate date);
+    List<PotentialProject> findPotentialProjectsByDueDate(LocalDate date);
 }

@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.notification.Priority;
 import com.gangdestrois.smartimmo.domain.project.PotentialProject;
 import jakarta.persistence.*;
 
@@ -16,7 +17,18 @@ public class PotentialProjectEntity {
     @Column(name = "date_prevue")
     private LocalDate datePrevue;
 
+    @Column(name="refProjet")
+    private Long projet;
+
+    @Column(name="priorite")
+    private String priorite;
+
+    public String getMessage(){
+        return String.format("Rappel : la date prévue pour le projet %d approche. Vous pouvez consulter " +
+                "le projet ci-dessous pour reprendre connaissance avec le projet.", projet);
+    }
+
     public PotentialProject toModel() {
-        return new PotentialProject(id, datePrevue);
+        return new PotentialProject(id, datePrevue, getMessage(), Priority.valueOf(priorite));
     }
 }
