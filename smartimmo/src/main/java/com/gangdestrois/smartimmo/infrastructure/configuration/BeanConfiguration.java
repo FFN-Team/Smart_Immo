@@ -1,15 +1,17 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.bien.BienService;
-import com.gangdestrois.smartimmo.domain.notification.EventManager;
-import com.gangdestrois.smartimmo.domain.notification.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.project.PotentialProjectManager;
+import com.gangdestrois.smartimmo.domain.event.EventManager;
+import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
+@EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
 public class BeanConfiguration {
     @Bean
     public BienDataAdapter bienDataAdapter(BienRepository bienRepository) {
@@ -27,7 +29,19 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public SubscriptionDataAdapter subscriptionDataAdapter(SubscriptionRepository subscriptionRepository, NotificationAlertListener notificationAlertListener){
+    public EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository,
+                                                                             NotificationRepository notificationRepository) {
+        return new EventTypeNotificationDataAdapter(eventTypeNotificationRepository, notificationRepository);
+    }
+
+    @Bean
+    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
+        return new NotificationAlertListener(eventTypeNotificationDataAdapter);
+    }
+
+    @Bean
+    public SubscriptionDataAdapter subscriptionDataAdapter(SubscriptionRepository subscriptionRepository,
+                                                           NotificationAlertListener notificationAlertListener) {
         return new SubscriptionDataAdapter(subscriptionRepository, notificationAlertListener);
     }
 
@@ -37,24 +51,15 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PotentialProjectManager projectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
-                                                  EventManager eventManager) {
-        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager);
+    public NotificationDataAdapter notificationDataAdapter(NotificationRepository notificationRepository,
+                                                           PotentialProjectRepository potentialProjectRepository) {
+        return new NotificationDataAdapter(notificationRepository, potentialProjectRepository);
     }
 
     @Bean
-    public NotificationDataAdapter notificationDataAdapter(NotificationRepository notificationRepository) {
-        return new NotificationDataAdapter(notificationRepository);
+    public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
+                                                           EventManager eventManager,
+                                                           NotificationDataAdapter notificationDataAdapter) {
+        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter);
     }
-
-    @Bean
-    public EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository) {
-        return new EventTypeNotificationDataAdapter(eventTypeNotificationRepository);
-    }
-
-    @Bean
-    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
-        return new NotificationAlertListener(eventTypeNotificationDataAdapter);
-    }
-
 }

@@ -1,13 +1,14 @@
-package com.gangdestrois.smartimmo.domain.notification;
+package com.gangdestrois.smartimmo.domain.event;
 
-import com.gangdestrois.smartimmo.domain.notification.port.SubscriptionSpi;
+import com.gangdestrois.smartimmo.domain.common.DomainComponent;
+import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+@DomainComponent
 public class EventManager {
     private final Map<EventType, List<EventListener>> listeners;
     private final SubscriptionSpi subscriptionSpi;
@@ -18,18 +19,20 @@ public class EventManager {
     }
 
     public Set<Event> eventsFromEventType(EventType... eventTypes) {
-        return Arrays.stream(eventTypes)
-                .map(eventType -> listeners.get(eventType).stream()
-                        .map(EventListener::eventsFromEventType)
-                        .flatMap(Set::stream)
-                        .collect(Collectors.toSet()))
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+        Set<Event> events = new HashSet<>();
+        for (EventType eventType : eventTypes) {
+            for (EventListener eventListener : listeners.get(eventType)) {
+                events.addAll(eventListener.eventsFromEventType(eventTypes));
+            }
+        }
+        return events;
     }
 
     public void subscribe(EventType eventType, EventListener listener) {
-        listeners.get(eventType).add(listener);
-        subscriptionSpi.saveAll(listeners);
+        if (!listeners.get(eventType).contains(listener)) {
+            listeners.get(eventType).add(listener);
+            subscriptionSpi.saveAll(listeners);
+        }
     }
 
     public void unSubscribe(EventType eventType, EventListener listener) {

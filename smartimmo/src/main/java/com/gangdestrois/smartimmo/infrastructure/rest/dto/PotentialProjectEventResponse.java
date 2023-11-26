@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.notification.Event;
+import com.gangdestrois.smartimmo.domain.event.Event;
 
 public record PotentialProjectEventResponse(String state,
                                             String message,

@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.notification.Event;
-import com.gangdestrois.smartimmo.domain.notification.EventType;
+import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.EventType;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -13,21 +13,27 @@ import java.util.Set;
 public class EventTypeNotificationEntity {
 
     @Id
-    private Long id;
+    @Column(name = "event_type_notification_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    @Column(name = "notification")
+    @JoinColumn(name = "notification_id")
     @OneToOne(targetEntity = NotificationEntity.class)
     private NotificationEntity notification;
 
-    public EventTypeNotificationEntity(){
+    public EventTypeNotificationEntity() {
     }
 
     public EventTypeNotificationEntity(EventType eventType, NotificationEntity notificationEntity) {
         this.eventType = eventType;
+        this.notification = notificationEntity;
+    }
+
+    private void setNotification(NotificationEntity notificationEntity) {
         this.notification = notificationEntity;
     }
 
@@ -41,4 +47,11 @@ public class EventTypeNotificationEntity {
         return map;
     }
 
+    public NotificationEntity notification() {
+        return this.notification;
+    }
+
+    public EventType eventType() {
+        return eventType;
+    }
 }

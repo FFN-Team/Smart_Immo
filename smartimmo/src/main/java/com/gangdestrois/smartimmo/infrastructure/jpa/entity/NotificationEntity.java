@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.notification.Event;
-import com.gangdestrois.smartimmo.domain.notification.Priority;
-import com.gangdestrois.smartimmo.domain.notification.ProjectNotification;
-import com.gangdestrois.smartimmo.domain.notification.State;
+import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.Priority;
+import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
+import com.gangdestrois.smartimmo.domain.event.State;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,7 +12,7 @@ public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
-    private Long id;
+    private Integer id;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private State state;
@@ -21,11 +21,18 @@ public class NotificationEntity {
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private Priority priority;
-    @Column(name = "ref_project")
+    @JoinColumn(name = "potential_project_id")
     @OneToOne(targetEntity = PotentialProjectEntity.class)
-    private PotentialProjectEntity project;
+    private PotentialProjectEntity potentialProject;
 
-    public NotificationEntity(){
+    public NotificationEntity() {
+    }
+
+    public NotificationEntity(State state, String message, Priority priority, PotentialProjectEntity potentialProjectEntity) {
+        this.state = state;
+        this.message = message;
+        this.priority = priority;
+        this.potentialProject = potentialProjectEntity;
     }
 
     public NotificationEntity(State state, String message, Priority priority) {
@@ -35,10 +42,14 @@ public class NotificationEntity {
     }
 
     public ProjectNotification toModel() {
-        return new ProjectNotification(project.toModel(), state, message, priority);
+        return new ProjectNotification(potentialProject.toModel(), state, message, priority);
     }
 
     public NotificationEntity(Event event) {
         new NotificationEntity(event.state(), event.message(), event.priority());
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

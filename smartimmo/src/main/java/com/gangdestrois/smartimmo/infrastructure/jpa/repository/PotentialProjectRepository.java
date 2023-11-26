@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface PotentialProjectRepository extends JpaRepository<PotentialProjectEntity, Long> {
-    List<PotentialProjectEntity> findByDatePrevue(LocalDate date);
+public interface PotentialProjectRepository extends JpaRepository<PotentialProjectEntity, Integer> {
+    List<PotentialProjectEntity> findByDueDate(LocalDate date);
 }

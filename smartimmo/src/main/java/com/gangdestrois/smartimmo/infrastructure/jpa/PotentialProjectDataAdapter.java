@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.project.PotentialProject;
-import com.gangdestrois.smartimmo.domain.project.port.ProjectSpi;
+import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.port.ProjectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
 
@@ -17,7 +17,7 @@ public class PotentialProjectDataAdapter implements ProjectSpi {
 
     @Override
     public List<PotentialProject> findPotentialProjectsByDueDate(LocalDate date) {
-        return potentialProjectRepository.findByDatePrevue(date)
+        return potentialProjectRepository.findByDueDate(date)
                 .stream()
                 .map(PotentialProjectEntity::toModel)
                 .toList();

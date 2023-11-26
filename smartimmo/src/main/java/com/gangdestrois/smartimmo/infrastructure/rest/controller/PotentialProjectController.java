@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.notification.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.project.port.PotentialProjectApi;
+import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialProjectEventResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,11 +25,11 @@ public class PotentialProjectController {
 
     @PostMapping("/subscription")
     @ResponseStatus(HttpStatus.OK)
-    public void subscription(){
+    public void subscription() {
         potentialProjectApi.subscription(notificationAlertListener);
     }
 
-    @PostMapping
+    @PostMapping("/notification")
     @ResponseStatus(HttpStatus.OK)
     public Set<PotentialProjectEventResponse> notifyPotentialProjects() {
         return potentialProjectApi.notifyPotentialProjects().stream()

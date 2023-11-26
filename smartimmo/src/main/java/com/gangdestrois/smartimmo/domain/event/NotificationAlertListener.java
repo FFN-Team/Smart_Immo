@@ -1,20 +1,20 @@
-package com.gangdestrois.smartimmo.domain.notification;
+package com.gangdestrois.smartimmo.domain.event;
 
-import com.gangdestrois.smartimmo.domain.notification.port.EventTypeNotificationSpi;
+import com.gangdestrois.smartimmo.domain.common.DomainComponent;
+import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+@DomainComponent
 public class NotificationAlertListener implements EventListener {
     private final Map<EventType, Set<Event>> notifications;
     private final EventTypeNotificationSpi eventTypeNotificationSpi;
 
     public NotificationAlertListener(EventTypeNotificationSpi eventTypeNotificationSpi) {
         this.eventTypeNotificationSpi = eventTypeNotificationSpi;
-        this.notifications =  this.eventTypeNotificationSpi.findEventsGroupByEventType();
+        this.notifications = this.eventTypeNotificationSpi.findEventsGroupByEventType();
     }
 
     @Override
@@ -29,9 +29,12 @@ public class NotificationAlertListener implements EventListener {
     }
 
     public Set<Event> eventsFromEventType(EventType... eventTypes) {
-        return Arrays.stream(eventTypes)
-                .map(eventType -> notifications.get(eventType))
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+        Set<Event> events = new HashSet<>();
+        for (EventType eventType : eventTypes) {
+            for (Event event : notifications.get(eventType)) {
+                events.add(event);
+            }
+        }
+        return events;
     }
 }

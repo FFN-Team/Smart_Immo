@@ -1,15 +1,16 @@
-package com.gangdestrois.smartimmo.domain.notification;
+package com.gangdestrois.smartimmo.domain.event;
 
-import com.gangdestrois.smartimmo.domain.project.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
 
 public class ProjectNotification extends Event {
-    private PotentialProject potentialProject;
+    private final PotentialProject potentialProject;
+
     public ProjectNotification(PotentialProject potentialProject, State state, String message, Priority priority) {
         super(state, message, priority);
         this.potentialProject = potentialProject;
     }
 
-    public PotentialProject potentialProject(){
+    public PotentialProject potentialProject() {
         return this.potentialProject;
     }
 }

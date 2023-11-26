@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, Long> {
+public interface SubscriptionRepository extends JpaRepository<SubscriptionEntity, Integer> {
     @Override
     List<SubscriptionEntity> findAll();
 }

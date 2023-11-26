@@ -1,8 +1,8 @@
-package com.gangdestrois.smartimmo.domain.notification.port;
+package com.gangdestrois.smartimmo.domain.event.port;
 
-import com.gangdestrois.smartimmo.domain.notification.Event;
-import com.gangdestrois.smartimmo.domain.notification.EventType;
-import com.gangdestrois.smartimmo.domain.notification.ProjectNotification;
+import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
 
 import java.util.List;
 import java.util.Map;

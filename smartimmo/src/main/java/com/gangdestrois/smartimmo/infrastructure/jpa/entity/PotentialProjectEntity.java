@@ -1,34 +1,41 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.notification.Priority;
-import com.gangdestrois.smartimmo.domain.project.PotentialProject;
+import com.gangdestrois.smartimmo.domain.event.Priority;
+import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "projet")
+@Table(name = "potential_project")
 public class PotentialProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bien_id")
-    private Long id;
+    @Column(name = "potential_project_id")
+    private Integer id;
 
-    @Column(name = "date_prevue")
-    private LocalDate datePrevue;
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
-    @Column(name="refProjet")
-    private Long projet;
+    @JoinColumn(name = "project_id")
+    @ManyToOne(targetEntity = ProjectEntity.class)
+    private ProjectEntity project;
 
-    @Column(name="priorite")
-    private String priorite;
+    @Column(name = "priority")
+    private String priority;
 
-    public String getMessage(){
+    public String getMessage() {
         return String.format("Rappel : la date prévue pour le projet %d approche. Vous pouvez consulter " +
-                "le projet ci-dessous pour reprendre connaissance avec le projet.", projet);
+                "le projet ci-dessous pour reprendre connaissance avec le projet.", project.id());
     }
 
     public PotentialProject toModel() {
-        return new PotentialProject(id, datePrevue, getMessage(), Priority.valueOf(priorite));
+        return new PotentialProject(id, dueDate, getMessage(), Priority.valueOf(priority));
+    }
+
+    public PotentialProjectEntity fromModel(PotentialProject potentialProject) {
+        this.dueDate = potentialProject.dueDate();
+        this.priority = potentialProject.priority().name();
+        return this;
     }
 }

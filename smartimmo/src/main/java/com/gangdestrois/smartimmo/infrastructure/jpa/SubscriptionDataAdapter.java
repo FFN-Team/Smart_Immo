@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.notification.EventListener;
-import com.gangdestrois.smartimmo.domain.notification.EventType;
-import com.gangdestrois.smartimmo.domain.notification.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.notification.port.SubscriptionSpi;
+import com.gangdestrois.smartimmo.domain.event.EventListener;
+import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.SubscriptionEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.SubscriptionRepository;
 import jakarta.transaction.Transactional;
@@ -37,23 +37,23 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
     }
 
     @Transactional
-    public void saveAll(Map<EventType, List<EventListener>> listeners){
+    public void saveAll(Map<EventType, List<EventListener>> listeners) {
         List<SubscriptionEntity> subscriptions = new ArrayList<>();
-        listeners.forEach((eventType, eventListeners) -> eventListeners.stream()
-                    .forEach(eventListener ->
+        listeners.forEach((eventType, eventListeners) -> eventListeners
+                .forEach(eventListener ->
                         subscriptions.add(new SubscriptionEntity(eventType, mapEventListenerToDBData(eventListener)))));
         subscriptionRepository.saveAll(subscriptions);
     }
 
     //WARNING : SWITCH STATEMENT, TO REVIEW
-    private EventListener mapEventListenerFromDBData(String eventListener){
-        switch (eventListener) {
-            case "notificationAlertListener" : return this.notificationAlertListener;
+    private EventListener mapEventListenerFromDBData(String eventListener) {
+        if (eventListener.equals("notificationAlertListener")) {
+            return this.notificationAlertListener;
         }
         throw new RuntimeException("l'event listener en bd ne correspond à aucun event listener.");
     }
 
-    private String mapEventListenerToDBData(EventListener eventListener){
+    private String mapEventListenerToDBData(EventListener eventListener) {
         if (eventListener instanceof NotificationAlertListener) {
             return "notificationAlertListener";
         }

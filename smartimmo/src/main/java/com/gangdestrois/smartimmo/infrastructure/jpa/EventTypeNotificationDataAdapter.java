@@ -1,25 +1,26 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.notification.Event;
-import com.gangdestrois.smartimmo.domain.notification.EventType;
-import com.gangdestrois.smartimmo.domain.notification.ProjectNotification;
-import com.gangdestrois.smartimmo.domain.notification.port.EventTypeNotificationSpi;
+import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
+import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventTypeNotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.EventTypeNotificationRepository;
+import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
 import jakarta.transaction.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+
+import static java.util.Objects.isNull;
 
 public class EventTypeNotificationDataAdapter implements EventTypeNotificationSpi {
     private final EventTypeNotificationRepository eventTypeNotificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    public EventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository) {
+    public EventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository, NotificationRepository notificationRepository) {
         this.eventTypeNotificationRepository = eventTypeNotificationRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
@@ -40,10 +41,16 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
     @Override
     @Transactional
     public void saveAll(Map<EventType, Set<Event>> notifications) {
-        var notificationsToSave = notifications.entrySet().stream()
-                .flatMap(entry -> entry.getValue().stream()
-                        .map(event -> new EventTypeNotificationEntity(entry.getKey(), new NotificationEntity(event))))
-                .collect(Collectors.toList());
-        eventTypeNotificationRepository.saveAll(notificationsToSave);
+        List<EventTypeNotificationEntity> eventTypeNotificationEntities = new ArrayList<>();
+        for (EventType eventType : notifications.keySet()) {
+            for (Event event : notifications.get(eventType)) {
+                EventTypeNotificationEntity e;
+                if (!isNull(event.getId()) && notificationRepository.findById(event.getId()).isPresent()) {
+                    e = new EventTypeNotificationEntity(eventType, notificationRepository.findById(event.getId()).get());
+                    eventTypeNotificationEntities.add(e);
+                }
+            }
+        }
+        eventTypeNotificationRepository.saveAll(eventTypeNotificationEntities);
     }
 }
