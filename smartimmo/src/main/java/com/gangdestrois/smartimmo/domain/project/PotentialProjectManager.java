@@ -22,12 +22,18 @@ public class PotentialProjectManager implements PotentialProjectApi {
         this.eventManager = eventManager;
     }
 
+
+
     @Override
-    public Set<Event> notifyPotentialProjects(EventListener notificationAlertListener) {
-        eventManager.subscribe(PROJECT_DUE_DATE_APPROACHING, notificationAlertListener);
+    public Set<Event> notifyPotentialProjects() {
         projectSpi.findPotentialProjectsByDueDate(LocalDate.now().plusMonths(6))
                 .forEach(potentialProject -> eventManager
                         .notify(PROJECT_DUE_DATE_APPROACHING, potentialProject.mapToEvent()));
         return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING);
+    }
+
+    @Override
+    public void subscription(EventListener eventListener) {
+        eventManager.subscribe(PROJECT_DUE_DATE_APPROACHING, eventListener);
     }
 }

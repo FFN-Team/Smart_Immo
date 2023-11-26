@@ -6,5 +6,6 @@ import com.gangdestrois.smartimmo.domain.notification.EventListener;
 import java.util.Set;
 
 public interface PotentialProjectApi {
-    Set<Event> notifyPotentialProjects(EventListener eventListener);
+    Set<Event> notifyPotentialProjects();
+    void subscription(EventListener eventListener);
 }

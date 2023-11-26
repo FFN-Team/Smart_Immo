@@ -39,7 +39,7 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
 
     @Override
     @Transactional
-    public void save(Map<EventType, Set<Event>> notifications) {
+    public void saveAll(Map<EventType, Set<Event>> notifications) {
         var notificationsToSave = notifications.entrySet().stream()
                 .flatMap(entry -> entry.getValue().stream()
                         .map(event -> new EventTypeNotificationEntity(entry.getKey(), new NotificationEntity(event))))

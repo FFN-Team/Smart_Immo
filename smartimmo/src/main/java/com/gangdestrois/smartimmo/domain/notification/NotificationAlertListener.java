@@ -1,7 +1,6 @@
 package com.gangdestrois.smartimmo.domain.notification;
 
 import com.gangdestrois.smartimmo.domain.notification.port.EventTypeNotificationSpi;
-import jakarta.transaction.Transactional;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,14 +10,14 @@ import java.util.stream.Collectors;
 
 public class NotificationAlertListener implements EventListener {
     private final Map<EventType, Set<Event>> notifications;
-    private EventTypeNotificationSpi eventTypeNotificationSpi;
+    private final EventTypeNotificationSpi eventTypeNotificationSpi;
 
     public NotificationAlertListener(EventTypeNotificationSpi eventTypeNotificationSpi) {
-        this.notifications = eventTypeNotificationSpi.findEventsGroupByEventType();
+        this.eventTypeNotificationSpi = eventTypeNotificationSpi;
+        this.notifications =  this.eventTypeNotificationSpi.findEventsGroupByEventType();
     }
 
     @Override
-    @Transactional
     public void update(EventType eventType, Event notification) {
         if (notifications.containsKey(eventType)) notifications.get(eventType).add(notification);
         else {
@@ -26,7 +25,7 @@ public class NotificationAlertListener implements EventListener {
             events.add(notification);
             notifications.put(eventType, events);
         }
-        eventTypeNotificationSpi.save(notifications);
+        eventTypeNotificationSpi.saveAll(notifications);
     }
 
     public Set<Event> eventsFromEventType(EventType... eventTypes) {

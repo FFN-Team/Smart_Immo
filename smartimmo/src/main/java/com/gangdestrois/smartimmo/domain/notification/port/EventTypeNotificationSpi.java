@@ -13,5 +13,5 @@ public interface EventTypeNotificationSpi {
 
     Map<EventType, Set<Event>> findEventsGroupByEventType();
 
-    void save(Map<EventType, Set<Event>> notifications);
+    void saveAll(Map<EventType, Set<Event>> notifications);
 }

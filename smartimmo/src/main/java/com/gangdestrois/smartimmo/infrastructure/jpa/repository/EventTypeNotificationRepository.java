@@ -17,7 +17,7 @@ public interface EventTypeNotificationRepository extends JpaRepository<EventType
             from event_type_notification
             group by event_type
             """, nativeQuery = true)
-    List<Object> findEventTypeNotificationEntityGroupByEventType();
+    List<Object[]> findEventTypeNotificationEntityGroupByEventType();
 
     List<EventTypeNotificationEntity> findAll();
 

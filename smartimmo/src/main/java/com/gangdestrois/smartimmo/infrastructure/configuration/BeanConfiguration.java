@@ -4,14 +4,8 @@ import com.gangdestrois.smartimmo.domain.bien.BienService;
 import com.gangdestrois.smartimmo.domain.notification.EventManager;
 import com.gangdestrois.smartimmo.domain.notification.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.project.PotentialProjectManager;
-import com.gangdestrois.smartimmo.infrastructure.jpa.BienDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.jpa.EventTypeNotificationDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.jpa.PotentialProjectDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.BienRepository;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.EventTypeNotificationRepository;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
+import com.gangdestrois.smartimmo.infrastructure.jpa.*;
+import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,8 +27,13 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager eventManager() {
-        return new EventManager();
+    public SubscriptionDataAdapter subscriptionDataAdapter(SubscriptionRepository subscriptionRepository, NotificationAlertListener notificationAlertListener){
+        return new SubscriptionDataAdapter(subscriptionRepository, notificationAlertListener);
+    }
+
+    @Bean
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter) {
+        return new EventManager(subscriptionDataAdapter);
     }
 
     @Bean

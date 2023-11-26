@@ -13,21 +13,26 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/projets")
+@RequestMapping("/api/v1/anticipatedProjects")
 public class PotentialProjectController {
     private final PotentialProjectApi potentialProjectApi;
     private final NotificationAlertListener notificationAlertListener;
 
-    public PotentialProjectController(PotentialProjectApi potentialProjectApi,
-                                      NotificationAlertListener notificationAlertListener) {
+    public PotentialProjectController(PotentialProjectApi potentialProjectApi, NotificationAlertListener notificationAlertListener) {
         this.potentialProjectApi = potentialProjectApi;
         this.notificationAlertListener = notificationAlertListener;
+    }
+
+    @PostMapping("/subscription")
+    @ResponseStatus(HttpStatus.OK)
+    public void subscription(){
+        potentialProjectApi.subscription(notificationAlertListener);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Set<PotentialProjectEventResponse> notifyPotentialProjects() {
-        return potentialProjectApi.notifyPotentialProjects(notificationAlertListener).stream()
+        return potentialProjectApi.notifyPotentialProjects().stream()
                 .map(PotentialProjectEventResponse::fromModel)
                 .collect(Collectors.toSet());
     }
