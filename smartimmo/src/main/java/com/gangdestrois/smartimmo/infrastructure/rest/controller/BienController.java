@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.bien.port.api.BienApi;
+import com.gangdestrois.smartimmo.domain.bien.port.BienApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BienResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

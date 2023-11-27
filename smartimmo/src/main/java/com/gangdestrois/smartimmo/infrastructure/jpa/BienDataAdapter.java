@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.bien.model.Bien;
-import com.gangdestrois.smartimmo.domain.bien.port.spi.BienPort;
+import com.gangdestrois.smartimmo.domain.bien.Bien;
+import com.gangdestrois.smartimmo.domain.bien.port.BienPort;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.BienEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.BienRepository;
 
