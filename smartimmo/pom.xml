@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gangdestrois</groupId>
 	<artifactId>smartimmo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>smartimmo</name>
 	<description>Web application for real estate agent</description>
 	<properties>
