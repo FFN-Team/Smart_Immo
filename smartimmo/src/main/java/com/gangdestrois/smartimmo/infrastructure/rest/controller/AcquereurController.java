@@ -1,12 +1,12 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.acquereur.entite.Acquereur;
 import com.gangdestrois.smartimmo.domain.acquereur.port.AcquereurApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.AcquereurAvecCritereBienResponse;
+import com.gangdestrois.smartimmo.domain.acquereur.port.AcquereurSpi;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.AcquereurResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,14 +14,29 @@ import java.util.List;
 @RequestMapping("/api/v1/acquereurs")
 public class AcquereurController {
     private final AcquereurApi acquereurApi;
+    private final AcquereurSpi acquereurSpi;
 
-    public AcquereurController(AcquereurApi acquereurApi) {
+    public AcquereurController(AcquereurApi acquereurApi, AcquereurSpi acquereurSpi) {
         this.acquereurApi = acquereurApi;
+        this.acquereurSpi=acquereurSpi;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AcquereurAvecCritereBienResponse> collectAllAcquereurs() {
-        return acquereurApi.collectAllAcquereurs().stream().map(AcquereurAvecCritereBienResponse::fromModel).toList();
+    public List<AcquereurResponse> collectAllAcquereurs() {
+        return acquereurSpi.findAllAcquereurs().stream()
+                .map(AcquereurResponse::fromModel).toList();
+    }
+
+    @GetMapping("/{acquereurId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Acquereur CollectAcquereurById(@PathVariable int acquereurId) {
+        Acquereur acquereur = acquereurSpi.findAcquereurById(acquereurId);
+
+        if (acquereur != null) {
+            return acquereur;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Acquereur not found");
+        }
     }
 }

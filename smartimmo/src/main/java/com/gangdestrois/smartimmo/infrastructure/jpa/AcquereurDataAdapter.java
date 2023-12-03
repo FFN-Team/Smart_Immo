@@ -8,17 +8,25 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.CriteresBienAcqu
 import java.util.List;
 
 public class AcquereurDataAdapter implements AcquereurSpi {
-    private final CriteresBienAcquereurRepository acquereurCriteresBienRepository;
+    private final CriteresBienAcquereurRepository criteresBienAcquereurRepository;
 
-    public AcquereurDataAdapter(CriteresBienAcquereurRepository acquereurCriteresBienRepository) {
-        this.acquereurCriteresBienRepository=acquereurCriteresBienRepository;
+    public AcquereurDataAdapter(CriteresBienAcquereurRepository criteresBienAcquereurRepository) {
+        this.criteresBienAcquereurRepository = criteresBienAcquereurRepository;
     }
 
     @Override
     public List<Acquereur> findAllAcquereurs() {
-        return acquereurCriteresBienRepository.findAll()
+        return criteresBienAcquereurRepository.findAll()
                 .stream()
                 .map(CriteresBienAcquereurEntity::toAcquereurModel)
                 .toList();
+    }
+
+    @Override
+    public Acquereur findAcquereurById(int id) {
+        CriteresBienAcquereurEntity criteresBienAcquereur = criteresBienAcquereurRepository
+                .findCriteresBienAcquereurEntityByAcquereur_Id(id);
+        if(criteresBienAcquereur != null) return criteresBienAcquereur.toAcquereurModel();
+        else return null;
     }
 }
