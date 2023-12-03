@@ -1,11 +1,11 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.acquereur.AcquereurManager;
+import com.gangdestrois.smartimmo.domain.acquereur.PropertiesFinder;
 import com.gangdestrois.smartimmo.domain.bien.BienService;
 import com.gangdestrois.smartimmo.infrastructure.jpa.AcquereurDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.BienDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.CriteresBienAcquereurRepository;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.AcquereurRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.BienRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,5 +27,11 @@ public class BeanConfiguration {
     {return new AcquereurDataAdapter(acquereurCriteresBienRepository);}
 
     @Bean
-    public AcquereurManager acquereurManager(AcquereurDataAdapter acquereurDataAdapter){return new AcquereurManager(acquereurDataAdapter);}
+    public AcquereurManager acquereurManager(AcquereurDataAdapter acquereurDataAdapter){return
+            new AcquereurManager(acquereurDataAdapter);}
+
+    @Bean
+    public PropertiesFinder propertiesFinder(AcquereurDataAdapter acquereurDataAdapter, BienDataAdapter bienDataAdapter){
+        return new PropertiesFinder(acquereurDataAdapter,bienDataAdapter);
+    }
 }
