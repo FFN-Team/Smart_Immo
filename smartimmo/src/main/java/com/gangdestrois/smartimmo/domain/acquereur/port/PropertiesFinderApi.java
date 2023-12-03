@@ -7,7 +7,8 @@ import java.util.List;
 ///////////////// A mettre des methodes en anglais ///////////////////
 
 public interface PropertiesFinderApi {
-    public boolean verifyCritereSurface(Bien b/*, Acquereur a*/); //=> classe acquereur à créer
-    public boolean verifyCriterePiece(Bien b/*, Acquereur a*/); //=> classe acquereur à créer
-    public List<Bien> rechercherBiens();
+    List<Bien> findPropertiesForBuyer(int id);
+    boolean verifyAllCriterias(Bien bien);
+    boolean verifyCritereSurface(Bien bien);
+    boolean verifyCritereNbPiece(Bien bien);
 }
