@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AcquereurSpi {
     List<Acquereur> findAllAcquereurs();
+    Acquereur findAcquereurById(int id);
 }

@@ -12,8 +12,9 @@ public class AcquereurManager implements AcquereurApi {
         this.acquereurSpi = acquereurSpi;
     }
 
-    @Override
+    /* @Override
     public List<Acquereur> collectAllAcquereurs(){
         return acquereurSpi.findAllAcquereurs();
     }
+    */
 }

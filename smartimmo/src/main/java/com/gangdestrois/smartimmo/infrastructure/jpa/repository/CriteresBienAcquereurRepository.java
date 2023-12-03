@@ -7,5 +7,6 @@ import java.util.List;
 public interface CriteresBienAcquereurRepository extends JpaRepository<CriteresBienAcquereurEntity,Long> {
     @Override
     List<CriteresBienAcquereurEntity> findAll();
+    CriteresBienAcquereurEntity findCriteresBienAcquereurEntityByAcquereur_Id(int id);
 
 }
