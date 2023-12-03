@@ -22,4 +22,12 @@ public class PotentialProjectDataAdapter implements ProjectSpi {
                 .map(PotentialProjectEntity::toModel)
                 .toList();
     }
+
+    @Override
+    public List<PotentialProject> findPotentialProjectsByNotification() {
+        return potentialProjectRepository.findPotentialProjectEntitiesByNotification()
+                .stream()
+                .map(PotentialProjectEntity::toModel)
+                .toList();
+    }
 }
