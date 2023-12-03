@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
+
 @DomainComponent
 public class NotificationAlertListener implements EventListener {
     private final Map<EventType, Set<Event>> notifications;
@@ -30,9 +32,12 @@ public class NotificationAlertListener implements EventListener {
 
     public Set<Event> eventsFromEventType(EventType... eventTypes) {
         Set<Event> events = new HashSet<>();
+        if (isNull(notifications)) return events;
         for (EventType eventType : eventTypes) {
-            for (Event event : notifications.get(eventType)) {
-                events.add(event);
+            if (notifications.containsKey(eventType)) {
+                for (Event event : notifications.get(eventType)) {
+                    events.add(event);
+                }
             }
         }
         return events;
