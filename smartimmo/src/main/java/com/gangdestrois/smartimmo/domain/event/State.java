@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.domain.event;
 
 public enum State {
-    OPEN(false),
     TO_READ(false),
+    OPEN(false),
     DEALT(true),
     ARCHIVED(true);
     private boolean isAlreadyDealt;
