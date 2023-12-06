@@ -12,7 +12,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.*;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class EventTypeNotificationDataAdapter implements EventTypeNotificationSpi {
     private final EventTypeNotificationRepository eventTypeNotificationRepository;
@@ -44,10 +44,11 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
         List<EventTypeNotificationEntity> eventTypeNotificationEntities = new ArrayList<>();
         for (EventType eventType : notifications.keySet()) {
             for (Event event : notifications.get(eventType)) {
-                EventTypeNotificationEntity e;
-                if (!isNull(event.getId()) && notificationRepository.findById(event.getId()).isPresent()) {
-                    e = new EventTypeNotificationEntity(eventType, notificationRepository.findById(event.getId()).get());
-                    eventTypeNotificationEntities.add(e);
+                if (nonNull(event.getId()) && notificationRepository.findById(event.getId()).isPresent()) {
+                    eventTypeNotificationEntities.add(
+                            new EventTypeNotificationEntity(eventType,
+                                    notificationRepository.findById(event.getId()).get())
+                    );
                 }
             }
         }
