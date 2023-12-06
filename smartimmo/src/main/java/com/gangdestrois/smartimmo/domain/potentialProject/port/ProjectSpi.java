@@ -9,5 +9,5 @@ public interface ProjectSpi {
     List<PotentialProject> findPotentialProjectsByDueDate(LocalDate date);
 
     //Potential projects with no notifications or notifications state different of ARCHIVED or DEALT
-    List<PotentialProject> findPotentialProjectsByNotification();
+    List<PotentialProject> findPotentialProjectsByNotificationToDisplay();
 }

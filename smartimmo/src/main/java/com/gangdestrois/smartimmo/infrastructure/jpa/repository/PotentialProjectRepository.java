@@ -19,5 +19,5 @@ public interface PotentialProjectRepository extends JpaRepository<PotentialProje
             ON pp.potential_project_id = n.potential_project_id 
             WHERE n.state <> 'ARCHIVED' AND n.state <> 'DEALT'
             """, nativeQuery = true)
-    List<PotentialProjectEntity> findPotentialProjectEntitiesByNotification();
+    List<PotentialProjectEntity> findPotentialProjectEntitiesByNotificationToDisplay();
 }
