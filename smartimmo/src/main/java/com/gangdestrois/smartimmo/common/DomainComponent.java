@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.common;
+package com.gangdestrois.smartimmo.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

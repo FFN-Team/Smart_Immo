@@ -1,12 +1,11 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
-import com.gangdestrois.smartimmo.domain.acquereur.AcquereurManager;
 import com.gangdestrois.smartimmo.domain.acquereur.PropertiesFinder;
-import com.gangdestrois.smartimmo.domain.bien.BienService;
+import com.gangdestrois.smartimmo.domain.portfolio.PortfolioBienASuivreManager;
 import com.gangdestrois.smartimmo.infrastructure.jpa.AcquereurDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.BienDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.CriteresBienAcquereurRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.BienRepository;
+import com.gangdestrois.smartimmo.infrastructure.jpa.repository.CriteresBienAcquereurRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,20 +17,17 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public BienService bienService(BienDataAdapter bienDataAdapter) {
-        return new BienService(bienDataAdapter);
-    }
-
-    @Bean
-    public AcquereurDataAdapter acquereurDataAdapter(CriteresBienAcquereurRepository acquereurCriteresBienRepository)
-    {return new AcquereurDataAdapter(acquereurCriteresBienRepository);}
-
-    @Bean
-    public AcquereurManager acquereurManager(AcquereurDataAdapter acquereurDataAdapter){return
-            new AcquereurManager(acquereurDataAdapter);}
+    public AcquereurDataAdapter acquereurDataAdapter(CriteresBienAcquereurRepository criteresBienAcquereurRepository)
+    {return new AcquereurDataAdapter(criteresBienAcquereurRepository);}
 
     @Bean
     public PropertiesFinder propertiesFinder(AcquereurDataAdapter acquereurDataAdapter, BienDataAdapter bienDataAdapter){
         return new PropertiesFinder(acquereurDataAdapter,bienDataAdapter);
+    }
+
+    @Bean
+    public PortfolioBienASuivreManager portfolioBienASuivreManager(PropertiesFinder propertiesFinder,
+                                                                   AcquereurDataAdapter acquereurDataAdapter){
+        return new PortfolioBienASuivreManager(propertiesFinder,acquereurDataAdapter);
     }
 }

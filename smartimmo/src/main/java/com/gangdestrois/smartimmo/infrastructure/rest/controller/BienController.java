@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.bien.port.BienApi;
+import com.gangdestrois.smartimmo.domain.bien.port.BienSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BienResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +13,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/biens")
 public class BienController {
-    private final BienApi bienApi;
+    private final BienSpi bienSpi;
 
-    public BienController(BienApi bienApi) {
-        this.bienApi = bienApi;
+    public BienController(BienSpi bienSpi) {
+        this.bienSpi = bienSpi;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<BienResponse> retrieve() {
-        return bienApi.retrieve().stream().map(BienResponse::fromModel).toList();
+        return bienSpi.findAll().stream().map(BienResponse::fromModel).toList();
     }
 }
