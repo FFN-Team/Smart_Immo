@@ -28,7 +28,7 @@ public class CriteresBienAcquereurEntity {
             surfaceMinimum);}
 
     public Acquereur toAcquereurModel(){
-        return new Acquereur(this.acquereur.getId(), this.acquereur.getStatut(),
+        return new Acquereur(this.acquereur.getId(), this.acquereur.getProspect().toModel(), this.acquereur.getStatut(),
                 this.acquereur.getDateDebutRecherche(), this.acquereur.getDateFinRecherche(),
                 this.toCBAModel()
         );

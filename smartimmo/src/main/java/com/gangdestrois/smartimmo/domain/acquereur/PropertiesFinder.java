@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.domain.acquereur;
 import com.gangdestrois.smartimmo.domain.acquereur.entite.Acquereur;
 import com.gangdestrois.smartimmo.domain.acquereur.port.AcquereurSpi;
 import com.gangdestrois.smartimmo.domain.acquereur.port.PropertiesFinderApi;
-import com.gangdestrois.smartimmo.domain.bien.Bien;
+import com.gangdestrois.smartimmo.domain.bien.entite.Bien;
 import com.gangdestrois.smartimmo.domain.bien.port.BienSpi;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class PropertiesFinder implements PropertiesFinderApi {
     public List<Bien> findPropertiesForBuyer(int id){
         if(acquereurSpi.findAcquereurById(id) == null) return null;
         else {
+            this.biens = bienSpi.findAll(); //rafraichir les biens
             this.acquereur=acquereurSpi.findAcquereurById(id);
             List<Bien> biensFiltred= new ArrayList<>();
             for(Bien bien : this.biens) if(verifyAllCriterias(bien)) biensFiltred.add(bien);
@@ -45,5 +46,4 @@ public class PropertiesFinder implements PropertiesFinderApi {
     public boolean verifyCritereNbPiece(Bien bien) {
         return this.acquereur.getCriteresBienAcquereur().nombrePiece()<=bien.nbPiece();
     }
-
 }

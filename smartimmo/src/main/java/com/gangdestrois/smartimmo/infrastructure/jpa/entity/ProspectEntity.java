@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.prospect.entite.Prospect;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,8 +10,9 @@ import java.util.Date;
 public class ProspectEntity {
 
     @Id
-    @Column(name = "id_prospect")
-    private int idProspect;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_prospect")
+    private Long id;
 
     @Column(name = "origine_contact") /////////// mettre un enum ici ? /////////////
     private String origineContact;
@@ -36,4 +38,15 @@ public class ProspectEntity {
 
     @Column(name = "mail")
     private String mail;
+
+    @Column(name="authorise_contact_reseaux")
+    private boolean authoriseContactReseaux;
+
+    //private Adresse adresseTravail;
+    //private Prospect personneCompagnon;
+    //private Foyer foyer;
+
+    public Prospect toModel(){ return new Prospect(id,origineContact,civilite,nom,prenom,dateNaissance,
+            profession,telMobile,mail,authoriseContactReseaux);
+    }
 }

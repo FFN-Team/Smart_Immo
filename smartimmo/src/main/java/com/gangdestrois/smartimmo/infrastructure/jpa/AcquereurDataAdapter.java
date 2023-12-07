@@ -2,8 +2,11 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.acquereur.entite.Acquereur;
 import com.gangdestrois.smartimmo.domain.acquereur.port.AcquereurSpi;
+import com.gangdestrois.smartimmo.domain.prospect.entite.Prospect;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.CriteresBienAcquereurEntity;
+import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.CriteresBienAcquereurRepository;
+import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.acquereur.entite.Acquereur;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,9 +11,9 @@ public class AcquereurEntity {
     @Column(name="acquereur_id")
     private Long id;
 
-    /* @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "ref_prospect")
-    private ProspectEntity prospect; */
+    private ProspectEntity prospect;
 
     @Column(name="statut")
     private String statut;              /////////// mettre un enum ici ? /////////////
@@ -39,4 +40,6 @@ public class AcquereurEntity {
     public String getDateFinRecherche() {
         return dateFinRecherche;
     }
+    public ProspectEntity getProspect() {return prospect;}
+
 }

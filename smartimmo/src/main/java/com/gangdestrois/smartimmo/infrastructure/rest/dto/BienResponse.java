@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.bien.Bien;
+import com.gangdestrois.smartimmo.domain.bien.entite.Bien;
 import io.soabase.recordbuilder.core.RecordBuilder;
 
 @RecordBuilder
