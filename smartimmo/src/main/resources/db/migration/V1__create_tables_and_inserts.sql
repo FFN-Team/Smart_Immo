@@ -51,16 +51,16 @@ VALUES
 ('Bouche à oreille', 'M.', 'Lefevre', 'Philippe', '1982-05-10', 'Commercial', 555111222, 'philippe.lefevre@email.com', true),
 ('Site Web', 'Mlle', 'Durand', 'Marie', '1995-12-03', 'Étudiante', 777888999, 'marie.durand@email.com', false);
 
--- Inserts pour la table bien
+-- Inserts pour la table property
 INSERT INTO bien (nom_bien, description, nb_piece, surface_habitable)
 VALUES
 ('Appartement 1', 'Bel appartement avec vue sur la mer', 3, 120.5),
 ('Maison 1', 'Spacieuse maison avec jardin', 4, 200.0),
-('Studio 1', 'Petit studio bien situé en centre-ville', 1, 40.0),
+('Studio 1', 'Petit studio property situé en centre-ville', 1, 40.0),
 ('Maison 2', 'Maison avec piscine et jardin spacieux', 5, 300.0);
 
 
--- Inserts pour la table acquereur
+-- Inserts pour la table buyer
 INSERT INTO acquereur (ref_prospect, statut, date_debut_recherche, date_fin_recherche)
 VALUES
 (1, 'En recherche', '2023-01-01', '2023-06-30'),
