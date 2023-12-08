@@ -16,8 +16,8 @@ public class PotentialProjectDataAdapter implements ProjectSpi {
     }
 
     @Override
-    public List<PotentialProject> findPotentialProjectsByDueDate(LocalDate date) {
-        return potentialProjectRepository.findByDueDate(date)
+    public List<PotentialProject> findPotentialProjectToNotify() {
+        return potentialProjectRepository.findByNotificationDate(LocalDate.now())
                 .stream()
                 .map(PotentialProjectEntity::toModel)
                 .toList();

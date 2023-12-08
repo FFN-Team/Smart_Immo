@@ -41,7 +41,7 @@ public class NotificationEntity {
         this.priority = priority;
     }
 
-    public ProjectNotification toModel() {
+    public ProjectNotification toProjectNotificationModel() {
         return new ProjectNotification(potentialProject.toModel(), state, message, priority);
     }
 

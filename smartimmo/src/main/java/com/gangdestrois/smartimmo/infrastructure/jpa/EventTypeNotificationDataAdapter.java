@@ -27,7 +27,7 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
     public List<ProjectNotification> findByEventType(EventType eventType) {
         return eventTypeNotificationRepository.findNotificationsByEventType(eventType)
                 .stream()
-                .map(NotificationEntity::toModel)
+                .map(NotificationEntity::toProjectNotificationModel)
                 .toList();
     }
 

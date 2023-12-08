@@ -8,6 +8,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProject
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public class NotificationDataAdapter implements NotificationSpi {
     private final NotificationRepository notificationRepository;
@@ -23,7 +24,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     public List<ProjectNotification> findAll() {
         return notificationRepository.findAll()
                 .stream()
-                .map(NotificationEntity::toModel)
+                .map(NotificationEntity::toProjectNotificationModel)
                 .toList();
     }
 
@@ -34,5 +35,11 @@ public class NotificationDataAdapter implements NotificationSpi {
         var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
         var savedNotification = notificationRepository.save(notificationToSave);
         return savedNotification.getId();
+    }
+
+    @Override
+    public Optional<ProjectNotification> findProjectNotificationById(Integer projectNotificationId) {
+        return notificationRepository.findById(projectNotificationId)
+                .map(NotificationEntity::toProjectNotificationModel);
     }
 }

@@ -1,12 +1,12 @@
 package com.gangdestrois.smartimmo.domain.potentialProject.port;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
+import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
 
 import java.util.Set;
 
 public interface PotentialProjectApi {
-    Set<Event> notifyPotentialProjects();
+    Set<ProjectNotification> notifyPotentialProjects();
 
     void subscription(EventListener eventListener);
 }

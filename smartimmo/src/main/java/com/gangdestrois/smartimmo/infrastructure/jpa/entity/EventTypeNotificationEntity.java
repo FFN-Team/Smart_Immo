@@ -33,25 +33,13 @@ public class EventTypeNotificationEntity {
         this.notification = notificationEntity;
     }
 
-    private void setNotification(NotificationEntity notificationEntity) {
-        this.notification = notificationEntity;
-    }
-
     public Map<EventType, Set<Event>> toModel(Map<EventType, Set<Event>> map) {
-        if (map.containsKey(eventType)) map.get(eventType).add(notification.toModel());
+        if (map.containsKey(eventType)) map.get(eventType).add(notification.toProjectNotificationModel());
         else {
             var events = new HashSet<Event>();
-            events.add(notification.toModel());
+            events.add(notification.toProjectNotificationModel());
             map.put(eventType, events);
         }
         return map;
-    }
-
-    public NotificationEntity notification() {
-        return this.notification;
-    }
-
-    public EventType eventType() {
-        return eventType;
     }
 }
