@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.potentialProject;
 
-import com.gangdestrois.smartimmo.domain.common.DomainComponent;
+import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;

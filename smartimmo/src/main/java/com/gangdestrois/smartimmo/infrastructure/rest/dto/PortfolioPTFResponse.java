@@ -7,9 +7,9 @@ import com.gangdestrois.smartimmo.domain.portfolio.model.PortfolioPropertiesToFo
 import java.util.Date;
 import java.util.List;
 
-public record PortfolioPTFResponse(String intitule, Date dateGenerationPortfolio, Buyer buyer, List<Property>biensASuivre) {
+public record PortfolioPTFResponse(String title, Date dateGenerationPortfolio, Buyer buyer, List<Property>biensASuivre) {
     public static PortfolioPTFResponse fromModel(PortfolioPropertiesToFollow portfolioPropertiesToFollow){
-        return new PortfolioPTFResponse("Portfolio Biens À Suivre", portfolioPropertiesToFollow.getDateOfPortfolioGeneration(),
+        return new PortfolioPTFResponse("Portfolio Properties To Follow", portfolioPropertiesToFollow.getDateOfPortfolioGeneration(),
                 portfolioPropertiesToFollow.getBuyer(), portfolioPropertiesToFollow.getPropertiesToFollow());
     }
 }

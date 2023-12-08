@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.event;
 
-import com.gangdestrois.smartimmo.domain.common.DomainComponent;
+import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 
 import java.util.HashSet;
