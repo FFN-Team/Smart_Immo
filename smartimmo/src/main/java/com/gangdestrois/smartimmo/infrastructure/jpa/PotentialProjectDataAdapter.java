@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.ProjectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;

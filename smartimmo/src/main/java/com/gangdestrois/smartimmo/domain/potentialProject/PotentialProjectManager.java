@@ -1,10 +1,11 @@
 package com.gangdestrois.smartimmo.domain.potentialProject;
 
 import com.gangdestrois.smartimmo.common.DomainComponent;
+import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
-import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.ProjectSpi;
 
@@ -29,7 +30,7 @@ public class PotentialProjectManager implements PotentialProjectApi {
     }
 
     @Override
-    public Set<ProjectNotification> notifyPotentialProjects() {
+    public Set<Event<PotentialProject>> notifyPotentialProjects() {
         projectSpi.findPotentialProjectToNotify()
                 .stream()
                 .filter(potentialProject -> !projectSpi.findPotentialProjectsByNotificationToDisplay()

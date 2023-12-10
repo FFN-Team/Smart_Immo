@@ -2,8 +2,8 @@ package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
 import com.gangdestrois.smartimmo.domain.event.State;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import jakarta.persistence.*;
 
 @Entity
@@ -41,8 +41,8 @@ public class NotificationEntity {
         this.priority = priority;
     }
 
-    public ProjectNotification toProjectNotificationModel() {
-        return new ProjectNotification(potentialProject.toModel(), state, message, priority);
+    public Event<PotentialProject> toProjectNotificationModel() {
+        return new Event(state, message, priority, potentialProject.toModel());
     }
 
     public NotificationEntity(Event event) {

@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.potentialProject.port;
 
-import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 
 import java.util.List;
 

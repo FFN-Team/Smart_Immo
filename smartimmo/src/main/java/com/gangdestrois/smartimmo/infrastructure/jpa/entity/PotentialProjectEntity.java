@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
