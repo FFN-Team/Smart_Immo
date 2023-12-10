@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.domain.prospect;
 
 import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
@@ -29,7 +30,7 @@ public class ProspectAnalyzer implements ProspectApi {
         findProspectsThatMayBuyBiggerHouse()
                 .forEach(prospect -> {
                     var prospectNotification = prospect.mapToProspectNotification();
-                    prospectNotification.setId(notificationSpi.save(prospectNotification));
+                    prospectNotification.setId(notificationSpi.saveProspectNotification(prospectNotification));
                     eventManager.notify(PROSPECT_MAY_BUY_BIGGER_HOUSE, prospectNotification);
                 });
         return eventManager.eventsFromEventType(PROSPECT_MAY_BUY_BIGGER_HOUSE).stream()
@@ -42,6 +43,11 @@ public class ProspectAnalyzer implements ProspectApi {
         return prospectSpi.findAll().stream()
                 .filter(prospect -> prospectMayBuyBiggerHouseCriteria.combinedPredicate.test(prospect))
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public void subscription(EventListener eventListener) {
+        eventManager.subscribe(PROSPECT_MAY_BUY_BIGGER_HOUSE, eventListener);
     }
 
 }

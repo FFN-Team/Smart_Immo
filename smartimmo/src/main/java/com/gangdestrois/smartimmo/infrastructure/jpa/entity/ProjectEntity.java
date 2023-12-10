@@ -10,7 +10,7 @@ public class ProjectEntity {
     @Column(name = "id_project")
     private Integer id;
     @OneToOne(targetEntity = PotentialProjectEntity.class)
-    private PotentialProjectEntity potentialProjectEntity;
+    private PotentialProjectEntity potentialProject;
 
     public Integer id() {
         return id;

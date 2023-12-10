@@ -1,13 +1,14 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
+import com.gangdestrois.smartimmo.domain.Model;
+import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.ProspectNotification;
 import com.gangdestrois.smartimmo.domain.event.State;
 
 import java.util.Date;
 import java.util.List;
 
-public class Prospect {
+public class Prospect implements Model {
     private final Integer id;
     private final String contactOrigine;
     private final String title;
@@ -86,13 +87,13 @@ public class Prospect {
         return owners;
     }
 
-    public ProspectNotification mapToProspectNotification() {
-        return new ProspectNotification(
-                this,
+    public Event<Prospect> mapToProspectNotification() {
+        return new Event(
                 State.TO_READ,
                 String.format("Suggestion : le prospect %s %s est susceptible de vouloir changer de logement. " +
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",
                         this.firstName, this.lastName),
-                Priority.LOW);
+                Priority.LOW,
+                this);
     }
 }

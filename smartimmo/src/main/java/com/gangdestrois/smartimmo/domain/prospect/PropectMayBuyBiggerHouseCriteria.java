@@ -6,5 +6,5 @@ import java.util.function.Predicate;
 
 public class PropectMayBuyBiggerHouseCriteria {
     private final ExpandFamilyCriteria expandFamilyCriteria = new ExpandFamilyCriteria();
-    public Predicate<Prospect> combinedPredicate = expandFamilyCriteria.YOUNG_COUPLE_IN_COHABITATION_SECOND_YEAR.or(expandFamilyCriteria.TEST);
+    public Predicate<Prospect> combinedPredicate = expandFamilyCriteria.YOUNG_COUPLE_IN_COHABITATION_SECOND_YEAR;
 }

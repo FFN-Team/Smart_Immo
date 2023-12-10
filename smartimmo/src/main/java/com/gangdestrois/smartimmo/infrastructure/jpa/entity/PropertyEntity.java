@@ -24,9 +24,6 @@ public class PropertyEntity {
     @Column(name = "livable_area")
     private double livableArea;
 
-    @OneToOne(targetEntity = PropertyOwnerEntity.class)
-    private PropertyOwnerEntity propertyOwnerEntity;
-
     public Property toModel() {
         return new Property(id, propertyName, description, roomsNumber, livableArea);
     }

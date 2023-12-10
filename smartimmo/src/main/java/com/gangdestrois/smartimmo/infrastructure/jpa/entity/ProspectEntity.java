@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+import static java.util.Objects.nonNull;
+
 @Entity
 @Table(name = "prospect")
 public class ProspectEntity {
@@ -36,7 +38,7 @@ public class ProspectEntity {
     @ManyToOne(targetEntity = HomeEntity.class)
     private HomeEntity home;
     @OneToMany(mappedBy = "prospect")
-    private Set<OwnerEntity> ownerEntities;
+    private Set<OwnerEntity> owners;
 
     //private Adresse adresseTravail;
     //private Prospect personneCompagnon;
@@ -45,8 +47,8 @@ public class ProspectEntity {
         return new Prospect(
                 id, contactOrigine, title, lastName, firstName, dateOfBirth,
                 profession, mobile, mail, authorizeContactOnSocialMedia,
-                this.home.toModel(),
-                this.ownerEntities.stream().map(OwnerEntity::toModel).toList()
+                nonNull(home) ? home.toModel() : null,
+                this.owners.stream().map(OwnerEntity::toModel).toList()
         );
     }
 }

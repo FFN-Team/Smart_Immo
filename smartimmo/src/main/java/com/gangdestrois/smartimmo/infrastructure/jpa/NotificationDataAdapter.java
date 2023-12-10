@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.ProspectNotification;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
+import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
@@ -36,21 +36,21 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Integer save(Event<PotentialProject> event) {
+    public Integer savePotentialProjectNotification(Event<PotentialProject> event) {
         var potentialProject = potentialProjectRepository.findById(event.getElement().getId()).orElse(null);
         var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
-        var savedNotification = notificationRepository.save(notificationToSave);
-        return savedNotification.getId();
+        return save(notificationToSave);
     }
 
     @Override
     @Transactional
-    public Integer save(ProspectNotification prospectNotification) {
-        var potentialProject = prospectRepository.findById(prospectNotification.prospect().getId()).orElse(null);
-        var notificationToSave = new NotificationEntity(prospectNotification.state(),
-                prospectNotification.message(),
-                prospectNotification.priority(),
-                potentialProject);
+    public Integer saveProspectNotification(Event<Prospect> event) {
+        var potentialProject = prospectRepository.findById(event.getElement().getId()).orElse(null);
+        var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
+        return save(notificationToSave);
+    }
+
+    private Integer save(NotificationEntity notificationToSave) {
         var savedNotification = notificationRepository.save(notificationToSave);
         return savedNotification.getId();
     }

@@ -15,10 +15,10 @@ public class PropertyOwnerEntity {
     private LocalDate acquisitionDate;
     @OneToOne(targetEntity = OwnerEntity.class)
     @JoinColumn(name = "fk_owner", referencedColumnName = "id_owner")
-    private OwnerEntity ownerEntity;
+    private OwnerEntity owner;
     @OneToOne(targetEntity = PropertyEntity.class)
     @JoinColumn(name = "fk_property", referencedColumnName = "id_property")
-    private PropertyEntity propertyEntity;
+    private PropertyEntity property;
     @Column(name = "main")
     private boolean main;
 
@@ -26,8 +26,8 @@ public class PropertyOwnerEntity {
         return this.acquisitionDate;
     }
 
-    public PropertyEntity getPropertyEntity() {
-        return this.propertyEntity;
+    public PropertyEntity getProperty() {
+        return this.property;
     }
 
     public boolean getMain() {

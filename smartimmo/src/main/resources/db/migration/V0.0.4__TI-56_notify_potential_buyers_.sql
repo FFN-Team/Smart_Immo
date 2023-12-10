@@ -6,12 +6,11 @@ ALTER TABLE notification
 
 CREATE TABLE IF NOT EXISTS home
 (
-    id_home       SERIAL PRIMARY KEY,
-    maritalStatus VARCHAR(255)
+    id_home        SERIAL PRIMARY KEY,
+    marital_status VARCHAR(255)
 );
 
 ALTER TABLE prospect
-    ADD COLUMN fk_home INTEGER,
     ADD CONSTRAINT fk FOREIGN KEY (fk_home)
         REFERENCES home (id_home);
 
@@ -26,13 +25,16 @@ CREATE TABLE IF NOT EXISTS owner
 CREATE TABLE IF NOT EXISTS child
 (
     id_child SERIAL PRIMARY KEY,
-    age      INTEGER
+    age      INTEGER,
+    fk_home  INTEGER,
+    FOREIGN KEY (fk_home) REFERENCES home (id_home)
 );
 
 CREATE TABLE IF NOT EXISTS property_owner
 (
     id_property_owner SERIAL PRIMARY KEY,
     acquisition_date  DATE,
+    main              BOOLEAN,
     fk_owner          INTEGER,
     fk_property       INTEGER,
     FOREIGN KEY (fk_owner) REFERENCES owner (id_owner),

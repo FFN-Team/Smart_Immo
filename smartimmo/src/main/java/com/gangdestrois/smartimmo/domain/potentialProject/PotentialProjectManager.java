@@ -37,7 +37,7 @@ public class PotentialProjectManager implements PotentialProjectApi {
                         .contains(potentialProject))
                 .forEach(potentialProject -> {
                     var projectNotification = potentialProject.mapToEvent();
-                    projectNotification.setId(notificationSpi.save(projectNotification));
+                    projectNotification.setId(notificationSpi.savePotentialProjectNotification(projectNotification));
                     eventManager.notify(PROJECT_DUE_DATE_APPROACHING, projectNotification);
                 });
         return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING).stream()

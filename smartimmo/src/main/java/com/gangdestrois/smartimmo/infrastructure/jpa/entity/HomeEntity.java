@@ -13,16 +13,16 @@ public class HomeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_home")
     private Integer id;
-    @Column(name = "maritalStatus")
+    @Column(name = "marital_status")
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;
     @OneToMany(mappedBy = "home")
-    private Set<ProspectEntity> prospectEntities;
+    private Set<ProspectEntity> prospects;
     @OneToMany(mappedBy = "home")
-    private Set<ChildrenEntity> children;
+    private Set<ChildEntity> children;
 
     public Home toModel() {
         return new Home(this.maritalStatus,
-                this.children.stream().map(ChildrenEntity::toModel).toList());
+                this.children.stream().map(ChildEntity::toModel).toList());
     }
 }
