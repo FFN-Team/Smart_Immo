@@ -9,7 +9,7 @@ public class ProjectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_project")
     private Integer id;
-    @OneToOne(targetEntity = PotentialProjectEntity.class)
+    @OneToOne(mappedBy = "project")
     private PotentialProjectEntity potentialProject;
 
     public Integer id() {

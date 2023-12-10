@@ -13,7 +13,7 @@ import java.util.List;
 public interface PotentialProjectRepository extends JpaRepository<PotentialProjectEntity, Integer> {
     @Query(value = """
             select pp.* FROM potential_project pp INNER JOIN notification n
-            ON pp.potential_project_id = n.potential_project_id 
+            ON pp.id_potential_project = n.fk_potential_project 
             WHERE n.state <> 'ARCHIVED' AND n.state <> 'DEALT'
             """, nativeQuery = true)
     List<PotentialProjectEntity> findPotentialProjectEntitiesByNotificationToDisplay();
