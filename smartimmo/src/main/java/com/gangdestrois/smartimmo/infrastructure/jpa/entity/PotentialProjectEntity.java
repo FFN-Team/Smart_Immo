@@ -15,12 +15,11 @@ public class PotentialProjectEntity {
     private Integer id;
     @Column(name = "due_date")
     private LocalDate dueDate;
-    @JoinColumn(name = "fk_project", referencedColumnName = "id_project")
     @OneToOne(targetEntity = ProjectEntity.class)
+    @JoinColumn(name = "fk_project", referencedColumnName = "id_project")
     private ProjectEntity project;
     @Column(name = "priority")
     private String priority;
-
     @Column(name = "notification_date")
     private LocalDate notificationDate;
 

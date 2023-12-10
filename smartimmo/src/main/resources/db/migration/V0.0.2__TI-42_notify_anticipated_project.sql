@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS project
 (
-    project_id SERIAL,
-    PRIMARY KEY (project_id)
+    id_project SERIAL,
+    PRIMARY KEY (id_project)
 );
 
 CREATE TABLE IF NOT EXISTS potential_project
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS potential_project
     fk_project           INTEGER,
     priority             VARCHAR(255),
     PRIMARY KEY (id_potential_project),
-    FOREIGN KEY (fk_project) REFERENCES project (project_id)
+    FOREIGN KEY (fk_project) REFERENCES project (id_project)
 );
 
 CREATE TABLE IF NOT EXISTS notification
