@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.portfolio.PortfolioPropertiesToFollowManager;
+import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.infrastructure.jpa.BuyerDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.PropertyDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PropertyRepository;
@@ -88,5 +89,15 @@ public class BeanConfiguration {
                                                            EventManager eventManager,
                                                            NotificationDataAdapter notificationDataAdapter) {
         return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter);
+    }
+
+    @Bean
+    public ProspectDataAdapter prospectDataAdapter(ProspectRepository prospectRepository){
+        return new ProspectDataAdapter(prospectRepository);
+    }
+
+    @Bean
+    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
+        return new ProspectManager(prospectDataAdapter);
     }
 }
