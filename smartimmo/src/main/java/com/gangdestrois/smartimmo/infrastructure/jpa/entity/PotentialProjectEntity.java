@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProject;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,6 +24,9 @@ public class PotentialProjectEntity {
     @Column(name = "priority")
     private String priority;
 
+    @Column(name = "notification_date")
+    private LocalDate notificationDate;
+
     public String getMessage() {
         return String.format("Rappel : la date prévue pour le projet %d approche. Vous pouvez consulter " +
                 "le projet ci-dessous pour reprendre connaissance avec le projet.", project.id());
@@ -31,11 +34,5 @@ public class PotentialProjectEntity {
 
     public PotentialProject toModel() {
         return new PotentialProject(id, dueDate, getMessage(), Priority.valueOf(priority));
-    }
-
-    public PotentialProjectEntity fromModel(PotentialProject potentialProject) {
-        this.dueDate = potentialProject.dueDate();
-        this.priority = potentialProject.priority().name();
-        return this;
     }
 }

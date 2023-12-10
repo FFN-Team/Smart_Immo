@@ -11,13 +11,13 @@ import java.util.List;
 
 @Repository
 public interface PotentialProjectRepository extends JpaRepository<PotentialProjectEntity, Integer> {
-    @Query(value = "select pp.* from potential_project pp where due_date <= :date", nativeQuery = true)
-    List<PotentialProjectEntity> findByDueDate(@Param("date") LocalDate date);
-
     @Query(value = """
             select pp.* FROM potential_project pp INNER JOIN notification n
             ON pp.potential_project_id = n.potential_project_id 
             WHERE n.state <> 'ARCHIVED' AND n.state <> 'DEALT'
             """, nativeQuery = true)
     List<PotentialProjectEntity> findPotentialProjectEntitiesByNotificationToDisplay();
+
+    @Query(value = "select pp.* from potential_project pp where notification_date <= :today", nativeQuery = true)
+    List<PotentialProjectEntity> findByNotificationDate(@Param("today") LocalDate today);
 }
