@@ -8,17 +8,16 @@ import jakarta.persistence.*;
 public class SubscriptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subscription_id")
+    @Column(name = "id_subscription")
     private Integer id;
-
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
-
     @Column(name = "event_listener")
-    private String eventListener;
+    @Enumerated(EnumType.STRING)
+    private EventListenerEnum eventListener;
 
-    public SubscriptionEntity(EventType eventType, String eventListener) {
+    public SubscriptionEntity(EventType eventType, EventListenerEnum eventListener) {
         this.eventType = eventType;
         this.eventListener = eventListener;
     }
@@ -30,7 +29,7 @@ public class SubscriptionEntity {
         return this.eventType;
     }
 
-    public String eventListener() {
+    public EventListenerEnum eventListener() {
         return this.eventListener;
     }
 }

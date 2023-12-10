@@ -11,16 +11,13 @@ import java.time.LocalDate;
 public class PotentialProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "potential_project_id")
+    @Column(name = "id_potential_project")
     private Integer id;
-
     @Column(name = "due_date")
     private LocalDate dueDate;
-
-    @JoinColumn(name = "project_id")
-    @ManyToOne(targetEntity = ProjectEntity.class)
+    @JoinColumn(name = "fk_project", referencedColumnName = "id_project")
+    @OneToOne(targetEntity = ProjectEntity.class)
     private ProjectEntity project;
-
     @Column(name = "priority")
     private String priority;
 
