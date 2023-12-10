@@ -11,18 +11,15 @@ import java.util.Set;
 @Entity
 @Table(name = "event_type_notification")
 public class EventTypeNotificationEntity {
-
     @Id
-    @Column(name = "event_type_notification_id")
+    @Column(name = "id_event_type_notification")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
-
-    @JoinColumn(name = "notification_id")
-    @OneToOne(targetEntity = NotificationEntity.class)
+    @JoinColumn(name = "fk_notification", referencedColumnName = "id_notification")
+    @ManyToOne(targetEntity = NotificationEntity.class)
     private NotificationEntity notification;
 
     public EventTypeNotificationEntity() {

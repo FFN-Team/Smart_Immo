@@ -48,16 +48,16 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
     }
 
     //WARNING : SWITCH STATEMENT, TO REVIEW
-    private EventListener mapEventListenerFromDBData(String eventListener) {
-        if (eventListener.equals(EventListenerEnum.NOTIFICATION_ALERT_LISTENER.name())) {
+    private EventListener mapEventListenerFromDBData(EventListenerEnum eventListener) {
+        if (eventListener.equals(EventListenerEnum.NOTIFICATION_ALERT_LISTENER)) {
             return this.notificationAlertListener;
         }
         throw new RuntimeException("l'event listener en bd ne correspond à aucun event listener.");
     }
 
-    private String mapEventListenerToDBData(EventListener eventListener) {
+    private EventListenerEnum mapEventListenerToDBData(EventListener eventListener) {
         if (eventListener instanceof NotificationAlertListener) {
-            return EventListenerEnum.NOTIFICATION_ALERT_LISTENER.name();
+            return EventListenerEnum.NOTIFICATION_ALERT_LISTENER;
         }
         throw new RuntimeException("l'event listener en bd ne correspond à aucun event listener.");
     }
