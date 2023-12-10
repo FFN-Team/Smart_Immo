@@ -2,9 +2,8 @@ package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
-public interface ProspectRepository extends JpaRepository<ProspectEntity,Long> {
-    @Override
-    List<ProspectEntity> findAll();
+@Repository
+public interface ProspectRepository extends JpaRepository<ProspectEntity, Integer> {
 }
