@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.ProspectNotification;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
