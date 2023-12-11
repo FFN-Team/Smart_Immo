@@ -24,7 +24,7 @@ public class PropertyEntity {
     @Column(name = "livable_area")
     private double livableArea;
 
-    @OneToOne(targetEntity = PropertyOwnerEntity.class)
+    @OneToOne(mappedBy = "property")
     private PropertyOwnerEntity propertyOwnerEntity;
 
     public Property toModel() {
