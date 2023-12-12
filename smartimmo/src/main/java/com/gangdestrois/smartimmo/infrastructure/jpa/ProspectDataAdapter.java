@@ -16,10 +16,7 @@ public class ProspectDataAdapter implements ProspectSpi {
 
     @Override
     public List<Prospect> findAll() {
-        return prospectRepository.findAll()
-                .stream()
-                .map(ProspectEntity::toModel)
-                .toList();
+        return prospectRepository.findAll().stream().map(ProspectEntity::toModel).toList();
     }
 
     @Override
@@ -36,4 +33,11 @@ public class ProspectDataAdapter implements ProspectSpi {
     public List<Object[]> countByContactOrigin() {
         return prospectRepository.countByContactOrigin();
     }
+
+/*    @Override
+    public List<Prospect> findProspectsThatMayExpandTheirFamily(MaritalStatus maritalStatus, Integer yearsSinceBuy,
+                                                                Integer roomNumberOfProperty) {
+        return prospectRepository.findProspectsThatMayExpandTheirFamily(maritalStatus, yearsSinceBuy, roomNumberOfProperty)
+                .stream().map(ProspectEntity::toModel).toList();
+    }*/
 }

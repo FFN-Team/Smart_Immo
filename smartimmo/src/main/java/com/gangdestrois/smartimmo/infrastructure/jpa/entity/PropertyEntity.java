@@ -5,24 +5,27 @@ import com.gangdestrois.smartimmo.domain.property.entite.Property;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="bien")
+@Table(name = "property")
 public class PropertyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="bien_id")
+    @Column(name = "id_property")
     private Long id;
 
-    @Column(name="nom_bien")
+    @Column(name = "property_name")
     private String propertyName;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name="nb_piece")
+    @Column(name = "room_number")
     private int roomsNumber;
 
-    @Column(name = "surface_habitable")
+    @Column(name = "livable_area")
     private double livableArea;
+
+    @OneToOne(mappedBy = "property")
+    private PropertyOwnerEntity propertyOwnerEntity;
 
     public Property toModel() {
         return new Property(id, propertyName, description, roomsNumber, livableArea);

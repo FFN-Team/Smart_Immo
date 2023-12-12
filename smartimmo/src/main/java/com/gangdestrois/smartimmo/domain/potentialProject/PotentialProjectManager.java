@@ -5,14 +5,15 @@ import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.ProjectSpi;
 
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.gangdestrois.smartimmo.domain.event.EventType.PROJECT_DUE_DATE_APPROACHING;
+import static java.util.Objects.nonNull;
 
 @DomainComponent
 public class PotentialProjectManager implements PotentialProjectApi {
@@ -29,18 +30,23 @@ public class PotentialProjectManager implements PotentialProjectApi {
     }
 
     @Override
-    public Set<Event> notifyPotentialProjects() {
-        projectSpi.findPotentialProjectsByDueDate(LocalDate.now().plusMonths(6))
+    public Set<Event<PotentialProject>> notifyPotentialProjects() {
+        projectSpi.findPotentialProjectToNotify()
                 .stream()
                 .filter(potentialProject -> !projectSpi.findPotentialProjectsByNotificationToDisplay()
                         .contains(potentialProject))
                 .forEach(potentialProject -> {
-                    var event = potentialProject.mapToEvent();
-                    event.setId(notificationSpi.save(event));
-                    eventManager.notify(PROJECT_DUE_DATE_APPROACHING, event);
+                    var projectNotification = potentialProject.mapToEvent();
+                    projectNotification.setId(notificationSpi.savePotentialProjectNotification(projectNotification));
+                    eventManager.notify(PROJECT_DUE_DATE_APPROACHING, projectNotification);
                 });
         return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING).stream()
-                .filter(event -> !event.state().isAlreadyDealt())
+                .filter(event -> event.state().isNotAlreadyDealt())
+                .map(projectNotification -> {
+                    if (nonNull(projectNotification.getId()))
+                        return notificationSpi.findProjectNotificationById(projectNotification.getId()).orElse(null);
+                    return null;
+                })
                 .collect(Collectors.toSet());
     }
 

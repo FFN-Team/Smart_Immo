@@ -2,8 +2,8 @@ package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.ProjectNotification;
 import com.gangdestrois.smartimmo.domain.event.State;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notification_id")
+    @Column(name = "id_notification")
     private Integer id;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
@@ -21,9 +21,12 @@ public class NotificationEntity {
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
     private Priority priority;
-    @JoinColumn(name = "potential_project_id")
     @OneToOne(targetEntity = PotentialProjectEntity.class)
+    @JoinColumn(name = "fk_potential_project", referencedColumnName = "id_potential_project")
     private PotentialProjectEntity potentialProject;
+    @OneToOne(targetEntity = ProspectEntity.class)
+    @JoinColumn(name = "fk_prospect", referencedColumnName = "id_prospect")
+    private ProspectEntity prospect;
 
     public NotificationEntity() {
     }
@@ -35,14 +38,21 @@ public class NotificationEntity {
         this.potentialProject = potentialProjectEntity;
     }
 
+    public NotificationEntity(State state, String message, Priority priority, ProspectEntity prospect) {
+        this.state = state;
+        this.message = message;
+        this.priority = priority;
+        this.prospect = prospect;
+    }
+
     public NotificationEntity(State state, String message, Priority priority) {
         this.state = state;
         this.message = message;
         this.priority = priority;
     }
 
-    public ProjectNotification toModel() {
-        return new ProjectNotification(potentialProject.toModel(), state, message, priority);
+    public Event<PotentialProject> toProjectNotificationModel() {
+        return new Event(state, message, priority, potentialProject.toModel());
     }
 
     public NotificationEntity(Event event) {

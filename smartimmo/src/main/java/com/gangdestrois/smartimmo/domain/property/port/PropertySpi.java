@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PropertySpi {
     List<Property> findAll();
+
+    Property findPropertyById(Long id);
 }

@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/anticipatedProjects")
+@RequestMapping("/api/v1/potential-projects")
 public class PotentialProjectController {
     private final PotentialProjectApi potentialProjectApi;
     private final NotificationAlertListener notificationAlertListener;

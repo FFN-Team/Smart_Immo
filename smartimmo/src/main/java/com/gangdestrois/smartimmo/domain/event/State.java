@@ -13,4 +13,8 @@ public enum State {
     public boolean isAlreadyDealt() {
         return this.isAlreadyDealt;
     }
+
+    public boolean isNotAlreadyDealt() {
+        return !this.isAlreadyDealt();
+    }
 }
