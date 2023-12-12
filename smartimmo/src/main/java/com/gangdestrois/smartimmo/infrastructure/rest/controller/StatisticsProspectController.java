@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectStatisticsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class StatisticsProspectController {
             )
         }
     )
-    public ResponseEntity<Map<String, Map<String, Long>>> countByAgeGroup() {
+    public ResponseEntity<ProspectStatisticsResponse> countByAgeGroup() {
         return ResponseEntity.ok(prospectApi.countByAgeGroup());
     }
 
@@ -46,7 +47,7 @@ public class StatisticsProspectController {
             )
         }
     )
-    public ResponseEntity<Map<String, Map<String, Long>>> countByProfession() {
+    public ResponseEntity<ProspectStatisticsResponse> countByProfession() {
         return ResponseEntity.ok(prospectApi.countByProfession());
     }
 
@@ -61,7 +62,7 @@ public class StatisticsProspectController {
             )
         }
     )
-    public ResponseEntity<Map<String, Map<String, Long>>> countByContactOrigin() {
+    public ResponseEntity<ProspectStatisticsResponse> countByContactOrigin() {
         return ResponseEntity.ok(prospectApi.countByContactOrigin());
     }
 }

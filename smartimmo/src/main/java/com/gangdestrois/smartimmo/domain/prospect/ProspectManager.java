@@ -3,11 +3,10 @@ package com.gangdestrois.smartimmo.domain.prospect;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectDataResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectStatisticsResponse;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProspectManager implements ProspectApi {
     ProspectSpi prospectSpi;
@@ -22,7 +21,7 @@ public class ProspectManager implements ProspectApi {
     }
 
     @Override
-    public Map<String, Map<String, Long>> countByAgeGroup() {
+    public ProspectStatisticsResponse countByAgeGroup() {
         int[][] ageCategory = {
                 { 0, 20 },
                 { 21, 40 },
@@ -31,9 +30,10 @@ public class ProspectManager implements ProspectApi {
                 { 81, 100 },
                 { 100, 120 },
         };
-        Map<String, Map<String, Long>> countByAgeGroup = new HashMap<>();
+
+        ProspectStatisticsResponse statisticsResponse;
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
         String title = "Number of prospects by age group", category;
-        Map<String, Long> stats = new LinkedHashMap<>();
         int ageMin, ageMax;
         long value;
 
@@ -42,19 +42,23 @@ public class ProspectManager implements ProspectApi {
             ageMax = ages[1];
             category = String.format("%d - %d", ageMin, ageMax);
             value = prospectSpi.countByAgeBetween(ageMin, ageMax);
-            stats.put(category, value);
+
+            dataResponses.add(new ProspectDataResponse(category, value));
         }
 
-        countByAgeGroup.put(title, stats);
+        statisticsResponse = new ProspectStatisticsResponse(
+                title,
+                dataResponses
+        );
 
-        return countByAgeGroup;
+        return statisticsResponse;
     }
 
     @Override
-    public Map<String, Map<String, Long>> countByProfession() {
-        Map<String, Map<String, Long>> countByProfession = new HashMap<>();
+    public ProspectStatisticsResponse countByProfession() {
+        ProspectStatisticsResponse statisticsResponse;
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
         String title = "Number of prospects by profession";
-        Map<String, Long> stats = new LinkedHashMap<>();
         List<Object[]> data = prospectSpi.countByProfession();
         String profession;
         Long value;
@@ -62,19 +66,23 @@ public class ProspectManager implements ProspectApi {
         for (Object[] objects : data){
             profession = (String)objects[0];
             value = (Long)objects[1];
-            stats.put(profession, value);
+
+            dataResponses.add(new ProspectDataResponse(profession, value));
         }
 
-        countByProfession.put(title, stats);
+        statisticsResponse = new ProspectStatisticsResponse(
+            title,
+            dataResponses
+        );
 
-        return countByProfession;
+        return statisticsResponse;
     }
 
     @Override
-    public Map<String, Map<String, Long>> countByContactOrigin() {
-        Map<String, Map<String, Long>> countByContactOrigin = new HashMap<>();
+    public ProspectStatisticsResponse countByContactOrigin() {
+        ProspectStatisticsResponse statisticsResponse;
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
         String title = "Number of prospects by contact origin";
-        Map<String, Long> stats = new LinkedHashMap<>();
         List<Object[]> data = prospectSpi.countByContactOrigin();
         String contactOrigin;
         Long value;
@@ -82,11 +90,15 @@ public class ProspectManager implements ProspectApi {
         for (Object[] objects : data){
             contactOrigin = (String)objects[0];
             value = (Long)objects[1];
-            stats.put(contactOrigin, value);
+
+            dataResponses.add(new ProspectDataResponse(contactOrigin, value));
         }
 
-        countByContactOrigin.put(title, stats);
+        statisticsResponse = new ProspectStatisticsResponse(
+            title,
+            dataResponses
+        );
 
-        return countByContactOrigin;
+        return statisticsResponse;
     }
 }
