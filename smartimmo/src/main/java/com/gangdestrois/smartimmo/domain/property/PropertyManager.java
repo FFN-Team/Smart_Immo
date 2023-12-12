@@ -17,4 +17,10 @@ public class PropertyManager implements PropertyApi {
     public List<Property> findAll() {
         return propertySpi.findAll();
     }
+
+    @Override
+    public Property findPropertyById(Long id) {
+        return propertySpi.findPropertyById(id);
+    }
+
 }

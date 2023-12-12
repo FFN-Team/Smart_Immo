@@ -3,15 +3,17 @@ package com.gangdestrois.smartimmo.domain.portfolio.model;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.property.entite.Property;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class PortfolioPropertiesToFollow {
     private Date dateOfPortfolioGeneration;
     private Buyer buyer;
-    private List<Property> propertiesToFollow;
+    private List<PropertyToFollow> propertiesToFollow;
 
     public PortfolioPropertiesToFollow(Date dateOfPortfolioGeneration) {
+        propertiesToFollow= new ArrayList<>();
         this.dateOfPortfolioGeneration = dateOfPortfolioGeneration;
     }
 
@@ -19,8 +21,10 @@ public class PortfolioPropertiesToFollow {
         this.buyer = buyer;
     }
 
-    public void setPropertiesToFollow(List<Property> propertiesToFollow) {
-        this.propertiesToFollow = propertiesToFollow;
+    public void setPropertiesToFollow(List<Property> properties) {
+        for(Property property : properties){
+            propertiesToFollow.add(new PropertyToFollow(property,"A Etudier"));
+        }
     }
 
     public Date getDateOfPortfolioGeneration() {
@@ -31,7 +35,7 @@ public class PortfolioPropertiesToFollow {
         return buyer;
     }
 
-    public List<Property> getPropertiesToFollow() {
+    public List<PropertyToFollow> getPropertiesToFollow() {
         return propertiesToFollow;
     }
 

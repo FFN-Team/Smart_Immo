@@ -21,4 +21,9 @@ public class PropertyDataAdapter implements PropertySpi {
                 .map(PropertyEntity::toModel)
                 .toList();
     }
+
+    @Override
+    public Property findPropertyById(Long id) {
+        return propertyRepository.findById(id).get().toModel();
+    }
 }
