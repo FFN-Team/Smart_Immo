@@ -28,7 +28,7 @@ public class ProspectManager implements ProspectApi {
                 { 41, 60 },
                 { 61, 80 },
                 { 81, 100 },
-                { 100, 120 },
+                { 101, 120 },
         };
 
         ProspectStatisticsResponse statisticsResponse;
