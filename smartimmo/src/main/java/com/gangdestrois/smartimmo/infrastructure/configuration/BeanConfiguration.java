@@ -8,6 +8,7 @@ import com.gangdestrois.smartimmo.domain.portfolio.PortfolioPropertiesToFollowMa
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
+import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
@@ -98,5 +99,10 @@ public class BeanConfiguration {
     public ProspectAnalyzer prospectAnalyzer(ProspectDataAdapter prospectDataAdapter, NotificationDataAdapter notificationDataAdapter,
                                              EventManager eventManager) {
         return new ProspectAnalyzer(prospectDataAdapter, notificationDataAdapter, eventManager);
+    }
+
+    @Bean
+    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
+        return new ProspectManager(prospectDataAdapter);
     }
 }
