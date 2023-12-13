@@ -8,7 +8,4 @@ public interface ProspectSpi {
 //    List<Prospect> findProspectsThatMayExpandTheirFamily(MaritalStatus maritalStatus,Integer yearsSinceBuy,Integer roomNumberOfProperty);
 
     List<Prospect> findAll();
-    long countByAgeBetween(int ageMin, int ageMax);
-    List<Object[]> countByProfession();
-    List<Object[]> countByContactOrigin();
 }
