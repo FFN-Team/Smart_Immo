@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventType;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
+import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventListenerEnum;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.SubscriptionEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.SubscriptionRepository;
 import jakarta.transaction.Transactional;
@@ -37,6 +38,7 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
     }
 
     @Transactional
+    @Override
     public void saveAll(Map<EventType, List<EventListener>> listeners) {
         List<SubscriptionEntity> subscriptions = new ArrayList<>();
         listeners.forEach((eventType, eventListeners) -> eventListeners
@@ -46,16 +48,16 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
     }
 
     //WARNING : SWITCH STATEMENT, TO REVIEW
-    private EventListener mapEventListenerFromDBData(String eventListener) {
-        if (eventListener.equals("notificationAlertListener")) {
+    private EventListener mapEventListenerFromDBData(EventListenerEnum eventListener) {
+        if (eventListener.equals(EventListenerEnum.NOTIFICATION_ALERT_LISTENER)) {
             return this.notificationAlertListener;
         }
         throw new RuntimeException("l'event listener en bd ne correspond à aucun event listener.");
     }
 
-    private String mapEventListenerToDBData(EventListener eventListener) {
+    private EventListenerEnum mapEventListenerToDBData(EventListener eventListener) {
         if (eventListener instanceof NotificationAlertListener) {
-            return "notificationAlertListener";
+            return EventListenerEnum.NOTIFICATION_ALERT_LISTENER;
         }
         throw new RuntimeException("l'event listener en bd ne correspond à aucun event listener.");
     }

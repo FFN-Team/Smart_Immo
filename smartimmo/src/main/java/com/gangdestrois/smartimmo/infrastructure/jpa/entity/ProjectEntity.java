@@ -7,8 +7,10 @@ import jakarta.persistence.*;
 public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
+    @Column(name = "id_project")
     private Integer id;
+    @OneToOne(mappedBy = "project")
+    private PotentialProjectEntity potentialProject;
 
     public Integer id() {
         return id;
