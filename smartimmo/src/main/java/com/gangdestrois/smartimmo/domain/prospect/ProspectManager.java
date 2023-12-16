@@ -9,6 +9,8 @@ import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectStatisticsResp
 import java.util.ArrayList;
 import java.util.List;
 
+//ici c'est pas vraiment un maneger parce qu'il ne manage pas vraiment c'est plutôt une classe qui fais des statistiques
+//ce serait bien de trouver un nom qui correspond plus à ca
 public class ProspectManager implements ProspectManagerApi {
     ProspectSpi prospectSpi;
 
@@ -23,6 +25,7 @@ public class ProspectManager implements ProspectManagerApi {
 
     @Override
     public ProspectStatisticsResponse countByAgeGroup() {
+        //on peut faire un enum ageCategory avec 2 attributs ageMin, ageMax
         int[][] ageCategory = {
                 { 0, 20 },
                 { 21, 40 },
@@ -87,7 +90,8 @@ public class ProspectManager implements ProspectManagerApi {
         List<Object[]> data = prospectSpi.countByContactOrigin();
         String contactOrigin;
         Long value;
-
+        //il faudrait que Object[] soit transformé en object du domaine dans l'adapter
+        //car Object[] n'est pas explicite et ne correspond pas vraiment à une donnée métier
         for (Object[] objects : data){
             contactOrigin = (String)objects[0];
             value = (Long)objects[1];
@@ -101,5 +105,51 @@ public class ProspectManager implements ProspectManagerApi {
         );
 
         return statisticsResponse;
+    }
+
+    public ProspectStatisticsResponse countByAgeGroupExample() {
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
+        String title = "Number of prospects by age group", category;
+        long value;
+
+        for (AgeCategory ageCategory : AgeCategory.values()) {
+            category = String.format("%d - %d", ageCategory.ageMin, ageCategory.ageMax);
+            value = prospectSpi.countByAgeBetween(ageCategory.ageMin, ageCategory.ageMax);
+            dataResponses.add(new ProspectDataResponse(category, value));
+        }
+        return new ProspectStatisticsResponse(
+                title,
+                dataResponses
+        );
+    }
+
+    public ProspectStatisticsResponse countByProfessionExample() {
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
+        //est-ce que on pourrait pas mettre le title simplement dans le front ?
+        String title = "Number of prospects by profession";
+        var data = prospectSpi.countByProfessionExample();
+        return getProspectStatisticsResponse(dataResponses, title, data);
+    }
+
+    public ProspectStatisticsResponse countByContactOriginExample() {
+        List<ProspectDataResponse> dataResponses = new ArrayList<>();
+        //est-ce que on pourrait pas mettre le title simplement dans le front ?
+        String title = "Number of prospects by contact origin";
+        var data = prospectSpi.countByContactOriginExample();
+        return getProspectStatisticsResponse(dataResponses, title, data);
+    }
+
+    private ProspectStatisticsResponse getProspectStatisticsResponse(List<ProspectDataResponse> dataResponses,
+                                                                     String title,
+                                                                     List<ProspectStatistic> data) {
+        for (ProspectStatistic prospectStatistic : data){
+            dataResponses.add(new ProspectDataResponse(
+                    prospectStatistic.dataProspect(),
+                    prospectStatistic.count().longValue()));
+        }
+        return new ProspectStatisticsResponse(
+                title,
+                dataResponses
+        );
     }
 }
