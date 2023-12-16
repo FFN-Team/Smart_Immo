@@ -11,5 +11,7 @@ public enum AgeCategory {
     int ageMax;
 
     AgeCategory(int ageMin, int ageMax) {
+        this.ageMin = ageMin;
+        this.ageMax = ageMax;
     }
 }

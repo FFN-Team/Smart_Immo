@@ -26,24 +26,16 @@ public class ProspectDataAdapter implements ProspectSpi {
     }
 
     @Override
-    public List<Object[]> countByProfession() {
-        return prospectRepository.countByProfession();
-    }
-
-    public List<ProspectStatistic> countByProfessionExample() {
+    public List<ProspectStatistic> countByProfession() {
         return prospectRepository.countByProfession().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (Double)prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
                 .toList();
     }
 
     @Override
-    public List<Object[]> countByContactOrigin() {
-        return prospectRepository.countByContactOrigin();
-    }
-
-    public List<ProspectStatistic> countByContactOriginExample() {
+    public List<ProspectStatistic> countByContactOrigin() {
         return prospectRepository.countByContactOrigin().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (Double)prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
                 .toList();
     }
 }

@@ -9,6 +9,7 @@ import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManage
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
+import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
@@ -104,5 +105,10 @@ public class BeanConfiguration {
     @Bean
     public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
         return new ProspectManager(prospectDataAdapter);
+    }
+
+    @Bean
+    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter){
+        return new ProspectStatisticsGenerator(prospectDataAdapter);
     }
 }

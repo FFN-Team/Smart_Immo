@@ -10,8 +10,6 @@ public interface ProspectSpi {
 
     List<Prospect> findAll();
     long countByAgeBetween(int ageMin, int ageMax);
-    List<Object[]> countByProfession();
-    List<Object[]> countByContactOrigin();
-    List<ProspectStatistic> countByProfessionExample();
-    List<ProspectStatistic> countByContactOriginExample();
+    List<ProspectStatistic> countByProfession();
+    List<ProspectStatistic> countByContactOrigin();
 }
