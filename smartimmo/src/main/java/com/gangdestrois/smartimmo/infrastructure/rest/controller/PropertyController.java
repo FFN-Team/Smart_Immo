@@ -1,9 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.property.entite.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,12 +31,14 @@ public class PropertyController {
 
     @GetMapping("/{propertyId}")
     @ResponseStatus(HttpStatus.OK)
+    /*collectPropertyById + voir si c'est intéressant d'encapsuler les retours dans des ResponseEntity*/
     public PropertyResponse CollectBuyerById(@PathVariable Long propertyId) {
         Property property = propertyApi.findPropertyById(propertyId);
-
+       /* if(nonNull(property))*/
         if (property != null) {
             return PropertyResponse.fromModel(property);
         } else {
+            /*le throw dans le domain serait peut-être mieux ?*/
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "property not found");
         }
     }

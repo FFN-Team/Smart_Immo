@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PortfolioPropertiesToFollow {
+public class PortfolioPropertiesToFollow /*PropertyPortfolio pas suffisant?*/ {
+    /*Mettre des LocalDate plutôt que des Date*/
     private Date dateOfPortfolioGeneration;
     private Buyer buyer;
     private List<PropertyToFollow> propertiesToFollow;
 
     public PortfolioPropertiesToFollow(Date dateOfPortfolioGeneration) {
+        /*this.propertiesToFollow*/
         propertiesToFollow= new ArrayList<>();
         this.dateOfPortfolioGeneration = dateOfPortfolioGeneration;
     }
@@ -23,6 +25,8 @@ public class PortfolioPropertiesToFollow {
 
     public void setPropertiesToFollow(List<Property> properties) {
         for(Property property : properties){
+            /*Attention pas de magic string, il faut faire un enum stateToFollow avec la valeur TO_STUDY */
+            //situ veux absolumentun string il faut mettre TO_STUDY.name()
             propertiesToFollow.add(new PropertyToFollow(property,"A Etudier"));
         }
     }

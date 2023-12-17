@@ -5,8 +5,11 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 public class Buyer {
     private Long id;
     private Prospect prospect;
+    //enum
     private String status;
+    //plutôt une LocalDate non ?
     private String searchStartDate;
+    //idem ?
     private String searchEndDate;
     private PropertyCriteria propertyCriteria;
 
@@ -20,6 +23,7 @@ public class Buyer {
         this.propertyCriteria = propertyCriteria;
     }
 
+    /*on peut faire gaffe à la génération des getters automatique*/
 
     public Long getId() { return id; }
     public String getStatus() { return status; }

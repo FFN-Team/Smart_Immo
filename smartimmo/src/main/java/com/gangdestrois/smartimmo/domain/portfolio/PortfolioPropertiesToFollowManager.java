@@ -7,6 +7,8 @@ import com.gangdestrois.smartimmo.domain.portfolio.port.PortfolioPropertiesToFol
 
 import java.util.Date;
 
+/*est-ce que on pourrait pas plutôt appeler cette classe PropertiesToFollowManger
+* et faire une méthode createPortfolio parce que là je trouve que les noms sont un peu tirés par les cheveux*/
 public class PortfolioPropertiesToFollowManager implements PortfolioPropertiesToFollowApi {
     private PropertiesFinder propertiesFinder;
     private BuyerSpi buyerSpi;
@@ -17,6 +19,7 @@ public class PortfolioPropertiesToFollowManager implements PortfolioPropertiesTo
     }
 
     @Override
+    //ce serait bien d'avoir un naming plus précis que id
     public PortfolioPropertiesToFollow createPortfolioPropertiesToFollowApi(int id){
         PortfolioPropertiesToFollow portfolioPropertiesToFollow =new PortfolioPropertiesToFollow(new Date());
         portfolioPropertiesToFollow.setBuyer(buyerSpi.findBuyerById(id));
