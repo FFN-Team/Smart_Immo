@@ -11,7 +11,7 @@ public class OwnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_owner")
-    private Integer id;
+    private Long id;
     @Column(name = "active")
     private boolean active;
     @OneToOne(mappedBy = "owner")
