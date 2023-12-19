@@ -8,12 +8,12 @@ import com.gangdestrois.smartimmo.domain.event.State;
 import java.time.LocalDate;
 
 public class PotentialProject implements Model {
-    private final Integer id;
+    private final Long id;
     private final LocalDate dueDate;
     private final String message;
     private final Priority priority;
 
-    public PotentialProject(Integer id, LocalDate dueDate, String message, Priority priority) {
+    public PotentialProject(Long id, LocalDate dueDate, String message, Priority priority) {
         this.id = id;
         this.dueDate = dueDate;
         this.message = message;
@@ -25,7 +25,7 @@ public class PotentialProject implements Model {
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 

@@ -36,7 +36,7 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Integer savePotentialProjectNotification(Event<PotentialProject> event) {
+    public Long savePotentialProjectNotification(Event<PotentialProject> event) {
         var potentialProject = potentialProjectRepository.findById(event.getElement().getId()).orElse(null);
         var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
         return save(notificationToSave);
@@ -44,19 +44,19 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Integer saveProspectNotification(Event<Prospect> event) {
+    public Long saveProspectNotification(Event<Prospect> event) {
         var potentialProject = prospectRepository.findById(event.getElement().getId()).orElse(null);
         var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
         return save(notificationToSave);
     }
 
-    private Integer save(NotificationEntity notificationToSave) {
+    private Long save(NotificationEntity notificationToSave) {
         var savedNotification = notificationRepository.save(notificationToSave);
         return savedNotification.getId();
     }
 
     @Override
-    public Optional<Event<PotentialProject>> findProjectNotificationById(Integer projectNotificationId) {
+    public Optional<Event<PotentialProject>> findProjectNotificationById(Long projectNotificationId) {
         return notificationRepository.findById(projectNotificationId)
                 .map(NotificationEntity::toProjectNotificationModel);
     }

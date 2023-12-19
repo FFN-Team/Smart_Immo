@@ -14,7 +14,7 @@ public class EventTypeNotificationEntity {
     @Id
     @Column(name = "id_event_type_notification")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;

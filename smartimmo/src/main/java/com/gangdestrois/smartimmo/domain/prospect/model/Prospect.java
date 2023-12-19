@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Prospect implements Model {
-    private final Integer id;
-    private final String contactOrigine;
+    private final Long id;
+    private final String contactOrigin;
     private final String title;
     private final String lastName;
     private final String firstName;
@@ -22,11 +22,11 @@ public class Prospect implements Model {
     private final Home home;
     private final List<Owner> owners;
 
-    public Prospect(Integer id, String contactOrigine, String title, String lastName, String firstName,
+    public Prospect(Long id, String contactOrigine, String title, String lastName, String firstName,
                     Date dateOfBirth, String profession, long mobile, String mail,
                     boolean authorizeContactOnSocialMedia, Home home, List<Owner> owners) {
         this.id = id;
-        this.contactOrigine = contactOrigine;
+        this.contactOrigin = contactOrigine;
         this.title = title;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -39,12 +39,13 @@ public class Prospect implements Model {
         this.owners = owners;
     }
 
-    public Integer getId() {
+    @Override
+    public Long getId() {
         return id;
     }
 
-    public String getContactOrigine() {
-        return contactOrigine;
+    public String getContactOrigin() {
+        return contactOrigin;
     }
 
     public String getTitle() {

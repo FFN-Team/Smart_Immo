@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.domain.event;
 import com.gangdestrois.smartimmo.domain.Model;
 
 public class Event<T extends Model> {
-    private Integer id;
+    private Long id;
     private final State state;
     private final String message;
     private final Priority priority;
@@ -28,11 +28,11 @@ public class Event<T extends Model> {
         return this.priority;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

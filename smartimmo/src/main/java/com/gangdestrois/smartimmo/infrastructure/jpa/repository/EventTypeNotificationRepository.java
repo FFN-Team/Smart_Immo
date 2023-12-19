@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EventTypeNotificationRepository extends JpaRepository<EventTypeNotificationEntity, Integer> {
+public interface EventTypeNotificationRepository extends JpaRepository<EventTypeNotificationEntity, Long> {
     List<NotificationEntity> findNotificationsByEventType(EventType eventType);
 
     @Override
