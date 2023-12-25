@@ -3,12 +3,12 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.property.entite.Address;
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.AddressResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,19 +21,33 @@ public class AddressController {
         this.addressApi = addressApi;
     }
 
-    @GetMapping("/non-assigned")
+    @GetMapping("/non-assigned/{id}")
     @Operation(
-        summary = "Get all non-assigned addresses.",
-        description = "Returns all non-assigned addresses.",
+        summary = "Get all non-assigned addresses and the one with ID {id}.",
+        description = "Returns all non-assigned addresses and the one with ID {id}.",
         responses = {
             @ApiResponse(
                 responseCode = "200",
                 description = "Retrieve successfully."
+            ),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Resource not found."
             )
         }
     )
-    public ResponseEntity<List<AddressResponse>> findByPropertyIsNull() {
-        List<Address> addresses = addressApi.findByPropertyIsNull();
-        return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<AddressResponse>> findByPropertyIsNullOrIdIs(@PathVariable Long id) {
+        boolean addressExists = addressApi.existsById(id);
+
+        if (addressExists)
+        {
+            List<Address> addresses = addressApi.findByPropertyIsNullOrIdIs(id);
+            return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
+        }
+        else
+        {
+            throw new NotFoundException(id, "address");
+        }
     }
 }
