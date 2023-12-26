@@ -19,6 +19,11 @@ class AddressControllerTest {
     private AddressApi addressApi;
 
     @Test
+    void findByPropertyIsNull() throws Exception {
+        mockMvc.perform(get("/api/v1/addresses/non-assigned")).andExpect(status().isOk());
+    }
+
+    @Test
     void findByPropertyIsNullOrIdIs() throws Exception {
         mockMvc.perform(get("/api/v1/addresses/non-assigned/1")).andExpect(status().isNotFound());
     }

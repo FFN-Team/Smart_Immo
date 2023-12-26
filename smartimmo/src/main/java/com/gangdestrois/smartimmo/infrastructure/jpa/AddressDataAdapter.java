@@ -21,6 +21,14 @@ public class AddressDataAdapter implements AddressSpi {
     }
 
     @Override
+    public List<Address> findByPropertyIsNull() {
+        return addressRepository.findByPropertyIsNull()
+            .stream()
+            .map(AddressEntity::toModel)
+            .toList();
+    }
+
+    @Override
     public List<Address> findByPropertyIsNullOrIdIs(Long id) {
         return addressRepository.findByPropertyIsNullOrIdIs(id)
             .stream()

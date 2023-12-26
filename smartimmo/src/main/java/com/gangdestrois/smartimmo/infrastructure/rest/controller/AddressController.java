@@ -21,6 +21,23 @@ public class AddressController {
         this.addressApi = addressApi;
     }
 
+    @GetMapping("/non-assigned")
+    @Operation(
+        summary = "Get all non-assigned addresses.",
+        description = "Returns all non-assigned addresses.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Retrieve successfully."
+            )
+        }
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<AddressResponse>> findByPropertyIsNull() {
+        List<Address> addresses = addressApi.findByPropertyIsNull();
+        return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
+    }
+
     @GetMapping("/non-assigned/{id}")
     @Operation(
         summary = "Get all non-assigned addresses and the one with ID {id}.",
