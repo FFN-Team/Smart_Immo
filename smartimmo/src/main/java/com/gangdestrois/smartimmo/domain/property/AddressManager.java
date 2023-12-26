@@ -20,6 +20,11 @@ public class AddressManager implements AddressApi {
     }
 
     @Override
+    public List<Address> findByPropertyIsNull() {
+        return addressSpi.findByPropertyIsNull();
+    }
+
+    @Override
     public List<Address> findByPropertyIsNullOrIdIs(Long id) {
         return addressSpi.findByPropertyIsNullOrIdIs(id);
     }
