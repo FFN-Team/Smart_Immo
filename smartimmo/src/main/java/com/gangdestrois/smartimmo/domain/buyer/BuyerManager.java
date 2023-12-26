@@ -7,7 +7,7 @@ import com.gangdestrois.smartimmo.domain.buyer.port.BuyerSpi;
 import java.util.List;
 
 public class BuyerManager implements BuyerApi {
-    BuyerSpi buyerSpi;
+    private final BuyerSpi buyerSpi;
 
     public BuyerManager(BuyerSpi buyerSpi) {
         this.buyerSpi = buyerSpi;

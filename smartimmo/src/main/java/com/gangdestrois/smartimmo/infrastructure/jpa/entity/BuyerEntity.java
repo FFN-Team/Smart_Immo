@@ -1,6 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.buyer.model.BuyerStatusEnum;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "buyer")
@@ -13,11 +16,12 @@ public class BuyerEntity {
     @JoinColumn(name = "fk_prospect", referencedColumnName = "id_prospect")
     private ProspectEntity prospect;
     @Column(name = "status")
-    private String status;              /////////// mettre un enum ici ? /////////////
+    @Enumerated(EnumType.STRING)
+    private BuyerStatusEnum status;
     @Column(name = "search_start_date")
-    private String searchStartDate;
+    private Date searchStartDate;
     @Column(name = "search_end_date")
-    private String searchEndDate;
+    private Date searchEndDate;
 
     public Long getId() {
         return id;
@@ -27,15 +31,15 @@ public class BuyerEntity {
         this.id = id;
     }
 
-    public String getStatus() {
+    public BuyerStatusEnum getStatus() {
         return status;
     }
 
-    public String getSearchStartDate() {
+    public Date getSearchStartDate() {
         return searchStartDate;
     }
 
-    public String getSearchEndDate() {
+    public Date getSearchEndDate() {
         return searchEndDate;
     }
 

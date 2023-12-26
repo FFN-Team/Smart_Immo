@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PortfolioPropertiesToFollow /*PropertyPortfolio pas suffisant?*/ {
-    /*Mettre des LocalDate plutôt que des Date*/
-    private Date dateOfPortfolioGeneration;
+public class PropertyPortfolio {
+    private final Date dateOfPortfolioGeneration;
     private Buyer buyer;
-    private List<PropertyToFollow> propertiesToFollow;
+    private final List<PropertyToFollow> propertiesToFollow;
 
-    public PortfolioPropertiesToFollow(Date dateOfPortfolioGeneration) {
-        /*this.propertiesToFollow*/
-        propertiesToFollow= new ArrayList<>();
+    public PropertyPortfolio(Date dateOfPortfolioGeneration) {
+        this.propertiesToFollow= new ArrayList<>();
         this.dateOfPortfolioGeneration = dateOfPortfolioGeneration;
     }
 

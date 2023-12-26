@@ -33,8 +33,7 @@ public class StatisticsProspectController {
         return ResponseEntity.ok(prospectStatisticsGeneratorApi.countByAgeGroup());
     }
 
-    @GetMapping
-    @RequestMapping("/count-by-profession")
+    @GetMapping("/count-by-profession")
     @Operation(
         summary = "Retrieve the number of prospects by profession.",
         responses = {

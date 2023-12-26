@@ -12,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @RestController
 @RequestMapping("/api/v1/properties")
 public class PropertyController {
@@ -31,13 +33,11 @@ public class PropertyController {
 
     @GetMapping("/{propertyId}")
     @ResponseStatus(HttpStatus.OK)
-    /*collectPropertyById + voir si c'est intéressant d'encapsuler les retours dans des ResponseEntity*/
-    public PropertyResponse CollectBuyerById(@PathVariable Long propertyId) {
+    /*voir si c'est intéressant d'encapsuler les retours dans des ResponseEntity*/
+    public PropertyResponse collectPropertyById(@PathVariable Long propertyId) {
         Property property = propertyApi.findPropertyById(propertyId);
-       /* if(nonNull(property))*/
-        if (property != null) {
-            return PropertyResponse.fromModel(property);
-        } else {
+        if(nonNull(property)) return PropertyResponse.fromModel(property);
+        else {
             /*le throw dans le domain serait peut-être mieux ?*/
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "property not found");
         }

@@ -6,14 +6,17 @@ import com.gangdestrois.smartimmo.domain.buyer.port.PropertiesFinderApi;
 import com.gangdestrois.smartimmo.domain.property.entite.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 
-import java.util.ArrayList;
+import java.util.function.Predicate;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 public class PropertiesFinder implements PropertiesFinderApi {
     private Buyer buyer;
     private List<Property> properties;
-    private BuyerSpi buyerSpi;
-    private PropertySpi propertySpi;
+    private final BuyerSpi buyerSpi;
+    private final PropertySpi propertySpi;
 
     public PropertiesFinder(BuyerSpi buyerSpi, PropertySpi propertySpi) {
         this.buyerSpi = buyerSpi;
@@ -23,31 +26,25 @@ public class PropertiesFinder implements PropertiesFinderApi {
 
     @Override
     public List<Property> findPropertiesForBuyer(int id){
-        /*isNull*/
-        if(buyerSpi.findBuyerById(id) == null) return null;
-        /*else pas nécessaire*/
-        else {
-            this.properties = propertySpi.findAll(); //refresh properties
-            this.buyer = buyerSpi.findBuyerById(id);
-            List<Property> filtredProperties= new ArrayList<>();
-            /*filteredProperties*/
-            for(Property property : this.properties)
-                /*stream + predicates avec filter */
-                if(verifyAllCriterias(property)) filtredProperties.add(property);
-            return filtredProperties;
-        }
+        if (isNull(buyerSpi.findBuyerById(id))) return null;
+
+        this.properties = propertySpi.findAll(); // refresh properties
+        this.buyer = buyerSpi.findBuyerById(id);
+        List<Property> filteredProperties = this.properties.stream()
+                .filter(allCriteriaPredicate())
+                .collect(Collectors.toList());
+        return filteredProperties;
     }
 
-    // faire des prédicats dans le même délire que les prédicats que j'ai fais pour les prospects
-    private boolean verifyAllCriterias(Property property){
-        return verifySurfaceCriteria(property) && verifyRoomsNumberCriteria(property);
+    private Predicate<Property> allCriteriaPredicate() {
+        return property -> verifySurfaceCriteria(property) && verifyRoomsNumberCriteria(property);
     }
 
     private boolean verifySurfaceCriteria(Property property) {
-        return this.buyer.getPropertyCriteria().minimumSurface()<= property.livableArea();
+        return this.buyer.getPropertyCriteria().minimumSurface() <= property.livableArea();
     }
 
     private boolean verifyRoomsNumberCriteria(Property property) {
-        return this.buyer.getPropertyCriteria().roomsNumber()<= property.roomsNumber();
+        return this.buyer.getPropertyCriteria().roomsNumber() <= property.roomsNumber();
     }
 }
