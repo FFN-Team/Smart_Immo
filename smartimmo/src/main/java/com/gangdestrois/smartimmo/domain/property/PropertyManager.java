@@ -7,7 +7,7 @@ import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 import java.util.List;
 
 public class PropertyManager implements PropertyApi {
-    PropertySpi propertySpi;
+    private final PropertySpi propertySpi;
 
     public PropertyManager(PropertySpi propertySpi) {
         this.propertySpi = propertySpi;

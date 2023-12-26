@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.prospect.ProspectStatistic;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
@@ -25,19 +26,16 @@ public class ProspectDataAdapter implements ProspectSpi {
     }
 
     @Override
-    public List<Object[]> countByProfession() {
-        return prospectRepository.countByProfession();
+    public List<ProspectStatistic> countByProfession() {
+        return prospectRepository.countByProfession().stream()
+                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
+                .toList();
     }
 
     @Override
-    public List<Object[]> countByContactOrigin() {
-        return prospectRepository.countByContactOrigin();
+    public List<ProspectStatistic> countByContactOrigin() {
+        return prospectRepository.countByContactOrigin().stream()
+                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
+                .toList();
     }
-
-/*    @Override
-    public List<Prospect> findProspectsThatMayExpandTheirFamily(MaritalStatus maritalStatus, Integer yearsSinceBuy,
-                                                                Integer roomNumberOfProperty) {
-        return prospectRepository.findProspectsThatMayExpandTheirFamily(maritalStatus, yearsSinceBuy, roomNumberOfProperty)
-                .stream().map(ProspectEntity::toModel).toList();
-    }*/
 }

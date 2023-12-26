@@ -4,11 +4,12 @@ import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.portfolio.PortfolioPropertiesToFollowManager;
+import com.gangdestrois.smartimmo.domain.portfolio.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
+import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
@@ -44,9 +45,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PortfolioPropertiesToFollowManager portfolioPropertiesToFollowManager(PropertiesFinder propertiesFinder,
-                                                                                 BuyerDataAdapter buyerDataAdapter) {
-        return new PortfolioPropertiesToFollowManager(propertiesFinder, buyerDataAdapter);
+    public PropertiesToFollowManager portfolioPropertiesToFollowManager(PropertiesFinder propertiesFinder,
+                                                                        BuyerDataAdapter buyerDataAdapter) {
+        return new PropertiesToFollowManager(propertiesFinder, buyerDataAdapter);
     }
 
     @Bean
@@ -104,5 +105,10 @@ public class BeanConfiguration {
     @Bean
     public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
         return new ProspectManager(prospectDataAdapter);
+    }
+
+    @Bean
+    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter){
+        return new ProspectStatisticsGenerator(prospectDataAdapter);
     }
 }
