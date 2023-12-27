@@ -16,6 +16,22 @@ public class Event<T extends Model> {
         this.element = element;
     }
 
+    public Event(Long id, State state, String message, Priority priority, T element) {
+        this.id = id;
+        this.state = state;
+        this.message = message;
+        this.priority = priority;
+        this.element = element;
+    }
+
+    public Event(Long id, State state) {
+        this.id = id;
+        this.state = state;
+        this.message = null;
+        this.priority = null;
+        this.element = null;
+    }
+
     public State state() {
         return this.state;
     }

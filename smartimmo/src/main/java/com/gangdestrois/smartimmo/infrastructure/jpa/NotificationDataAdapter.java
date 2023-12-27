@@ -60,4 +60,23 @@ public class NotificationDataAdapter implements NotificationSpi {
         return notificationRepository.findById(projectNotificationId)
                 .map(NotificationEntity::toProjectNotificationModel);
     }
+
+    @Override
+    public Optional<Event> findNotificationById(Long id) {
+        return notificationRepository.findById(id).map(NotificationEntity::toModel);
+    }
+
+    @Override
+    public Event save(Event event) {
+        NotificationEntity receivedNotification = new NotificationEntity(
+                event.getId(),
+                event.state(),
+                event.message(),
+                event.priority(),
+                event.getElement()
+        );
+        NotificationEntity savedNotification = notificationRepository.save(receivedNotification);
+
+        return savedNotification.toModel();
+    }
 }

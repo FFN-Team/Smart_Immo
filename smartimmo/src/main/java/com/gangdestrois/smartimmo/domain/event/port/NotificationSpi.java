@@ -15,4 +15,8 @@ public interface NotificationSpi {
     Long saveProspectNotification(Event<Prospect> event);
 
     Optional<Event<PotentialProject>> findProjectNotificationById(Long projectNotificationId);
+
+    Optional<Event> findNotificationById(Long id);
+
+    Event save(Event event);
 }
