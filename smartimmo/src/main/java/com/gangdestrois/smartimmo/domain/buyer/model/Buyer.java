@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.domain.buyer.model;
 
+import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatusEnum;
 import com.gangdestrois.smartimmo.domain.property.PropertyCriteria;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
@@ -12,6 +13,15 @@ public class Buyer {
     private final Date searchStartDate;
     private final Date searchEndDate;
     private final PropertyCriteria propertyCriteria;
+
+    public Buyer(Long id, Prospect prospect, BuyerStatusEnum status, Date searchStartDate, Date searchEndDate) {
+        this.id = id;
+        this.prospect=prospect;
+        this.status = status;
+        this.searchStartDate = searchStartDate;
+        this.searchEndDate = searchEndDate;
+        this.propertyCriteria =null;
+    }
 
     public Buyer(Long id, Prospect prospect, BuyerStatusEnum status, Date searchStartDate, Date searchEndDate,
                  PropertyCriteria propertyCriteria) {

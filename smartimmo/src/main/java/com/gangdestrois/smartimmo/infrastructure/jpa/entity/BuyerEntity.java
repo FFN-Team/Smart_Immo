@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.buyer.model.BuyerStatusEnum;
+import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatusEnum;
+import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -23,28 +24,40 @@ public class BuyerEntity {
     @Column(name = "search_end_date")
     private Date searchEndDate;
 
+    public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatusEnum status) {
+        this.id = id;
+        this.prospect = prospect;
+        this.status = status;
+    }
+
+    public BuyerEntity() {  }
+
+    public Buyer toModel(){
+        return new Buyer(
+                id, prospect.toModel(), status, searchStartDate, searchEndDate
+        );
+    }
+
+    public static BuyerEntity fromModelToEntity(Buyer buyer){
+        return new BuyerEntity(buyer.getId(),ProspectEntity.fromModelToEntity(buyer.getProspect()), buyer.getStatus());
+    }
+
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public BuyerStatusEnum getStatus() {
         return status;
     }
-
     public Date getSearchStartDate() {
         return searchStartDate;
     }
-
     public Date getSearchEndDate() {
         return searchEndDate;
     }
-
     public ProspectEntity getProspect() {
         return prospect;
     }
-
 }
