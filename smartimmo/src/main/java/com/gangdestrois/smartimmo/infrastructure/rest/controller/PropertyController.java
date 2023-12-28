@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
 import io.swagger.v3.oas.annotations.Operation;

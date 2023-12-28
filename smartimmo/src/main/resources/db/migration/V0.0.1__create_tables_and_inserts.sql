@@ -60,10 +60,10 @@ VALUES ('Appartement 1', 'Bel appartement avec vue sur la mer', 3, 120.5),
 
 -- Inserts pour la table buyer
 INSERT INTO buyer (fk_prospect, status, search_start_date, search_end_date)
-VALUES (1, 'EN_RECHERCHE', '2023-01-01', '2023-06-30'),
-       (2, 'EN_ATTENTE', '2023-02-15', '2023-06-30'),
-       (3, 'EN_ATTENTE', '2023-03-20', '2023-06-30'),
-       (4, 'EN_RECHERCHE', '2023-01-10', '2023-05-15');
+VALUES (1, 'SEARCHING', '2023-01-01', '2023-06-30'),
+       (2, 'WAITING', '2023-02-15', '2023-06-30'),
+       (3, 'WAITING', '2023-03-20', '2023-06-30'),
+       (4, 'SEARCHING', '2023-01-10', '2023-05-15');
 
 -- Inserts pour la table critere_bien
 INSERT INTO property_criteria (fk_buyer, room_number, minimum_surface)

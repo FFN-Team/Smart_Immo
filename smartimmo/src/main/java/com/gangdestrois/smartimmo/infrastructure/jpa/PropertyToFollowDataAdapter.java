@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.BuyerEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyToFollowEntity;
@@ -28,7 +28,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     }
 
     @Override
-    public List<PropertyToFollow> findAllByBuyerId(int buyerId) {
+    public List<PropertyToFollow> findAllByBuyerId(Long buyerId) {
         return propertyToFollowRepository.findPropertyToFollowEntitiesByBuyer_Id(buyerId)
                 .stream()
                 .map(PropertyToFollowEntity::toModel)
@@ -48,7 +48,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     }
 
     @Override
-    public void deletePropertiesToFollowForBuyer(int buyerId) {
+    public void deletePropertiesToFollowForBuyer(Long buyerId) {
         propertyToFollowRepository.deleteAllByBuyer_Id(buyerId);
     }
 }

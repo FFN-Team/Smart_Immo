@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
@@ -35,7 +35,7 @@ public class BuyerController {
 
     @GetMapping("/{buyerId}")
     @ResponseStatus(HttpStatus.OK)
-    public BuyerResponse CollectBuyerById(@PathVariable int buyerId) {
+    public BuyerResponse CollectBuyerById(@PathVariable Long buyerId) {
         Buyer buyer = buyerApi.findBuyerById(buyerId);
 
         if (buyer != null) {
@@ -47,14 +47,14 @@ public class BuyerController {
 
     @GetMapping("/{buyerId}/PTF")
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable int buyerId){
+    public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable Long buyerId){
         return propertyToFollowApi.findAllByBuyerId(buyerId).stream()
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
     @GetMapping("/{buyerId}/refresh-PTF")
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable int buyerId)
+    public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {
         List<Property> filteredProperties = propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
         if (nonNull(filteredProperties)) {

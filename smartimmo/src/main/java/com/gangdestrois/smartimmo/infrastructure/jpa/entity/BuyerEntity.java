@@ -20,9 +20,9 @@ public class BuyerEntity {
     @Enumerated(EnumType.STRING)
     private BuyerStatusEnum status;
     @Column(name = "search_start_date")
-    private Date searchStartDate;
+    private Date searchStartDate; /*LocalDate*/
     @Column(name = "search_end_date")
-    private Date searchEndDate;
+    private Date searchEndDate; /*LocalDate*/
 
     public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatusEnum status) {
         this.id = id;

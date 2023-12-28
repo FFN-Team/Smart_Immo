@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 
 public class PropertyToFollow{
     private final Long id;

@@ -10,8 +10,8 @@ public class Buyer {
     private final Long id;
     private final Prospect prospect;
     private final BuyerStatusEnum status;
-    private final Date searchStartDate;
-    private final Date searchEndDate;
+    private final Date searchStartDate; /*à changer en LocalDate*/
+    private final Date searchEndDate; /*à changer en LocalDate*/
     private final PropertyCriteria propertyCriteria;
 
     public Buyer(Long id, Prospect prospect, BuyerStatusEnum status, Date searchStartDate, Date searchEndDate) {

@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 
 import java.time.LocalDate;
 

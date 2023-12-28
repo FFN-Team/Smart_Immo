@@ -5,7 +5,7 @@ import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.Prop
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerSpi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 
 import java.util.Objects;
@@ -27,12 +27,12 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     }
 
     @Override
-    public List<PropertyToFollow> findAllByBuyerId(int buyerId) {
+    public List<PropertyToFollow> findAllByBuyerId(Long buyerId) {
         return propertyToFollowSpi.findAllByBuyerId(buyerId);
     }
 
     @Override
-    public List<Property> savePropertiesToFollowForBuyer(int buyerId){
+    public List<Property> savePropertiesToFollowForBuyer(Long buyerId){
         if (isNull(buyerSpi.findBuyerById(buyerId))) return null;
 
         // Vider les lignes pour le buyer dans la table PTF
