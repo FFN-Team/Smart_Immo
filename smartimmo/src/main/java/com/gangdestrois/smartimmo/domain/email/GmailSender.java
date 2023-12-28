@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 
@@ -32,11 +33,11 @@ import static com.gangdestrois.smartimmo.domain.ApplicationData.TECHNIMMO;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 import static javax.mail.Message.RecipientType.TO;
 
-public class GmailEmailSender implements EmailSender {
-    private static final Logger log = LogManager.getLogger(GmailEmailSender.class);
+public class GmailSender implements EmailSender {
+    private static final Logger log = LogManager.getLogger(GmailSender.class);
     private final Gmail service;
 
-    public GmailEmailSender() throws Exception {
+    public GmailSender() throws Exception {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
         this.service = new Gmail.Builder(httpTransport, jsonFactory, getCredentials(httpTransport, jsonFactory))
@@ -48,8 +49,8 @@ public class GmailEmailSender implements EmailSender {
             throws IOException {
         // Load client secrets.
         GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(GmailEmailSender.class.getResourceAsStream(
-                        "/client_secret_1075459342944-5lr6p5i6amq0kqckj1pc3l7adorc6aa3.apps.googleusercontent.com.json")));
+                GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull
+                        (GmailSender.class.getResourceAsStream("/client_secret.json"))));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
