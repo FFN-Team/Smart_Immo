@@ -14,7 +14,7 @@ public class ProspectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_prospect")
-    private Integer id;
+    private Long id;
     @Column(name = "contact_origin") /////////// mettre un enum ici ? /////////////
     private String contactOrigine;
     @Column(name = "title")        /////////// mettre un enum ici ? /////////////

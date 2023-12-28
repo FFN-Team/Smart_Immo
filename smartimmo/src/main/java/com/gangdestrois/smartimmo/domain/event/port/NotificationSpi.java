@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface NotificationSpi {
     List<Event<PotentialProject>> findAllProjectNotification();
 
-    Integer savePotentialProjectNotification(Event<PotentialProject> event);
+    Long savePotentialProjectNotification(Event<PotentialProject> event);
 
-    Integer saveProspectNotification(Event<Prospect> event);
+    Long saveProspectNotification(Event<Prospect> event);
 
-    Optional<Event<PotentialProject>> findProjectNotificationById(Integer projectNotificationId);
+    Optional<Event<PotentialProject>> findProjectNotificationById(Long projectNotificationId);
 }

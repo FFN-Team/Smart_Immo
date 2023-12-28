@@ -8,11 +8,11 @@ public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_project")
-    private Integer id;
+    private Long id;
     @OneToOne(mappedBy = "project")
     private PotentialProjectEntity potentialProject;
 
-    public Integer id() {
+    public Long id() {
         return id;
     }
 }

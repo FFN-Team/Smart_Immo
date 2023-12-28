@@ -12,7 +12,7 @@ public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_notification")
-    private Integer id;
+    private Long id;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private State state;
@@ -59,7 +59,7 @@ public class NotificationEntity {
         new NotificationEntity(event.state(), event.message(), event.priority());
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 }
