@@ -26,7 +26,7 @@ public class PotentialProjectEntity {
     public PotentialProjectEntity() {
     }
 
-    public PotentialProjectEntity(Integer id) {
+    public PotentialProjectEntity(Long id) {
         this.id = id;
     }
 

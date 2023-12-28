@@ -47,11 +47,11 @@ public class ProspectEntity {
     public ProspectEntity() {
     }
 
-    public ProspectEntity(Integer id) {
+    public ProspectEntity(Long id) {
         this.id = id;
     }
 
-    public ProspectEntity(Integer id, String contactOrigine, String title, String lastName,
+    public ProspectEntity(Long id, String contactOrigine, String title, String lastName,
                           String firstName, Date dateOfBirth, String profession, long mobile,
                           String mail, boolean authorizeContactOnSocialMedia, HomeEntity home,
                           Set<OwnerEntity> owners) {
