@@ -1,11 +1,10 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
-import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
-import com.gangdestrois.smartimmo.domain.portfolio.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
@@ -36,20 +35,21 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public PropertyToFollowDataAdapter propertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
+        return new PropertyToFollowDataAdapter(propertyToFollowRepository);
+    }
+
+    @Bean
     public BuyerManager buyerManager(BuyerDataAdapter buyerDataAdapter) {
         return new BuyerManager(buyerDataAdapter);
     }
 
     @Bean
-    public PropertiesFinder propertiesFinder(BuyerDataAdapter buyerDataAdapter, PropertyDataAdapter propertyDataAdapter) {
-        return new PropertiesFinder(buyerDataAdapter, propertyDataAdapter);
+    public PropertiesToFollowManager propertiesToFollowManager(BuyerDataAdapter buyerDataAdapter,
+                   PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
+        return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter,propertyToFollowDataAdapter);
     }
 
-    @Bean
-    public PropertiesToFollowManager portfolioPropertiesToFollowManager(PropertiesFinder propertiesFinder,
-                                                                        BuyerDataAdapter buyerDataAdapter) {
-        return new PropertiesToFollowManager(propertiesFinder, buyerDataAdapter);
-    }
 
     @Bean
     public PotentialProjectDataAdapter potentialProjectDataAdapter(PotentialProjectRepository potentialProjectRepository) {

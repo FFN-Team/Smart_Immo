@@ -7,6 +7,6 @@ import java.util.List;
 public interface PropertyCriteriaRepository extends JpaRepository<PropertyCriteriaEntity,Long> {
     @Override
     List<PropertyCriteriaEntity> findAll();
-    PropertyCriteriaEntity findPropertyCriteriaEntitiesByBuyer_Id(int id);
+    PropertyCriteriaEntity findPropertyCriteriaEntitiesByBuyer_Id(Long id);
 
 }

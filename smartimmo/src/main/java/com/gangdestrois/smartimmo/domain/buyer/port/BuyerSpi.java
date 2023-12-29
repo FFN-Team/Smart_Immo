@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BuyerSpi {
     List<Buyer> findAllBuyers();
-    Buyer findBuyerById(int id);
+    Buyer findBuyerById(Long id);
 }

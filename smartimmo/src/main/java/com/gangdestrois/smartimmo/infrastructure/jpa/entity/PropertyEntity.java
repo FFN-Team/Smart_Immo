@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import jakarta.persistence.*;
 
 @Entity
@@ -27,7 +27,20 @@ public class PropertyEntity {
     @OneToOne(mappedBy = "property")
     private PropertyOwnerEntity propertyOwnerEntity;
 
+    public PropertyEntity(Long id, String propertyName, String description, int roomsNumber, double livableArea) {
+        this.id = id;
+        this.propertyName = propertyName;
+        this.description = description;
+        this.roomsNumber = roomsNumber;
+        this.livableArea = livableArea;
+    }
+
+    public PropertyEntity() {}
     public Property toModel() {
         return new Property(id, propertyName, description, roomsNumber, livableArea);
+    }
+    public static PropertyEntity fromModelToEntity(Property property){
+        return new PropertyEntity(property.id(), property.propertyName(),property.description(),
+                property.roomsNumber(), property.livableArea());
     }
 }

@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import io.soabase.recordbuilder.core.RecordBuilder;
 
 @RecordBuilder

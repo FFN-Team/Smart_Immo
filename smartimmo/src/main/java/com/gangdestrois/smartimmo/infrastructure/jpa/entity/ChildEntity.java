@@ -16,7 +16,17 @@ public class ChildEntity {
     @ManyToOne(targetEntity = HomeEntity.class)
     private HomeEntity home;
 
+    public ChildEntity(Integer age) {
+        this.age=age;
+    }
+
+    public ChildEntity() {}
+
     public Child toModel() {
         return new Child(this.age);
+    }
+
+    public static ChildEntity fromModelToEntity(Child child){
+        return new ChildEntity(child.age());
     }
 }

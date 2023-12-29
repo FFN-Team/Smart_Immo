@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.property;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 

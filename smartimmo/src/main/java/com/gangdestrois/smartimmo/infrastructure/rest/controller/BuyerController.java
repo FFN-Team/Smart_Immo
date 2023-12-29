@@ -2,13 +2,11 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerApi;
-import com.gangdestrois.smartimmo.domain.buyer.port.PropertiesFinderApi;
-import com.gangdestrois.smartimmo.domain.portfolio.model.PropertyPortfolio;
-import com.gangdestrois.smartimmo.domain.portfolio.port.PropertiesToFollowApi;
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PortfolioPTFResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,15 +18,12 @@ import static java.util.Objects.nonNull;
 @RestController
 @RequestMapping("/api/v1/buyers")
 public class BuyerController {
-    private final PropertiesFinderApi propertiesFinderApi;
+    private final PropertyToFollowApi propertyToFollowApi;
     private final BuyerApi buyerApi;
-    private final PropertiesToFollowApi propertiesToFollowApi;
 
-    public BuyerController(PropertiesFinderApi propertiesFinderApi, BuyerApi buyerApi,
-                           PropertiesToFollowApi propertiesToFollowApi) {
-        this.propertiesFinderApi = propertiesFinderApi;
+    public BuyerController(PropertyToFollowApi propertyToFollowApi, BuyerApi buyerApi) {
+        this.propertyToFollowApi = propertyToFollowApi;
         this.buyerApi = buyerApi;
-        this.propertiesToFollowApi = propertiesToFollowApi;
     }
 
     @GetMapping
@@ -40,7 +35,7 @@ public class BuyerController {
 
     @GetMapping("/{buyerId}")
     @ResponseStatus(HttpStatus.OK)
-    public BuyerResponse CollectBuyerById(@PathVariable int buyerId) {
+    public BuyerResponse CollectBuyerById(@PathVariable Long buyerId) {
         Buyer buyer = buyerApi.findBuyerById(buyerId);
 
         if (buyer != null) {
@@ -50,11 +45,18 @@ public class BuyerController {
         }
     }
 
-    @GetMapping("/{buyerId}/filtered-properties")
+    @GetMapping("/{buyerId}/properties-to-follow")
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyResponse> findPropertiesForBuyer(@PathVariable int buyerId)
+    public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable Long buyerId){
+        return propertyToFollowApi.findAllByBuyerId(buyerId).stream()
+                .map(PropertyToFollowResponse::fromModel).toList();
+    }
+
+    @GetMapping("/{buyerId}/refresh-properties-to-follow")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {
-        List<Property> filteredProperties = propertiesFinderApi.findPropertiesForBuyer(buyerId);
+        List<Property> filteredProperties = propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
         if (nonNull(filteredProperties)) {
             return filteredProperties
                     .stream()
@@ -63,13 +65,5 @@ public class BuyerController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Properties not found");
         }
-    }
-
-    @GetMapping("/{buyerId}/portfolio-PTF")
-    @ResponseStatus(HttpStatus.OK)
-    public PortfolioPTFResponse createPortfolioPTFForBuyer(@PathVariable int buyerId) {
-        PropertyPortfolio propertyPortfolio = propertiesToFollowApi
-                .createPortfolio(buyerId);
-        return PortfolioPTFResponse.fromModel(propertyPortfolio);
     }
 }

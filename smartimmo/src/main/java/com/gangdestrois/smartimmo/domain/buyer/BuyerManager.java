@@ -19,7 +19,7 @@ public class BuyerManager implements BuyerApi {
     }
 
     @Override
-    public Buyer findBuyerById(int id) {
+    public Buyer findBuyerById(Long id) {
         return buyerSpi.findBuyerById(id);
     }
 }

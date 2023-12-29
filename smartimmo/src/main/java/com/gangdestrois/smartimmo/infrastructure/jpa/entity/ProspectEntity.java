@@ -69,12 +69,36 @@ public class ProspectEntity {
         this.owners = owners;
     }
 
+    public ProspectEntity(Long id, String contactOrigine, String title, String lastName, String firstName,
+                          Date dateOfBirth, String profession, long mobile, String mail,
+                          boolean authorizeContactOnSocialMedia, HomeEntity home) {
+        this.id = id;
+        this.contactOrigine = contactOrigine;
+        this.title = title;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.dateOfBirth = dateOfBirth;
+        this.profession = profession;
+        this.mobile = mobile;
+        this.mail = mail;
+        this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
+        this.home = home;
+    }
+
     public Prospect toModel() {
         return new Prospect(
                 id, contactOrigine, title, lastName, firstName, dateOfBirth,
                 profession, mobile, mail, authorizeContactOnSocialMedia,
                 nonNull(home) ? home.toModel() : null,
                 this.owners.stream().map(OwnerEntity::toModel).toList()
+        );
+    }
+
+    public static ProspectEntity fromModelToEntity(Prospect prospect){
+        return new ProspectEntity(
+            prospect.getId(),prospect.getContactOrigin(),prospect.getTitle(), prospect.getLastName(),prospect.getFirstName(),
+            prospect.getDateOfBirth(), prospect.getProfession(), prospect.getMobile(), prospect.getMail(),
+            prospect.authorizeContactOnSocialMedia(), HomeEntity.fromModelToEntity(prospect.getHome()/*, rq : ici, il manque set owner*/)
         );
     }
 }
