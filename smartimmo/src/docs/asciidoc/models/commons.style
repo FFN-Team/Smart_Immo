@@ -22,7 +22,7 @@ skinparam class {
     fontColor       CornFlowerBlue
 }
 
-skinparam status {
+skinparam state {
     BackgroundColor GhostWhite
     ArrowColor      Gray
     BorderColor     Black
