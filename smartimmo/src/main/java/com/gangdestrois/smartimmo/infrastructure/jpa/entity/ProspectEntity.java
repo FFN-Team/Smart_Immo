@@ -15,7 +15,7 @@ public class ProspectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_prospect")
-    private Integer id;
+    private Long id;
     @Column(name = "contact_origin") /////////// mettre un enum ici ? /////////////
     private String contactOrigine;
     @Column(name = "title")        /////////// mettre un enum ici ? /////////////
@@ -47,11 +47,11 @@ public class ProspectEntity {
     public ProspectEntity() {
     }
 
-    public ProspectEntity(Integer id) {
+    public ProspectEntity(Long id) {
         this.id = id;
     }
 
-    public ProspectEntity(Integer id, String contactOrigine, String title, String lastName,
+    public ProspectEntity(Long id, String contactOrigine, String title, String lastName,
                           String firstName, Date dateOfBirth, String profession, long mobile,
                           String mail, boolean authorizeContactOnSocialMedia, HomeEntity home,
                           Set<OwnerEntity> owners) {

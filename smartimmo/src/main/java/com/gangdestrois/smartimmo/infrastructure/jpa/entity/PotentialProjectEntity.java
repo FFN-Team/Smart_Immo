@@ -12,7 +12,7 @@ public class PotentialProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_potential_project")
-    private Integer id;
+    private Long id;
     @Column(name = "due_date")
     private LocalDate dueDate;
     @OneToOne(targetEntity = ProjectEntity.class)
@@ -26,7 +26,7 @@ public class PotentialProjectEntity {
     public PotentialProjectEntity() {
     }
 
-    public PotentialProjectEntity(Integer id) {
+    public PotentialProjectEntity(Long id) {
         this.id = id;
     }
 
