@@ -27,6 +27,11 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     }
 
     @Override
+    public List<PropertyToFollow> findAll() {
+        return propertyToFollowSpi.findAll();
+    }
+
+    @Override
     public List<PropertyToFollow> findAllByBuyerId(Long buyerId) {
         return propertyToFollowSpi.findAllByBuyerId(buyerId);
     }
@@ -46,5 +51,10 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
                 .collect(Collectors.toList());
 
         return filteredProperties;
+    }
+
+    @Override
+    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status) {
+        propertyToFollowSpi.updateStatusByPropertyToFollowId(propertyToFollowId,status);
     }
 }

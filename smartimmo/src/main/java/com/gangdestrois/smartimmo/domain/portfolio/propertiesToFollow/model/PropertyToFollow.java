@@ -7,17 +7,17 @@ public class PropertyToFollow{
     private final Long id;
     private final Buyer buyer;
     private final Property property;
-    private final String state; /*state = enum*/
+    private final String status; /*status = enum*/
 
-    public PropertyToFollow(Long id, Buyer buyer, Property property, String state) {
+    public PropertyToFollow(Long id, Buyer buyer, Property property, String status) {
         this.id = id;
         this.buyer = buyer;
         this.property = property;
-        this.state = state;
+        this.status = status;
     }
 
     public Long getId() { return id; }
     public Buyer getBuyer() { return buyer; }
     public Property getProperty() { return property; }
-    public String getState() { return state; }
+    public String getStatus() { return status; }
 }

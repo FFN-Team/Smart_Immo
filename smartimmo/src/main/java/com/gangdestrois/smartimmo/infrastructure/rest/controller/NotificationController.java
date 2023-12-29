@@ -23,7 +23,7 @@ public class NotificationController {
 
     @PatchMapping("/{notificationId}/state")
     @Operation(
-        summary = "Update the state of a notification by id.",
+        summary = "Update the status of a notification by id.",
         description = "Returns the updated notification.",
         responses = {
             @ApiResponse(

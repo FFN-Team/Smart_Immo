@@ -17,7 +17,7 @@ public class NotificationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_notification")
     private Long id;
-    @Column(name = "state")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private State state;
     @Column(name = "message")

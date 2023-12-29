@@ -66,4 +66,5 @@ public class BuyerController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Properties not found");
         }
     }
+
 }

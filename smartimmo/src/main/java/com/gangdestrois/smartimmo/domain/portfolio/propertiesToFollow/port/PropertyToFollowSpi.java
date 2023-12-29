@@ -15,4 +15,6 @@ public interface PropertyToFollowSpi {
 
     //Supprime toutes les entités PropertyToFollow associées à un acheteur spécifié par son ID
     void deletePropertiesToFollowForBuyer(Long buyerId);
+
+    void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status);
 }
