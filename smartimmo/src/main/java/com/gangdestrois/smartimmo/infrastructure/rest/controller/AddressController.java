@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Address;
+import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.AddressResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
