@@ -23,6 +23,13 @@ public class PotentialProjectEntity {
     @Column(name = "notification_date")
     private LocalDate notificationDate;
 
+    public PotentialProjectEntity() {
+    }
+
+    public PotentialProjectEntity(Long id) {
+        this.id = id;
+    }
+
     public String getMessage() {
         return String.format("Rappel : la date prévue pour le projet %d approche. Vous pouvez consulter " +
                 "le projet ci-dessous pour reprendre connaissance avec le projet.", project.id());
