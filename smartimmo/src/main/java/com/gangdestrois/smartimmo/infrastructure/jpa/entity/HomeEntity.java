@@ -16,7 +16,7 @@ public class HomeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_home")
-    private Integer id;
+    private Long id;
     @Column(name = "marital_status")
     @Enumerated(EnumType.STRING)
     private MaritalStatus maritalStatus;

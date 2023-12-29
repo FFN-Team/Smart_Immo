@@ -12,7 +12,7 @@ public class PotentialProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_potential_project")
-    private Integer id;
+    private Long id;
     @Column(name = "due_date")
     private LocalDate dueDate;
     @OneToOne(targetEntity = ProjectEntity.class)
@@ -22,6 +22,13 @@ public class PotentialProjectEntity {
     private String priority;
     @Column(name = "notification_date")
     private LocalDate notificationDate;
+
+    public PotentialProjectEntity() {
+    }
+
+    public PotentialProjectEntity(Long id) {
+        this.id = id;
+    }
 
     public String getMessage() {
         return String.format("Rappel : la date prévue pour le projet %d approche. Vous pouvez consulter " +

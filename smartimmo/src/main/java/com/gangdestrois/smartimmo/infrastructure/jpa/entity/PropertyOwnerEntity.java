@@ -10,7 +10,7 @@ public class PropertyOwnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_property_owner")
-    private Integer id;
+    private Long id;
     @Column(name = "acquisition_date")
     private LocalDate acquisitionDate;
     @OneToOne(targetEntity = OwnerEntity.class)

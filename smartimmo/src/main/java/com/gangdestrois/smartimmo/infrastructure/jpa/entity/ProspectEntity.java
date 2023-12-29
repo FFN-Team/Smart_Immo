@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -14,7 +15,7 @@ public class ProspectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_prospect")
-    private Integer id;
+    private Long id;
     @Column(name = "contact_origin") /////////// mettre un enum ici ? /////////////
     private String contactOrigine;
     @Column(name = "title")        /////////// mettre un enum ici ? /////////////
@@ -43,10 +44,17 @@ public class ProspectEntity {
     //private Adresse adresseTravail;
     //private Prospect personneCompagnon;
 
+    public ProspectEntity() {
+    }
 
-    public ProspectEntity(Integer id, String contactOrigine, String title, String lastName, String firstName,
-                          Date dateOfBirth, String profession, long mobile, String mail,
-                          boolean authorizeContactOnSocialMedia, HomeEntity home /*, rq : ici, il manque set owner*/) {
+    public ProspectEntity(Long id) {
+        this.id = id;
+    }
+
+    public ProspectEntity(Long id, String contactOrigine, String title, String lastName,
+                          String firstName, Date dateOfBirth, String profession, long mobile,
+                          String mail, boolean authorizeContactOnSocialMedia, HomeEntity home,
+                          Set<OwnerEntity> owners) {
         this.id = id;
         this.contactOrigine = contactOrigine;
         this.title = title;
@@ -58,10 +66,24 @@ public class ProspectEntity {
         this.mail = mail;
         this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
         this.home = home;
-        /*, rq : ici, il manque set owner*/
+        this.owners = owners;
     }
 
-    public ProspectEntity() {}
+    public ProspectEntity(Long id, String contactOrigine, String title, String lastName, String firstName,
+                          Date dateOfBirth, String profession, long mobile, String mail,
+                          boolean authorizeContactOnSocialMedia, HomeEntity home) {
+        this.id = id;
+        this.contactOrigine = contactOrigine;
+        this.title = title;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.dateOfBirth = dateOfBirth;
+        this.profession = profession;
+        this.mobile = mobile;
+        this.mail = mail;
+        this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
+        this.home = home;
+    }
 
     public Prospect toModel() {
         return new Prospect(
@@ -74,7 +96,7 @@ public class ProspectEntity {
 
     public static ProspectEntity fromModelToEntity(Prospect prospect){
         return new ProspectEntity(
-            prospect.getId(),prospect.getContactOrigine(),prospect.getTitle(), prospect.getLastName(),prospect.getFirstName(),
+            prospect.getId(),prospect.getContactOrigin(),prospect.getTitle(), prospect.getLastName(),prospect.getFirstName(),
             prospect.getDateOfBirth(), prospect.getProfession(), prospect.getMobile(), prospect.getMail(),
             prospect.authorizeContactOnSocialMedia(), HomeEntity.fromModelToEntity(prospect.getHome()/*, rq : ici, il manque set owner*/)
         );
