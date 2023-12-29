@@ -62,7 +62,7 @@ public class PropertyController {
     /*voir si c'est intéressant d'encapsuler les retours dans des ResponseEntity*/
     public PropertyResponse collectPropertyById(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
-                /*le throw dans le domain serait peut-être mieux ?*/
+            /*le throw dans le domain serait peut-être mieux ?*/
             .orElseThrow(() -> new NotFoundException(propertyId, "property"));
         return PropertyResponse.fromModel(property);
     }

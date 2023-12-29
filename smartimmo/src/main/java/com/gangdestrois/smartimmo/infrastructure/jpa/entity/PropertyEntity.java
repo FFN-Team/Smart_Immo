@@ -47,23 +47,23 @@ public class PropertyEntity {
 
     public Property toModel() {
         return new Property(
-            id,
-            propertyName,
-            description,
-            roomsNumber,
-            livableArea,
-            nonNull(address) ? address.toModel() : null
+                id,
+                propertyName,
+                description,
+                roomsNumber,
+                livableArea,
+                nonNull(address) ? address.toModel() : null
         );
     }
 
     public static PropertyEntity toEntity(Property property){
         return new PropertyEntity(
-            property.id(),
-            property.propertyName(),
-            property.description(),
-            property.roomsNumber(),
-            property.livableArea(),
-            AddressEntity.toEntity(property.address())
+                property.id(),
+                property.propertyName(),
+                property.description(),
+                property.roomsNumber(),
+                property.livableArea(),
+                AddressEntity.toEntity(property.address())
         );
     }
 }

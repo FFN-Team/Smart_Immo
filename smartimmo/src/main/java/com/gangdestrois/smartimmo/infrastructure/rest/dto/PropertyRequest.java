@@ -6,7 +6,7 @@ import com.gangdestrois.smartimmo.domain.property.model.Property;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import jakarta.validation.constraints.*;
 
-@JsonIgnoreProperties()
+@JsonIgnoreProperties
 @RecordBuilder
 public record PropertyRequest
     (

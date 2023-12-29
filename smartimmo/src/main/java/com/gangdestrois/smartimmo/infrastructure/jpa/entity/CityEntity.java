@@ -33,17 +33,17 @@ public class CityEntity {
 
     public City toModel() {
         return new City(
-            id,
-            cityName,
-            citySurfaceArea
+                id,
+                cityName,
+                citySurfaceArea
         );
     }
 
     public static CityEntity toEntity(City city){
         return new CityEntity(
-            city.id(),
-            city.cityName(),
-            city.citySurfaceArea()
+                city.id(),
+                city.cityName(),
+                city.citySurfaceArea()
         );
     }
 }

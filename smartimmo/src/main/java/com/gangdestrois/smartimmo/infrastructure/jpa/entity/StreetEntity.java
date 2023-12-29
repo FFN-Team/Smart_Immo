@@ -33,17 +33,17 @@ public class StreetEntity {
 
     public Street toModel() {
         return new Street(
-            id,
-            streetName,
-            streetSurfaceArea
+                id,
+                streetName,
+                streetSurfaceArea
         );
     }
 
     public static StreetEntity toEntity(Street street){
         return new StreetEntity(
-            street.id(),
-            street.streetName(),
-            street.streetSurfaceArea()
+                street.id(),
+                street.streetName(),
+                street.streetSurfaceArea()
         );
     }
 }

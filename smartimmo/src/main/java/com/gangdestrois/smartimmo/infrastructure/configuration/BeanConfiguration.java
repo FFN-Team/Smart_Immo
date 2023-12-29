@@ -47,7 +47,7 @@ public class BeanConfiguration {
 
     @Bean
     public PropertiesToFollowManager propertiesToFollowManager(BuyerDataAdapter buyerDataAdapter,
-                   PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
+                                                               PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
         return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter,propertyToFollowDataAdapter);
     }
 

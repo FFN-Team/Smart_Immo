@@ -39,19 +39,19 @@ public class AddressEntity {
 
     public Address toModel() {
         return new Address(
-            id,
-            streetNumber,
-            nonNull(street) ? street.toModel() : null,
-            nonNull(city) ? city.toModel() : null
+                id,
+                streetNumber,
+                nonNull(street) ? street.toModel() : null,
+                nonNull(city) ? city.toModel() : null
         );
     }
 
     public static AddressEntity toEntity(Address address){
         return new AddressEntity(
-            address.id(),
-            address.streetNumber(),
-            StreetEntity.toEntity(address.street()),
-            CityEntity.toEntity(address.city())
+                address.id(),
+                address.streetNumber(),
+                StreetEntity.toEntity(address.street()),
+                CityEntity.toEntity(address.city())
         );
     }
 }
