@@ -15,7 +15,7 @@ public interface PropertyApi {
 
     boolean existsByAddress(Address address);
 
-    boolean existsByAddressAndIdNot(Address address, Long id);
+    boolean existsPropertyWithAddressIsAndIdIsNot(Address address, Long id);
 
     boolean existsById(Long id);
 

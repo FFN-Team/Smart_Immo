@@ -124,7 +124,7 @@ public class PropertyController {
     public ResponseEntity<PropertyResponse> update(@PathVariable Long propertyId, @Valid @RequestBody PropertyRequest propertyRequest) {
         Address address = getAddress(propertyRequest);
         boolean propertyExists = propertyApi.existsById(propertyId);
-        boolean addressNotAssigned = !propertyApi.existsByAddressAndIdNot(address, propertyId);
+        boolean addressNotAssigned = !propertyApi.existsPropertyWithAddressIsAndIdIsNot(address, propertyId);
 
         if (propertyExists && addressNotAssigned)
         {

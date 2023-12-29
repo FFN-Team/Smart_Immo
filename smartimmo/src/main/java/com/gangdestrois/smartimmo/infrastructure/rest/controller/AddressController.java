@@ -33,8 +33,8 @@ public class AddressController {
         }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AddressResponse>> findByPropertyIsNull() {
-        List<Address> addresses = addressApi.findByPropertyIsNull();
+    public ResponseEntity<List<AddressResponse>> findNonAssignedAddresses() {
+        List<Address> addresses = addressApi.findNonAssignedAddresses();
         return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
     }
 
@@ -54,12 +54,12 @@ public class AddressController {
         }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AddressResponse>> findByPropertyIsNullOrIdIs(@PathVariable Long id) {
+    public ResponseEntity<List<AddressResponse>> findNonAssignedAddressesPlusAddressWithId(@PathVariable Long id) {
         boolean addressExists = addressApi.existsById(id);
 
         if (addressExists)
         {
-            List<Address> addresses = addressApi.findByPropertyIsNullOrIdIs(id);
+            List<Address> addresses = addressApi.findNonAssignedAddressesPlusAddressWithId(id);
             return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
         }
         else

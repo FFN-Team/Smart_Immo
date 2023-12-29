@@ -32,7 +32,7 @@ public class PropertyDataAdapter implements PropertySpi {
 
     @Override
     public Property save(Property property) {
-        PropertyEntity receivedPropertyEntity = PropertyEntity.toEntity(property);
+        PropertyEntity receivedPropertyEntity = PropertyEntity.fromModelToEntity(property);
         PropertyEntity savedPropertyEntity = propertyRepository.save(receivedPropertyEntity);
 
         return savedPropertyEntity.toModel();

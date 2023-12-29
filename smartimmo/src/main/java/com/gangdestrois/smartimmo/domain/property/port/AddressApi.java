@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AddressApi {
     Optional<Address> findById(Long id);
-    List<Address> findByPropertyIsNull();
-    List<Address> findByPropertyIsNullOrIdIs(Long id);
+    List<Address> findNonAssignedAddresses();
+    List<Address> findNonAssignedAddressesPlusAddressWithId(Long id);
     boolean existsById(Long id);
 }

@@ -36,7 +36,7 @@ public class PropertyManager implements PropertyApi {
     }
 
     @Override
-    public boolean existsByAddressAndIdNot(Address address, Long id) {
+    public boolean existsPropertyWithAddressIsAndIdIsNot(Address address, Long id) {
         return propertySpi.existsByAddressAndIdNot(address, id);
     }
 

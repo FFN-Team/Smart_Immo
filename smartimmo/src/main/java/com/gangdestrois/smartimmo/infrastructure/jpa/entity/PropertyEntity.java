@@ -56,7 +56,7 @@ public class PropertyEntity {
         );
     }
 
-    public static PropertyEntity toEntity(Property property){
+    public static PropertyEntity fromModelToEntity(Property property){
         return new PropertyEntity(
                 property.id(),
                 property.propertyName(),
