@@ -65,12 +65,12 @@ public class NotificationEntity {
         this.state = state;
         this.message = message;
         this.priority = priority;
-        if(element.getClass().equals(Prospect.class))
+        if (element.getClass().equals(Prospect.class))
         {
             Prospect prospectElement = (Prospect)element;
             this.prospect = new ProspectEntity(prospectElement.getId());
         }
-        else
+        if (element.getClass().equals(PotentialProject.class))
         {
             PotentialProject potentialProjectElement = (PotentialProject)element;
             this.potentialProject = new PotentialProjectEntity(potentialProjectElement.getId());
