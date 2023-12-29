@@ -66,12 +66,10 @@ public class GmailSender implements EmailSender {
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws Exception {
 
-        // Encode as MIME message
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage email = new MimeMessage(session);
         setEmailContent(subject, message, senderEmail, recipientEmail, email);
 
-        // Encode and wrap the MIME message into a gmail message
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
         byte[] rawMessageBytes = buffer.toByteArray();
@@ -80,7 +78,6 @@ public class GmailSender implements EmailSender {
         msg.setRaw(encodedEmail);
 
         try {
-            // Create send message
             msg = service.users().messages().send("me", msg).execute();
             log.info("Message id: " + msg.getId());
             log.info(msg.toPrettyString());
