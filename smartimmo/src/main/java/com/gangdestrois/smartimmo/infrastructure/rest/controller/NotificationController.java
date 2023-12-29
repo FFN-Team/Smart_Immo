@@ -21,7 +21,7 @@ public class NotificationController {
         this.notificationApi = notificationApi;
     }
 
-    @PatchMapping("/{notificationId}/state")
+    @PatchMapping("/{notificationId}/status")
     @Operation(
         summary = "Update the status of a notification by id.",
         description = "Returns the updated notification.",
@@ -46,7 +46,7 @@ public class NotificationController {
                 .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
         Event eventToSave = new Event<>(
                 notificationId,
-                stateRequest.state(),
+                stateRequest.status(),
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement()

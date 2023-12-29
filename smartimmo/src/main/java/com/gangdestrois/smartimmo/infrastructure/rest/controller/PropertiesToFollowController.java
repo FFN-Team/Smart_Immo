@@ -24,7 +24,7 @@ public class PropertiesToFollowController {
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
-    @PatchMapping("/{PTFId}/update-status/{newStatus}")
+    @PatchMapping("/{PTFId}/status/{newStatus}")
     @ResponseStatus(HttpStatus.OK)
     public void updateStatusByPropertyToFollowId(@PathVariable Long propertyToFollowId, @PathVariable String newStatus) {
         propertyToFollowApi.updateStatusByPropertyToFollowId(propertyToFollowId,newStatus);

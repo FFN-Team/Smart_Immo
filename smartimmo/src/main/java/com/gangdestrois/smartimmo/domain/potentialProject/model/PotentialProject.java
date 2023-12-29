@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.domain.potentialProject.model;
 import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.State;
+import com.gangdestrois.smartimmo.domain.event.Status;
 
 import java.time.LocalDate;
 
@@ -21,7 +21,7 @@ public class PotentialProject implements Model {
     }
 
     public Event<PotentialProject> mapToEvent() {
-        return new Event(State.TO_READ, message, priority, this);
+        return new Event(Status.TO_READ, message, priority, this);
     }
 
     @Override

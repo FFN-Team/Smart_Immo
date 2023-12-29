@@ -41,7 +41,7 @@ public class PotentialProjectManager implements PotentialProjectApi {
                     eventManager.notify(PROJECT_DUE_DATE_APPROACHING, projectNotification);
                 });
         return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING).stream()
-                .filter(event -> event.state().isNotAlreadyDealt())
+                .filter(event -> event.status().isNotAlreadyDealt())
                 .map(projectNotification -> {
                     if (nonNull(projectNotification.getId()))
                         return notificationSpi.findProjectNotificationById(projectNotification.getId()).orElse(null);

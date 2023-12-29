@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.domain.prospect.model;
 import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.State;
+import com.gangdestrois.smartimmo.domain.event.Status;
 
 import java.util.Date;
 import java.util.List;
@@ -90,7 +90,7 @@ public class Prospect implements Model {
 
     public Event<Prospect> mapToProspectNotification() {
         return new Event(
-                State.TO_READ,
+                Status.TO_READ,
                 String.format("Suggestion : le prospect %s %s est susceptible de vouloir changer de logement. " +
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",
                         this.firstName, this.lastName),
