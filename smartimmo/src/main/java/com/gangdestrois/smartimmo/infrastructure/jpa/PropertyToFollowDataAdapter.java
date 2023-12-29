@@ -41,7 +41,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
         PropertyToFollowEntity propertyToFollowSaved = propertyToFollowRepository.save(
                 new PropertyToFollowEntity(
                         BuyerEntity.fromModelToEntity(buyer),
-                        PropertyEntity.fromModelToEntity(property),
+                        PropertyEntity.toEntity(property),
                         "blabla"
                 )
         );

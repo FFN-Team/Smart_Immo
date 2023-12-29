@@ -6,6 +6,7 @@ import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
+import com.gangdestrois.smartimmo.domain.property.AddressManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
@@ -114,7 +115,17 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter){
+    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter) {
         return new ProspectStatisticsGenerator(prospectDataAdapter);
+    }
+
+    @Bean
+    public AddressDataAdapter addressDataAdapter(AddressRepository addressRepository) {
+        return new AddressDataAdapter(addressRepository);
+    }
+
+    @Bean
+    public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
+        return new AddressManager(addressDataAdapter);
     }
 }
