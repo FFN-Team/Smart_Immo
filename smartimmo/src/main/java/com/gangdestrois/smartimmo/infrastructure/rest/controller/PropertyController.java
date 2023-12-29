@@ -89,9 +89,9 @@ public class PropertyController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PropertyResponse> save(@Valid @RequestBody PropertyRequest propertyRequest) {
         Address address = getAddress(propertyRequest);
-        boolean addressNonAssigns = !propertyApi.existsByAddress(address);
+        boolean addressNotAssigned = !propertyApi.existsByAddress(address);
 
-        if (addressNonAssigns)
+        if (addressNotAssigned)
         {
             return updateProperties(propertyRequest, null, address);
         }
@@ -124,9 +124,9 @@ public class PropertyController {
     public ResponseEntity<PropertyResponse> update(@PathVariable Long propertyId, @Valid @RequestBody PropertyRequest propertyRequest) {
         Address address = getAddress(propertyRequest);
         boolean propertyExists = propertyApi.existsById(propertyId);
-        boolean addressNonAssigns = !propertyApi.existsByAddressAndIdNot(address, propertyId);
+        boolean addressNotAssigned = !propertyApi.existsByAddressAndIdNot(address, propertyId);
 
-        if (propertyExists && addressNonAssigns)
+        if (propertyExists && addressNotAssigned)
         {
             return updateProperties(propertyRequest, propertyId, address);
         }
