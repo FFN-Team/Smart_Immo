@@ -45,14 +45,14 @@ public class BuyerController {
         }
     }
 
-    @GetMapping("/{buyerId}/PTF")
+    @GetMapping("/{buyerId}/properties-to-follow")
     @ResponseStatus(HttpStatus.OK)
     public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable Long buyerId){
         return propertyToFollowApi.findAllByBuyerId(buyerId).stream()
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
-    @GetMapping("/{buyerId}/refresh-PTF")
+    @GetMapping("/{buyerId}/refresh-properties-to-follow")
     @ResponseStatus(HttpStatus.OK)
     public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {

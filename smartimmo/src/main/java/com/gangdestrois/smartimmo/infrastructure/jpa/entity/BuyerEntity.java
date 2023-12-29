@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatusEnum;
+import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatus;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
 
@@ -18,13 +18,13 @@ public class BuyerEntity {
     private ProspectEntity prospect;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private BuyerStatusEnum status;
+    private BuyerStatus status;
     @Column(name = "search_start_date")
     private Date searchStartDate; /*LocalDate*/
     @Column(name = "search_end_date")
     private Date searchEndDate; /*LocalDate*/
 
-    public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatusEnum status) {
+    public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatus status) {
         this.id = id;
         this.prospect = prospect;
         this.status = status;
@@ -48,7 +48,7 @@ public class BuyerEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    public BuyerStatusEnum getStatus() {
+    public BuyerStatus getStatus() {
         return status;
     }
     public Date getSearchStartDate() {

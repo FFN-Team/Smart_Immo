@@ -35,34 +35,16 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     public List<Property> savePropertiesToFollowForBuyer(Long buyerId){
         if (isNull(buyerSpi.findBuyerById(buyerId))) return null;
 
-        // Vider les lignes pour le buyer dans la table PTF
         propertyToFollowSpi.deletePropertiesToFollowForBuyer(buyerId);
 
         List<Property> properties = propertySpi.findAll();
         this.buyer = buyerSpi.findBuyerById(buyerId);
 
-        // Filtrer les propriétés et les enregistrer dans la table PTF
         List<Property> filteredProperties = properties.stream()
-                .filter(allCriteriaPredicate())
+                .filter(PropertyCriteriaPredicates.allCriteriaPredicate(this.buyer))
                 .peek(property -> propertyToFollowSpi.savePropertyToFollow(this.buyer, property))
                 .collect(Collectors.toList());
 
         return filteredProperties;
-    }
-
-    private Predicate<Property> allCriteriaPredicate() {
-        return property -> verifySurfaceCriteria().test(property) && verifyRoomsNumberCriteria().test(property);
-    }
-
-    private Predicate<Property> verifySurfaceCriteria() {
-        return property -> Objects.nonNull(this.buyer) &&
-                Objects.nonNull(this.buyer.getPropertyCriteria()) &&
-                this.buyer.getPropertyCriteria().minimumSurface() <= property.livableArea();
-    }
-
-    private Predicate<Property> verifyRoomsNumberCriteria() {
-        return property -> Objects.nonNull(this.buyer) &&
-                Objects.nonNull(this.buyer.getPropertyCriteria()) &&
-                this.buyer.getPropertyCriteria().roomsNumber() <= property.roomsNumber();
     }
 }

@@ -40,12 +40,4 @@ public class PropertyToFollowEntity {
         return id;
     }
 
-    /*
-    public static PropertyToFollowEntity fromModelToEntity(PropertyToFollow propertyToFollow){
-        return new PropertyToFollowEntity(
-                BuyerEntity.fromModelToEntity(propertyToFollow.getBuyer()),
-                PropertyEntity.fromModelToEntity(propertyToFollow.getProperty()),"TOD"
-        );
-    }
-     */
 }

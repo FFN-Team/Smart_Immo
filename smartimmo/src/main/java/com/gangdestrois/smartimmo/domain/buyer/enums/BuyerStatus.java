@@ -1,5 +1,5 @@
 package com.gangdestrois.smartimmo.domain.buyer.enums;
 
-public enum BuyerStatusEnum {
+public enum BuyerStatus {
     SEARCHING,WAITING,
 }
