@@ -53,7 +53,6 @@ public class NotificationController {
         );
         Event savedEvent = notificationApi.save(eventToSave);
         EventResponse response = EventResponse.fromModel(savedEvent);
-
         return ResponseEntity.ok(response);
     }
 }
