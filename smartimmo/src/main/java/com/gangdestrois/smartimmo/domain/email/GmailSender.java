@@ -48,19 +48,16 @@ public class GmailSender implements EmailSender {
 
     private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
             throws IOException {
-        // Load client secrets.
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull
                         (GmailSender.class.getResourceAsStream("/client_secret.json"))));
 
-        // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        //returns an authorized Credential object.
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
