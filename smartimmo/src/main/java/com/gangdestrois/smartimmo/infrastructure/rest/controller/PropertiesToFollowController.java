@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.domain.buyer.port.BuyerApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowStatusRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,15 @@ public class PropertiesToFollowController {
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
-    @PatchMapping("/{PTFId}/status")
+    @PatchMapping("/{propertyToFollowId}/status")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStatusByPropertyToFollowId(
             @PathVariable Long propertyToFollowId,
-            @RequestBody @Valid @NotBlank String newStatus) {
+            @RequestBody @Valid @NotBlank PropertyToFollowStatusRequest propertyToFollowStatusRequest) {
 
-        propertyToFollowApi.updateStatusByPropertyToFollowId(propertyToFollowId, newStatus);
+        propertyToFollowApi.updateStatusByPropertyToFollowId(propertyToFollowId,
+                propertyToFollowStatusRequest.propertyToFollowStatus());
 
-        return new ResponseEntity<>("Mise à jour réussie", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
