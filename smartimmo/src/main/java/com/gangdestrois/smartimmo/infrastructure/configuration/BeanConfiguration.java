@@ -1,10 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
+import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
+import com.gangdestrois.smartimmo.domain.email.EmailManager;
+import com.gangdestrois.smartimmo.domain.email.GmailSender;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.domain.property.AddressManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
@@ -16,6 +20,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
@@ -46,11 +51,21 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public PropertiesFinder propertiesFinder(BuyerDataAdapter buyerDataAdapter, PropertyDataAdapter propertyDataAdapter) {
+        return new PropertiesFinder(buyerDataAdapter, propertyDataAdapter);
+    }
+
+    @Bean
+    public PropertiesToFollowManager portfolioPropertiesToFollowManager(PropertiesFinder propertiesFinder,
+                                                                        BuyerDataAdapter buyerDataAdapter) {
+        return new PropertiesToFollowManager(propertiesFinder, buyerDataAdapter);
+    }
+
+    @Bean
     public PropertiesToFollowManager propertiesToFollowManager(BuyerDataAdapter buyerDataAdapter,
                                                                PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
         return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter,propertyToFollowDataAdapter);
     }
-
 
     @Bean
     public PotentialProjectDataAdapter potentialProjectDataAdapter(PotentialProjectRepository potentialProjectRepository) {
@@ -127,5 +142,15 @@ public class BeanConfiguration {
     @Bean
     public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
         return new AddressManager(addressDataAdapter);
+    }
+
+    @Bean
+    public GmailSender gmailSender() throws Exception {
+        return new GmailSender();
+    }
+
+    @Bean
+    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender) {
+        return new EmailManager(thymeleafTemplateEngine, gmailSender);
     }
 }
