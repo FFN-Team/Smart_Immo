@@ -51,7 +51,6 @@ public class GmailSender implements EmailSender {
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(jsonFactory, new InputStreamReader(Objects.requireNonNull
                         (GmailSender.class.getResourceAsStream("/client_secret.json"))));
-
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
@@ -92,6 +91,6 @@ public class GmailSender implements EmailSender {
         email.setFrom(new InternetAddress(senderEmail));
         email.addRecipient(TO, new InternetAddress(recipientEmail));
         email.setSubject(subject);
-        email.setText(message);
+        email.setContent(message, "text/html");
     }
 }
