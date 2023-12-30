@@ -37,7 +37,7 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     }
 
     @Override
-    public List<Property> savePropertiesToFollowForBuyer(Long buyerId){
+    public List<Property> resetAndSavePropertiesToFollowForBuyer(Long buyerId){
         if (isNull(buyerSpi.findBuyerById(buyerId))) return null;
 
         propertyToFollowSpi.deletePropertiesToFollowForBuyer(buyerId);

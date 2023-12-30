@@ -52,11 +52,11 @@ public class BuyerController {
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
-    @GetMapping("/{buyerId}/refresh-properties-to-follow")
+    @GetMapping("/{buyerId}/reset-properties-to-follow")
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable Long buyerId)
+    public List<PropertyResponse> resetPropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {
-        List<Property> filteredProperties = propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
+        List<Property> filteredProperties = propertyToFollowApi.resetAndSavePropertiesToFollowForBuyer(buyerId);
         if (nonNull(filteredProperties)) {
             return filteredProperties
                     .stream()
