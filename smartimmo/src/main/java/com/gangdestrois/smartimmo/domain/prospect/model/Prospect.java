@@ -91,6 +91,10 @@ public class Prospect implements Model {
         return owners;
     }
 
+    public String getCompleteName() {
+        return firstName + " " + lastName;
+    }
+
     public Event<Prospect> mapToProspectNotification() {
         return new Event(
                 Status.TO_READ,
