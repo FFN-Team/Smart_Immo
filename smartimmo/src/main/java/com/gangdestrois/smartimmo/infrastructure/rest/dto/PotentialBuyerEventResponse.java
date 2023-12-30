@@ -11,7 +11,7 @@ public record PotentialBuyerEventResponse(Long id,
     public static PotentialBuyerEventResponse fromModel(Event<Prospect> potentialBuyerEvent) {
         return new PotentialBuyerEventResponse(
                 potentialBuyerEvent.getId(),
-                potentialBuyerEvent.state().name(),
+                potentialBuyerEvent.status().name(),
                 potentialBuyerEvent.message(),
                 potentialBuyerEvent.priority().name(),
                 ProspectResponse.fromModel(potentialBuyerEvent.getElement()));

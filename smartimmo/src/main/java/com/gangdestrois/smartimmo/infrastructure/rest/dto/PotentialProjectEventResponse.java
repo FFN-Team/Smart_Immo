@@ -11,7 +11,7 @@ public record PotentialProjectEventResponse(Long id,
     public static PotentialProjectEventResponse fromModel(Event<PotentialProject> potentialProjectEvent) {
         return new PotentialProjectEventResponse(
                 potentialProjectEvent.getId(),
-                potentialProjectEvent.state().name(),
+                potentialProjectEvent.status().name(),
                 potentialProjectEvent.message(),
                 potentialProjectEvent.priority().name(),
                 PotentialProjectResponse.fromModel(potentialProjectEvent.getElement()));

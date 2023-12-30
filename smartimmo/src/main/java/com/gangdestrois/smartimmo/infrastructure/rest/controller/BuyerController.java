@@ -8,6 +8,7 @@ import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -52,18 +53,12 @@ public class BuyerController {
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
 
-    @GetMapping("/{buyerId}/refresh-properties-to-follow")
+    @PutMapping("/{buyerId}/properties-to-follow")
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyResponse> refreshPropertiesToFollowForBuyer(@PathVariable Long buyerId)
+    public ResponseEntity<String> resetPropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {
-        List<Property> filteredProperties = propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
-        if (nonNull(filteredProperties)) {
-            return filteredProperties
-                    .stream()
-                    .map(PropertyResponse::fromModel)
-                    .toList();
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Properties not found");
-        }
+        propertyToFollowApi.resetAndSavePropertiesToFollowForBuyer(buyerId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

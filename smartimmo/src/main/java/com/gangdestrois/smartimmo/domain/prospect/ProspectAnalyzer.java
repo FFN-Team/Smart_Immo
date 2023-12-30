@@ -34,7 +34,7 @@ public class ProspectAnalyzer implements ProspectApi {
                     eventManager.notify(PROSPECT_MAY_BUY_BIGGER_HOUSE, prospectNotification);
                 });
         return eventManager.eventsFromEventType(PROSPECT_MAY_BUY_BIGGER_HOUSE).stream()
-                .filter(event -> !event.state().isAlreadyDealt())
+                .filter(event -> !event.status().isAlreadyDealt())
                 .collect(Collectors.toSet());
     }
 

@@ -15,7 +15,7 @@ public interface PotentialProjectRepository extends JpaRepository<PotentialProje
             SELECT pp 
             FROM PotentialProjectEntity pp INNER join NotificationEntity n
             ON pp.id = n.id
-            WHERE n.state <> 'ARCHIVED' AND n.state <> 'DEALT'
+            WHERE n.status <> 'ARCHIVED' AND n.status <> 'DEALT'
             """)
     List<PotentialProjectEntity> findPotentialProjectEntitiesByNotificationToDisplay();
 

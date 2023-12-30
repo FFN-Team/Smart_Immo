@@ -51,4 +51,9 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     public void deletePropertiesToFollowForBuyer(Long buyerId) {
         propertyToFollowRepository.deleteAllByBuyer_Id(buyerId);
     }
+
+    @Override
+    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status) {
+        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId,status);
+    }
 }

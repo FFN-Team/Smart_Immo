@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.event.State;
+import com.gangdestrois.smartimmo.domain.event.Status;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.StateRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.StatusRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,12 +22,12 @@ class NotificationControllerTest {
     private NotificationApi notificationApi;
 
     @Test
-    void changeState() throws Exception {
-        StateRequest stateRequest = new StateRequest(State.OPEN);
+    void changeStatus() throws Exception {
+        StatusRequest statusRequest = new StatusRequest(Status.OPEN);
 
-        mockMvc.perform(patch("/api/v1/notifications/1/state")
+        mockMvc.perform(patch("/api/v1/notifications/1/status")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(stateRequest.toString())
+                        .content(statusRequest.toString())
                         .characterEncoding("utf-8"))
                 .andExpect(status().isBadRequest());
     }

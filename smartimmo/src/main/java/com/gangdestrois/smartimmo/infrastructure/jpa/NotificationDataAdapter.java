@@ -38,7 +38,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     @Transactional
     public Long savePotentialProjectNotification(Event<PotentialProject> event) {
         var potentialProject = potentialProjectRepository.findById(event.getElement().getId()).orElse(null);
-        var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
+        var notificationToSave = new NotificationEntity(event.status(), event.message(), event.priority(), potentialProject);
         return save(notificationToSave);
     }
 
@@ -46,7 +46,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     @Transactional
     public Long saveProspectNotification(Event<Prospect> event) {
         var potentialProject = prospectRepository.findById(event.getElement().getId()).orElse(null);
-        var notificationToSave = new NotificationEntity(event.state(), event.message(), event.priority(), potentialProject);
+        var notificationToSave = new NotificationEntity(event.status(), event.message(), event.priority(), potentialProject);
         return save(notificationToSave);
     }
 
@@ -70,7 +70,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     public Event save(Event event) {
         NotificationEntity receivedNotification = new NotificationEntity(
                 event.getId(),
-                event.state(),
+                event.status(),
                 event.message(),
                 event.priority(),
                 event.getElement()

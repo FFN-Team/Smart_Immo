@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.StateRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.StatusRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,9 +21,9 @@ public class NotificationController {
         this.notificationApi = notificationApi;
     }
 
-    @PatchMapping("/{notificationId}/state")
+    @PatchMapping("/{notificationId}/status")
     @Operation(
-        summary = "Update the state of a notification by id.",
+        summary = "Update the status of a notification by id.",
         description = "Returns the updated notification.",
         responses = {
             @ApiResponse(
@@ -41,12 +41,12 @@ public class NotificationController {
         }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody StateRequest stateRequest) {
+    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody StatusRequest statusRequest) {
         Event originalEvent = notificationApi.findNotificationById(notificationId)
                 .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
         Event eventToSave = new Event<>(
                 notificationId,
-                stateRequest.state(),
+                statusRequest.status(),
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement()

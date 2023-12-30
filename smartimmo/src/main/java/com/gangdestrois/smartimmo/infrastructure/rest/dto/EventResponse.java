@@ -14,7 +14,7 @@ public record EventResponse(Long id,
     public static EventResponse fromModel(Event event) {
         return new EventResponse(
                 event.getId(),
-                event.state().name(),
+                event.status().name(),
                 event.message(),
                 event.priority().name(),
                 (event.getElement() instanceof Prospect) ?
