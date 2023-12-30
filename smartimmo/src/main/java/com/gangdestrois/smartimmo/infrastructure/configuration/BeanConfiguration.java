@@ -2,6 +2,8 @@ package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
+import com.gangdestrois.smartimmo.domain.email.EmailManager;
+import com.gangdestrois.smartimmo.domain.email.GmailSender;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
@@ -16,6 +18,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
@@ -109,12 +112,22 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
+    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter) {
         return new ProspectManager(prospectDataAdapter);
     }
 
     @Bean
-    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter){
+    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter) {
         return new ProspectStatisticsGenerator(prospectDataAdapter);
+    }
+
+    @Bean
+    public GmailSender gmailSender() throws Exception {
+        return new GmailSender();
+    }
+
+    @Bean
+    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender) {
+        return new EmailManager(thymeleafTemplateEngine, gmailSender);
     }
 }
