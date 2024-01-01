@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -38,8 +37,10 @@ public class ProspectEntity {
     @JoinColumn(name = "fk_home", referencedColumnName = "id_home")
     @ManyToOne(targetEntity = HomeEntity.class)
     private HomeEntity home;
-    @OneToMany(mappedBy = "prospect")
+    @OneToMany(mappedBy = "prospect", fetch = FetchType.EAGER)
     private Set<OwnerEntity> owners;
+    @OneToMany(mappedBy = "prospect")
+    private Set<ProjectEntity> projects;
 
     //private Adresse adresseTravail;
     //private Prospect personneCompagnon;
@@ -94,11 +95,15 @@ public class ProspectEntity {
         );
     }
 
-    public static ProspectEntity fromModelToEntity(Prospect prospect){
+    public static ProspectEntity fromModelToEntity(Prospect prospect) {
         return new ProspectEntity(
-            prospect.getId(),prospect.getContactOrigin(),prospect.getTitle(), prospect.getLastName(),prospect.getFirstName(),
-            prospect.getDateOfBirth(), prospect.getProfession(), prospect.getMobile(), prospect.getMail(),
-            prospect.authorizeContactOnSocialMedia(), HomeEntity.fromModelToEntity(prospect.getHome()/*, rq : ici, il manque set owner*/)
+                prospect.id(), prospect.getContactOrigin(), prospect.getTitle(), prospect.getLastName(), prospect.getFirstName(),
+                prospect.getDateOfBirth(), prospect.getProfession(), prospect.getMobile(), prospect.getMail(),
+                prospect.authorizeContactOnSocialMedia(), HomeEntity.fromModelToEntity(prospect.getHome()/*, rq : ici, il manque set owner*/)
         );
+    }
+
+    public String getCompleteName() {
+        return firstName + lastName;
     }
 }

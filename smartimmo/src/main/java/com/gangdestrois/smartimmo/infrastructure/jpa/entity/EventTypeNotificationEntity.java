@@ -31,10 +31,10 @@ public class EventTypeNotificationEntity {
     }
 
     public Map<EventType, Set<Event>> toModel(Map<EventType, Set<Event>> map) {
-        if (map.containsKey(eventType)) map.get(eventType).add(notification.toProjectNotificationModel());
+        if (map.containsKey(eventType)) map.get(eventType).add(notification.toModel());
         else {
             var events = new HashSet<Event>();
-            events.add(notification.toProjectNotificationModel());
+            events.add(notification.toModel());
             map.put(eventType, events);
         }
         return map;
