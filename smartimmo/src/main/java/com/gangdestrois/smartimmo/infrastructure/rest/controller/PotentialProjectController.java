@@ -3,14 +3,13 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialProjectEventResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,5 +43,20 @@ public class PotentialProjectController {
         return ResponseEntity.ok(potentialProjectApi.notifyPotentialProjects().stream()
                 .map(PotentialProjectEventResponse::fromModel)
                 .collect(Collectors.toSet()));
+    }
+
+    @GetMapping("/{potential-project-id}/prospect")
+    @Operation(description = """
+            Get prospect from potential project
+            """,
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Update and retrieve successfully."),
+                    @ApiResponse(responseCode = "400", description = "Prospect not found for this potential project id.")
+            }
+    )
+    public ResponseEntity<ProspectResponse> getProspect(@PathVariable("potential-project-id") Long potentialProjectId) {
+        return ResponseEntity.ok(potentialProjectApi.findProspectByPotentialProjectId(potentialProjectId)
+                .map(ProspectResponse::fromModel).orElseThrow(() ->
+                        new NotFoundException(potentialProjectId, "Prospect not found for this potential project id.")));
     }
 }

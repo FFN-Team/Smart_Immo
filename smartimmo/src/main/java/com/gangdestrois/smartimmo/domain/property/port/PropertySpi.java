@@ -1,11 +1,23 @@
 package com.gangdestrois.smartimmo.domain.property.port;
 
-import com.gangdestrois.smartimmo.domain.property.entite.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
+import com.gangdestrois.smartimmo.domain.property.model.Address;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PropertySpi {
     List<Property> findAll();
 
-    Property findPropertyById(Long id);
+    Optional<Property> findById(Long id);
+
+    Property save(Property property);
+
+    boolean existsByAddress(Address address);
+
+    boolean existsByAddressAndIdNot(Address address, Long id);
+
+    boolean existsById(Long id);
+
+    void deleteById(Long id);
 }

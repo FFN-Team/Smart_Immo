@@ -9,11 +9,12 @@ public class ChildrenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_child")
-    private Integer id;
+    private Long id;
     @Column(name = "age")
     private Integer age;
 
     public Child toModel() {
         return new Child(this.age);
     }
+
 }

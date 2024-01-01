@@ -9,7 +9,7 @@ public class SubscriptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_subscription")
-    private Integer id;
+    private Long id;
     @Column(name = "event_type")
     @Enumerated(EnumType.STRING)
     private EventType eventType;
@@ -31,5 +31,9 @@ public class SubscriptionEntity {
 
     public EventListenerEnum eventListener() {
         return this.eventListener;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

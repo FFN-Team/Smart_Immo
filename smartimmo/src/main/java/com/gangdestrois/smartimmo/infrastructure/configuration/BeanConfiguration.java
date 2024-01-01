@@ -1,19 +1,25 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
-import com.gangdestrois.smartimmo.domain.buyer.PropertiesFinder;
+import com.gangdestrois.smartimmo.domain.email.EmailManager;
+import com.gangdestrois.smartimmo.domain.email.GmailSender;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.portfolio.PortfolioPropertiesToFollowManager;
+import com.gangdestrois.smartimmo.domain.event.NotificationManager;
+import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
+import com.gangdestrois.smartimmo.domain.property.AddressManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
+import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
@@ -34,19 +40,19 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public PropertyToFollowDataAdapter propertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
+        return new PropertyToFollowDataAdapter(propertyToFollowRepository);
+    }
+
+    @Bean
     public BuyerManager buyerManager(BuyerDataAdapter buyerDataAdapter) {
         return new BuyerManager(buyerDataAdapter);
     }
 
     @Bean
-    public PropertiesFinder propertiesFinder(BuyerDataAdapter buyerDataAdapter, PropertyDataAdapter propertyDataAdapter) {
-        return new PropertiesFinder(buyerDataAdapter, propertyDataAdapter);
-    }
-
-    @Bean
-    public PortfolioPropertiesToFollowManager portfolioPropertiesToFollowManager(PropertiesFinder propertiesFinder,
-                                                                                 BuyerDataAdapter buyerDataAdapter) {
-        return new PortfolioPropertiesToFollowManager(propertiesFinder, buyerDataAdapter);
+    public PropertiesToFollowManager propertiesToFollowManager(BuyerDataAdapter buyerDataAdapter,
+                                                               PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
+        return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter, propertyToFollowDataAdapter);
     }
 
     @Bean
@@ -72,8 +78,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter) {
-        return new EventManager(subscriptionDataAdapter);
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
+        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
     }
 
     @Bean
@@ -84,10 +90,22 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public NotificationManager notificationManager(NotificationDataAdapter notificationDataAdapter) {
+        return new NotificationManager(notificationDataAdapter);
+    }
+
+    @Bean
+    public ProjectDataAdapter projectDataAdapter(ProjectRepository projectRepository) {
+        return new ProjectDataAdapter(projectRepository);
+    }
+
+    @Bean
     public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
                                                            EventManager eventManager,
-                                                           NotificationDataAdapter notificationDataAdapter) {
-        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter);
+                                                           NotificationDataAdapter notificationDataAdapter,
+                                                           ProjectDataAdapter projectDataAdapter
+    ) {
+        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
     }
 
     @Bean
@@ -102,7 +120,42 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
+    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter) {
         return new ProspectManager(prospectDataAdapter);
+    }
+
+    @Bean
+    public ProspectStatisticsGenerator prospectStatisticsGenerator(ProspectDataAdapter prospectDataAdapter) {
+        return new ProspectStatisticsGenerator(prospectDataAdapter);
+    }
+
+    @Bean
+    public AddressDataAdapter addressDataAdapter(AddressRepository addressRepository) {
+        return new AddressDataAdapter(addressRepository);
+    }
+
+    @Bean
+    public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
+        return new AddressManager(addressDataAdapter);
+    }
+
+    @Bean
+    public GmailSender gmailSender() throws Exception {
+        return new GmailSender();
+    }
+
+    @Bean
+    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
+        return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
+    }
+
+    @Bean
+    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository){
+        return new ProspectFilterDataAdapter(prospectFilterRepository);
+    }
+    @Bean
+    public ProspectFilterManager prospectFilterManager(ProspectDataAdapter prospectDataAdapter,
+                                                       ProspectFilterDataAdapter prospectFilterDataAdapter){
+        return new ProspectFilterManager(prospectDataAdapter,prospectFilterDataAdapter);
     }
 }

@@ -1,6 +1,10 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatus;
+import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "buyer")
@@ -13,34 +17,47 @@ public class BuyerEntity {
     @JoinColumn(name = "fk_prospect", referencedColumnName = "id_prospect")
     private ProspectEntity prospect;
     @Column(name = "status")
-    private String status;              /////////// mettre un enum ici ? /////////////
+    @Enumerated(EnumType.STRING)
+    private BuyerStatus status;
     @Column(name = "search_start_date")
-    private String searchStartDate;
+    private Date searchStartDate; /*LocalDate*/
     @Column(name = "search_end_date")
-    private String searchEndDate;
+    private Date searchEndDate; /*LocalDate*/
+
+    public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatus status) {
+        this.id = id;
+        this.prospect = prospect;
+        this.status = status;
+    }
+
+    public BuyerEntity() {  }
+
+    public Buyer toModel(){
+        return new Buyer(
+                id, prospect.toModel(), status, searchStartDate, searchEndDate
+        );
+    }
+
+    public static BuyerEntity fromModelToEntity(Buyer buyer){
+        return new BuyerEntity(buyer.getId(),ProspectEntity.fromModelToEntity(buyer.getProspect()), buyer.getStatus());
+    }
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getStatus() {
+    public BuyerStatus getStatus() {
         return status;
     }
-
-    public String getSearchStartDate() {
+    public Date getSearchStartDate() {
         return searchStartDate;
     }
-
-    public String getSearchEndDate() {
+    public Date getSearchEndDate() {
         return searchEndDate;
     }
-
     public ProspectEntity getProspect() {
         return prospect;
     }
-
 }

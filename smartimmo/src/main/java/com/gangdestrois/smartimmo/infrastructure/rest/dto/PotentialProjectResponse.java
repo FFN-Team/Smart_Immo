@@ -5,10 +5,10 @@ import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject
 
 import java.time.LocalDate;
 
-public record PotentialProjectResponse(Integer id, LocalDate dueDate, Priority priority) {
+public record PotentialProjectResponse(Long id, LocalDate dueDate, Priority priority) {
     public static PotentialProjectResponse fromModel(PotentialProject potentialProject) {
         return new PotentialProjectResponse(
-                potentialProject.getId(),
+                potentialProject.id(),
                 potentialProject.getDueDate(),
                 potentialProject.getPriority());
     }

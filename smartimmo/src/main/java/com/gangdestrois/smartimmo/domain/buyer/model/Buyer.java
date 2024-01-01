@@ -1,16 +1,29 @@
 package com.gangdestrois.smartimmo.domain.buyer.model;
 
+import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatus;
+import com.gangdestrois.smartimmo.domain.property.PropertyCriteria;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
-public class Buyer {
-    private Long id;
-    private Prospect prospect;
-    private String status;
-    private String searchStartDate;
-    private String searchEndDate;
-    private PropertyCriteria propertyCriteria;
+import java.util.Date;
 
-    public Buyer(Long id, Prospect prospect, String status, String searchStartDate, String searchEndDate,
+public class Buyer {
+    private final Long id;
+    private final Prospect prospect;
+    private final BuyerStatus status;
+    private final Date searchStartDate; /*à changer en LocalDate*/
+    private final Date searchEndDate; /*à changer en LocalDate*/
+    private final PropertyCriteria propertyCriteria;
+
+    public Buyer(Long id, Prospect prospect, BuyerStatus status, Date searchStartDate, Date searchEndDate) {
+        this.id = id;
+        this.prospect=prospect;
+        this.status = status;
+        this.searchStartDate = searchStartDate;
+        this.searchEndDate = searchEndDate;
+        this.propertyCriteria =null;
+    }
+
+    public Buyer(Long id, Prospect prospect, BuyerStatus status, Date searchStartDate, Date searchEndDate,
                  PropertyCriteria propertyCriteria) {
         this.id = id;
         this.prospect=prospect;
@@ -22,9 +35,9 @@ public class Buyer {
 
 
     public Long getId() { return id; }
-    public String getStatus() { return status; }
-    public String getSearchStartDate() { return searchStartDate; }
-    public String getSearchEndDate() { return searchEndDate; }
+    public BuyerStatus getStatus() { return status; }
+    public Date getSearchStartDate() { return searchStartDate; }
+    public Date getSearchEndDate() { return searchEndDate; }
     public PropertyCriteria getPropertyCriteria() { return propertyCriteria; }
     public Prospect getProspect() { return prospect; }
 }

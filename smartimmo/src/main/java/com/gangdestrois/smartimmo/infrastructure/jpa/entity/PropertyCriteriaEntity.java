@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
-import com.gangdestrois.smartimmo.domain.buyer.model.PropertyCriteria;
+import com.gangdestrois.smartimmo.domain.property.PropertyCriteria;
 import jakarta.persistence.*;
 
 @Entity

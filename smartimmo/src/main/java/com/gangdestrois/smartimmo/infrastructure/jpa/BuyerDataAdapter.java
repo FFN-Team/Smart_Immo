@@ -23,9 +23,9 @@ public class BuyerDataAdapter implements BuyerSpi {
     }
 
     @Override
-    public Buyer findBuyerById(int id) {
+    public Buyer findBuyerById(Long buyerId) {
         PropertyCriteriaEntity propertyCriteriaEntity = propertyCriteriaRepository
-                .findPropertyCriteriaEntitiesByBuyer_Id(id);
+                .findPropertyCriteriaEntitiesByBuyer_Id(buyerId);
         if(propertyCriteriaEntity != null) return propertyCriteriaEntity.toBuyerModel();
         else return null;
     }
