@@ -52,7 +52,7 @@ public class BeanConfiguration {
     @Bean
     public PropertiesToFollowManager propertiesToFollowManager(BuyerDataAdapter buyerDataAdapter,
                                                                PropertyDataAdapter propertyDataAdapter, PropertyToFollowDataAdapter propertyToFollowDataAdapter) {
-        return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter,propertyToFollowDataAdapter);
+        return new PropertiesToFollowManager(buyerDataAdapter, propertyDataAdapter, propertyToFollowDataAdapter);
     }
 
     @Bean
@@ -78,8 +78,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter) {
-        return new EventManager(subscriptionDataAdapter);
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
+        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
     }
 
     @Bean
@@ -95,10 +95,17 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ProjectDataAdapter projectDataAdapter(ProjectRepository projectRepository) {
+        return new ProjectDataAdapter(projectRepository);
+    }
+
+    @Bean
     public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
                                                            EventManager eventManager,
-                                                           NotificationDataAdapter notificationDataAdapter) {
-        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter);
+                                                           NotificationDataAdapter notificationDataAdapter,
+                                                           ProjectDataAdapter projectDataAdapter
+    ) {
+        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
     }
 
     @Bean
@@ -113,7 +120,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter){
+    public ProspectManager prospectManager(ProspectDataAdapter prospectDataAdapter) {
         return new ProspectManager(prospectDataAdapter);
     }
 
@@ -138,8 +145,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender) {
-        return new EmailManager(thymeleafTemplateEngine, gmailSender);
+    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
+        return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
     }
 
     @Bean

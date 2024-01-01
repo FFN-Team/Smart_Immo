@@ -10,4 +10,8 @@ public interface SubscriptionSpi {
     Map<EventType, List<EventListener>> findAll();
 
     void saveAll(Map<EventType, List<EventListener>> listeners);
+
+    void save(EventType eventType, EventListener listener);
+
+    List<Long> remove(EventType eventType, EventListener listener);
 }

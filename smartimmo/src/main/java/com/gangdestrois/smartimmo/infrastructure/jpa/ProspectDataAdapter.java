@@ -14,6 +14,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectReposito
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProspectDataAdapter implements ProspectSpi {
     private final ProspectRepository prospectRepository;
@@ -28,21 +29,21 @@ public class ProspectDataAdapter implements ProspectSpi {
     }
 
     @Override
-    public long countByAgeBetween(int ageMin, int ageMax){
+    public long countByAgeBetween(int ageMin, int ageMax) {
         return prospectRepository.countByAgeBetween(ageMin, ageMax);
     }
 
     @Override
     public List<ProspectStatistic> countByProfession() {
         return prospectRepository.countByProfession().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
                 .toList();
     }
 
     @Override
     public List<ProspectStatistic> countByContactOrigin() {
         return prospectRepository.countByContactOrigin().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
                 .toList();
     }
 
@@ -72,4 +73,9 @@ public class ProspectDataAdapter implements ProspectSpi {
                 .stream().map(ProspectEntity::toModel).toList();
     }
 
+
+    @Override
+    public Optional<Prospect> findById(Long prospectId) {
+        return prospectRepository.findById(prospectId).map(ProspectEntity::toModel);
+    }
 }

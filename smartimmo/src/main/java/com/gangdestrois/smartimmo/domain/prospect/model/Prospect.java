@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.domain.prospect.model;
 
 import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.EventType;
 import com.gangdestrois.smartimmo.domain.event.Priority;
 import com.gangdestrois.smartimmo.domain.event.Status;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
@@ -43,7 +44,7 @@ public class Prospect implements Model {
     }
 
     @Override
-    public Long getId() {
+    public Long id() {
         return id;
     }
 
@@ -102,6 +103,6 @@ public class Prospect implements Model {
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",
                         this.firstName, this.lastName),
                 Priority.LOW,
-                this);
+                this, EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE);
     }
 }

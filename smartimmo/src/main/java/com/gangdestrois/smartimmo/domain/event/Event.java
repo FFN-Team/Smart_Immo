@@ -8,28 +8,23 @@ public class Event<T extends Model> {
     private final String message;
     private final Priority priority;
     private final T element;
+    private final EventType eventType;
 
-    public Event(Status status, String message, Priority priority, T element) {
+    public Event(Status status, String message, Priority priority, T element, EventType eventType) {
         this.status = status;
         this.message = message;
         this.priority = priority;
         this.element = element;
+        this.eventType = eventType;
     }
 
-    public Event(Long id, Status status, String message, Priority priority, T element) {
+    public Event(Long id, Status status, String message, Priority priority, T element, EventType eventType) {
         this.id = id;
         this.status = status;
         this.message = message;
         this.priority = priority;
         this.element = element;
-    }
-
-    public Event(Long id, Status status) {
-        this.id = id;
-        this.status = status;
-        this.message = null;
-        this.priority = null;
-        this.element = null;
+        this.eventType = eventType;
     }
 
     public Status status() {
@@ -54,5 +49,9 @@ public class Event<T extends Model> {
 
     public T getElement() {
         return this.element;
+    }
+
+    public EventType getEventType() {
+        return eventType;
     }
 }
