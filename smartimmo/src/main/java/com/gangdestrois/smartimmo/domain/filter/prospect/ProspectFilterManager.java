@@ -9,8 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
 import static java.util.Objects.isNull;
 
 public class ProspectFilterManager implements ProspectFilterApi {
@@ -69,9 +69,9 @@ public class ProspectFilterManager implements ProspectFilterApi {
 
     public List<Prospect> intersectionByProspectId(List<Prospect> list1, List<Prospect> list2) {
         return list1.stream()
-                .map(Prospect::getId)
-                .filter(id -> list2.stream().anyMatch(prospect -> id.equals(prospect.getId())))
-                .map(id -> list2.stream().filter(prospect -> id.equals(prospect.getId())).findFirst().orElse(null))
+                .map(Prospect::id)
+                .filter(id -> list2.stream().anyMatch(prospect -> id.equals(prospect.id())))
+                .map(id -> list2.stream().filter(prospect -> id.equals(prospect.id())).findFirst().orElse(null))
                 .filter(prospect -> prospect != null)
                 .collect(Collectors.toList());
     }
