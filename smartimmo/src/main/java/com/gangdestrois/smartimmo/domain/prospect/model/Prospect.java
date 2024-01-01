@@ -4,29 +4,32 @@ import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.Priority;
 import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.Title;
 
 import java.util.Date;
 import java.util.List;
 
 public class Prospect implements Model {
     private final Long id;
-    private final String contactOrigin;
-    private final String title;
+    private final ContactOrigin contactOrigin;
+    private final Title title;
     private final String lastName;
     private final String firstName;
     private final Date dateOfBirth;
-    private final String profession;
+    private final Profession profession;
     private final Long mobile;
     private final String mail;
-    private final boolean authorizeContactOnSocialMedia;
+    private final Boolean authorizeContactOnSocialMedia;
     private final Home home;
     private final List<Owner> owners;
 
-    public Prospect(Long id, String contactOrigine, String title, String lastName, String firstName,
-                    Date dateOfBirth, String profession, long mobile, String mail,
-                    boolean authorizeContactOnSocialMedia, Home home, List<Owner> owners) {
+    public Prospect(Long id, ContactOrigin contactOrigin, Title title, String lastName, String firstName,
+                    Date dateOfBirth, Profession profession, Long mobile, String mail,
+                    Boolean authorizeContactOnSocialMedia, Home home, List<Owner> owners) {
         this.id = id;
-        this.contactOrigin = contactOrigine;
+        this.contactOrigin = contactOrigin;
         this.title = title;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -44,11 +47,11 @@ public class Prospect implements Model {
         return id;
     }
 
-    public String getContactOrigin() {
+    public ContactOrigin getContactOrigin() {
         return contactOrigin;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
@@ -64,7 +67,7 @@ public class Prospect implements Model {
         return dateOfBirth;
     }
 
-    public String getProfession() {
+    public Profession getProfession() {
         return profession;
     }
 
@@ -76,7 +79,7 @@ public class Prospect implements Model {
         return mail;
     }
 
-    public boolean authorizeContactOnSocialMedia() {
+    public Boolean authorizeContactOnSocialMedia() {
         return authorizeContactOnSocialMedia;
     }
 

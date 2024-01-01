@@ -1,6 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
+import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
+import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
@@ -127,5 +129,15 @@ public class BeanConfiguration {
     @Bean
     public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
         return new AddressManager(addressDataAdapter);
+    }
+
+    @Bean
+    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository){
+        return new ProspectFilterDataAdapter(prospectFilterRepository);
+    }
+    @Bean
+    public ProspectFilterManager prospectFilterManager(ProspectDataAdapter prospectDataAdapter,
+                                                       ProspectFilterDataAdapter prospectFilterDataAdapter){
+        return new ProspectFilterManager(prospectDataAdapter,prospectFilterDataAdapter);
     }
 }

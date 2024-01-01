@@ -1,11 +1,18 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
+import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
+import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatistic;
+import com.gangdestrois.smartimmo.domain.prospect.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
+import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectFilterEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProspectDataAdapter implements ProspectSpi {
@@ -38,4 +45,31 @@ public class ProspectDataAdapter implements ProspectSpi {
                 .map(prospectStatistic -> new ProspectStatistic((String)prospectStatistic[0], (long)prospectStatistic[1]))
                 .toList();
     }
+
+    @Override
+    public List<Prospect> findAllByAge(Integer age, MathematicalComparator ageComparator) {
+        return prospectRepository.findAllByAge(age, ageComparator.name()).stream().map(ProspectEntity::toModel).toList();
+    }
+
+    @Override
+    public List<Prospect> findAllByContactOrigin(ContactOrigin contactOrigin) {
+        return prospectRepository.findAllByContactOrigin(contactOrigin).stream().map(ProspectEntity::toModel).toList();
+    }
+
+    @Override
+    public List<Prospect> findAllByTitle(Title title) {
+        return prospectRepository.findAllByTitle(title).stream().map(ProspectEntity::toModel).toList();
+    }
+
+    @Override
+    public List<Prospect> findAllByProfession(Profession profession) {
+        return prospectRepository.findAllByProfession(profession).stream().map(ProspectEntity::toModel).toList();
+    }
+
+    @Override
+    public List<Prospect> findAllByAuthorizeContactOnSocialMedia(Boolean authorizeContactOnSocialMedia) {
+        return prospectRepository.findAllByAuthorizeContactOnSocialMedia(authorizeContactOnSocialMedia)
+                .stream().map(ProspectEntity::toModel).toList();
+    }
+
 }
