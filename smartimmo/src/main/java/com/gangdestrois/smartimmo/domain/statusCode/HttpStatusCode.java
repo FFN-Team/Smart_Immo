@@ -1,7 +1,8 @@
 package com.gangdestrois.smartimmo.domain.statusCode;
 
 public enum HttpStatusCode {
-    FORBIDDEN(403, "Forbidden");
+    FORBIDDEN(403, "Forbidden"),
+    UNAUTHORIZED(401, "Unauthorized");
 
     private final int code;
     private final String message;

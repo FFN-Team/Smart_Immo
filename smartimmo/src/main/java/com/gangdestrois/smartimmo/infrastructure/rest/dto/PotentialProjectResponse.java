@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public record PotentialProjectResponse(Long id, LocalDate dueDate, Priority priority) {
     public static PotentialProjectResponse fromModel(PotentialProject potentialProject) {
         return new PotentialProjectResponse(
-                potentialProject.getId(),
+                potentialProject.id(),
                 potentialProject.getDueDate(),
                 potentialProject.getPriority());
     }

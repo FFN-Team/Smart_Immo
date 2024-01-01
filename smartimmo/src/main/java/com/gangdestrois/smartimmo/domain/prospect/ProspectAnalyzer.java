@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
+import com.gangdestrois.smartimmo.domain.event.Status;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
@@ -27,11 +28,13 @@ public class ProspectAnalyzer implements ProspectApi {
     }
 
     public Set<Event> notifyForProspectsThatMayBuyBiggerHouse() {
-        findProspectsThatMayBuyBiggerHouse()
+        findProspectsThatMayBuyBiggerHouse().stream()
+                .filter(prospect -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
+                        prospect.id(), Status.TO_READ, PROSPECT_MAY_BUY_BIGGER_HOUSE).size() == 0)
                 .forEach(prospect -> {
                     var prospectNotification = prospect.mapToProspectNotification();
                     prospectNotification.setId(notificationSpi.saveProspectNotification(prospectNotification));
-                    eventManager.notify(PROSPECT_MAY_BUY_BIGGER_HOUSE, prospectNotification);
+                    eventManager.notify(prospectNotification);
                 });
         return eventManager.eventsFromEventType(PROSPECT_MAY_BUY_BIGGER_HOUSE).stream()
                 .filter(event -> !event.status().isAlreadyDealt())
@@ -39,9 +42,9 @@ public class ProspectAnalyzer implements ProspectApi {
     }
 
     public Set<Prospect> findProspectsThatMayBuyBiggerHouse() {
-        var prospectMayBuyBiggerHouseCriteria = new PropectMayBuyBiggerHouseCriteria();
+        var prospectMayBuyBiggerHouseCriteria = new ProspectMayBuyBiggerHouseCriteria();
         return prospectSpi.findAll().stream()
-                .filter(prospect -> prospectMayBuyBiggerHouseCriteria.combinedPredicate.test(prospect))
+                .filter(prospectMayBuyBiggerHouseCriteria.combinedPredicate::test)
                 .collect(Collectors.toSet());
     }
 

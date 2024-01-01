@@ -1,14 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
-import com.gangdestrois.smartimmo.domain.potentialProject.port.ProjectSpi;
+import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class PotentialProjectDataAdapter implements ProjectSpi {
+public class PotentialProjectDataAdapter implements PotentialProjectSpi {
     private final PotentialProjectRepository potentialProjectRepository;
 
     public PotentialProjectDataAdapter(PotentialProjectRepository potentialProjectRepository) {

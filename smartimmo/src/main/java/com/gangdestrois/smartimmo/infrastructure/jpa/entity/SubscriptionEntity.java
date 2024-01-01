@@ -32,4 +32,8 @@ public class SubscriptionEntity {
     public EventListenerEnum eventListener() {
         return this.eventListener;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
