@@ -1,7 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
-import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatistic;
@@ -9,10 +8,8 @@ import com.gangdestrois.smartimmo.domain.prospect.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
-import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectFilterEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
