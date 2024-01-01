@@ -21,7 +21,6 @@
         <asciidoctorj.version>2.5.10</asciidoctorj.version>
         <jruby.version>9.4.2.0</jruby.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
