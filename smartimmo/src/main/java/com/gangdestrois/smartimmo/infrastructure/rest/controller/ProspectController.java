@@ -55,13 +55,13 @@ public class ProspectController {
 
 
     @GetMapping("/filtred")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
     public List<Prospect> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
         return prospectFilterApi.filterProspects(prospectFilterRequest.toModel());
     }
 
     @PutMapping("/filter")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
     public ResponseEntity<String> saveProspectsFilter(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
         try {
             prospectFilterApi.saveProspectFilter(prospectFilterRequest.toModel());
@@ -72,7 +72,7 @@ public class ProspectController {
     }
 
     @GetMapping("/existing-filter")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
     public List<Prospect> filterProspectsWithExistingFilter(@Valid @RequestBody @NotNull
                                               ExistingProspectFilterRequest existingProspectFilterRequest){
         ProspectFilter existingProspectFilter;
