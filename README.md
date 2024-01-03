@@ -36,3 +36,10 @@
 ### All tests 
 
 - run `mvn clean verify`
+
+# Documentation
+
+## Swagger
+
+Once you have run [SmartimmoApplication.java](smartimmo/src/main/java/com/gangdestrois/smartimmo/SmartimmoApplication.java),
+you can find the Swagger API Documentation [here]().
