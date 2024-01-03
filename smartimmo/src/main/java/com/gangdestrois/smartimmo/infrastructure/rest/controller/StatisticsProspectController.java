@@ -18,16 +18,15 @@ public class StatisticsProspectController {
         this.prospectStatisticsGeneratorApi = prospectStatisticsGeneratorApi;
     }
 
-    @GetMapping
-    @RequestMapping("/count-by-age-group")
+    @GetMapping("/count-by-age-group")
     @Operation(
-        summary = "Retrieve the number of prospects by age group.",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Number of prospects by age group retrieves with success."
-            )
-        }
+            summary = "Retrieve the number of prospects by age group.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Number of prospects by age group retrieves with success."
+                    )
+            }
     )
     public ResponseEntity<ProspectStatisticsResponse> countByAgeGroup() {
         return ResponseEntity.ok(prospectStatisticsGeneratorApi.countByAgeGroup());
@@ -35,28 +34,27 @@ public class StatisticsProspectController {
 
     @GetMapping("/count-by-profession")
     @Operation(
-        summary = "Retrieve the number of prospects by profession.",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Number of prospects by profession retrieves with success."
-            )
-        }
+            summary = "Retrieve the number of prospects by profession.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Number of prospects by profession retrieves with success."
+                    )
+            }
     )
     public ResponseEntity<ProspectStatisticsResponse> countByProfession() {
         return ResponseEntity.ok(prospectStatisticsGeneratorApi.countByProfession());
     }
 
-    @GetMapping
-    @RequestMapping("/count-by-contact-origin")
+    @GetMapping("/count-by-contact-origin")
     @Operation(
-        summary = "Retrieve the number of prospects by contact origin.",
-        responses = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Number of prospects by contact origin retrieves with success."
-            )
-        }
+            summary = "Retrieve the number of prospects by contact origin.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Number of prospects by contact origin retrieves with success."
+                    )
+            }
     )
     public ResponseEntity<ProspectStatisticsResponse> countByContactOrigin() {
         return ResponseEntity.ok(prospectStatisticsGeneratorApi.countByContactOrigin());
