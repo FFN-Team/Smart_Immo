@@ -19,11 +19,9 @@ public class PropertyDataAdapter implements PropertySpi {
 
     @Override
     public List<Property> findAll() {
-        List<PropertyEntity> list= propertyRepository.findAll();
-        List<Property> list2 = list.stream()
+        return propertyRepository.findAll().stream()
                 .map(PropertyEntity::toModel)
                 .toList();
-        return list2;
     }
 
     @Override
