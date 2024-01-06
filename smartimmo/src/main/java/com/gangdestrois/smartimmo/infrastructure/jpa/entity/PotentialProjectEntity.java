@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.event.Priority;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

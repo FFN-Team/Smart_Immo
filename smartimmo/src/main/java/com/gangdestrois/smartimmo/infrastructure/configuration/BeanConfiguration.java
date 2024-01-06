@@ -16,13 +16,17 @@ import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import static java.util.Objects.nonNull;
+
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
+@EnableConfigurationProperties
 public class BeanConfiguration {
     @Bean
     public PropertyDataAdapter propertyDataAdapter(PropertyRepository propertyRepository) {
@@ -140,22 +144,24 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public GmailSender gmailSender() throws Exception {
+    public GmailSender gmailSender() {
         return new GmailSender();
     }
 
     @Bean
     public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
-        return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
+        if (nonNull(gmailSender)) return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
+        else return new EmailManager(thymeleafTemplateEngine, prospectDataAdapter);
     }
 
     @Bean
-    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository){
+    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository) {
         return new ProspectFilterDataAdapter(prospectFilterRepository);
     }
+
     @Bean
     public ProspectFilterManager prospectFilterManager(ProspectDataAdapter prospectDataAdapter,
-                                                       ProspectFilterDataAdapter prospectFilterDataAdapter){
-        return new ProspectFilterManager(prospectDataAdapter,prospectFilterDataAdapter);
+                                                       ProspectFilterDataAdapter prospectFilterDataAdapter) {
+        return new ProspectFilterManager(prospectDataAdapter, prospectFilterDataAdapter);
     }
 }
