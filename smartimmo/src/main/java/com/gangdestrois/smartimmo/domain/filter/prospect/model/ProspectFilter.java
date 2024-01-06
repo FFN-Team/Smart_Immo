@@ -6,15 +6,14 @@ import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.Title;
 
 public class ProspectFilter {
-    //private Long id;
-    private static String prospectFilterName;
-    private static ContactOrigin contactOrigin;
-    private static Title title;
-    private static MathematicalComparator ageComparator;
-    private static Integer age;
-    private static Profession profession;
-    private static Boolean authorizeContactOnSocialMedia;
-
+    private Long id;
+    private final String prospectFilterName;
+    private final ContactOrigin contactOrigin;
+    private final Title title;
+    private final MathematicalComparator ageComparator;
+    private final Integer age;
+    private final Profession profession;
+    private final Boolean authorizeContactOnSocialMedia;
 
     public ProspectFilter(String prospectFilterName, ContactOrigin contactOrigin, Title title,
                           MathematicalComparator ageComparator, Integer age, Profession profession,
@@ -27,26 +26,40 @@ public class ProspectFilter {
         this.profession = profession;
         this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
     }
-
-    public static String getProspectFilterName() {
+    public ProspectFilter(Long id, String prospectFilterName, ContactOrigin contactOrigin, Title title,
+                          MathematicalComparator ageComparator, Integer age, Profession profession,
+                          Boolean authorizeContactOnSocialMedia) {
+        this.id=id;
+        this.prospectFilterName=prospectFilterName;
+        this.contactOrigin = contactOrigin;
+        this.title = title;
+        this.ageComparator = ageComparator;
+        this.age = age;
+        this.profession = profession;
+        this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
+    }
+    public Long getId() {
+        return id;
+    }
+    public String getProspectFilterName() {
         return prospectFilterName;
     }
-    public static ContactOrigin getContactOrigin() {
+    public ContactOrigin getContactOrigin() {
         return contactOrigin;
     }
-    public static Title getTitle() {
+    public Title getTitle() {
         return title;
     }
-    public static MathematicalComparator getAgeComparator() {
+    public MathematicalComparator getAgeComparator() {
         return ageComparator;
     }
-    public static Integer getAge() {
+    public Integer getAge() {
         return age;
     }
-    public static Profession getProfession() {
+    public Profession getProfession() {
         return profession;
     }
-    public static Boolean isAuthorizeContactOnSocialMedia() {
+    public Boolean isAuthorizeContactOnSocialMedia() {
         return authorizeContactOnSocialMedia;
     }
 }
