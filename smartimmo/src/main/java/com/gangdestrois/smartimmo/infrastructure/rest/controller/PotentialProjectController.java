@@ -4,7 +4,7 @@ import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialProjectEventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;

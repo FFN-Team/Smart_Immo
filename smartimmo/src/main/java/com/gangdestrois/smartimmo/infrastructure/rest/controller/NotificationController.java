@@ -4,7 +4,7 @@ import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.StatusRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -53,7 +53,6 @@ public class NotificationController {
                 originalEvent.getEventType());
         Event savedEvent = notificationApi.save(eventToSave);
         EventResponse response = EventResponse.fromModel(savedEvent);
-
         return ResponseEntity.ok(response);
     }
 }
