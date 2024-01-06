@@ -10,4 +10,5 @@ public interface ProspectFilterApi {
     void saveProspectFilter(ProspectFilter prospectFilter);
 
     ProspectFilter findByProspectFilterName(String prospectFilterName);
+    List<ProspectFilter> findAll();
 }

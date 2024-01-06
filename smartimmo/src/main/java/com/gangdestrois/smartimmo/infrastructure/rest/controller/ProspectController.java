@@ -5,9 +5,7 @@ import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterApi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ExistingProspectFilterRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialBuyerEventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectFilterRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -54,7 +52,7 @@ public class ProspectController {
     }
 
 
-    @GetMapping("/filtred")
+    @PostMapping("/filtred")
     @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
     public List<Prospect> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
         return prospectFilterApi.filterProspects(prospectFilterRequest.toModel());
@@ -70,6 +68,15 @@ public class ProspectController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Erreur de contrainte d'intégrité : " + ex.getMessage());
         }
     }
+
+    @GetMapping("/filters")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ProspectFilterResponse>> getProspectsFilters(){
+            return ResponseEntity.ok(prospectFilterApi.findAll().stream()
+                    .map(ProspectFilterResponse::fromModel)
+                    .toList());
+    }
+
 
     @GetMapping("/existing-filter")
     @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse

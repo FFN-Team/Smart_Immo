@@ -65,10 +65,11 @@ public class ProspectFilterEntity {
     }
 
     public ProspectFilter toModel(){
-        return new ProspectFilter(
-                this.prospectFilterName,this.contactOrigine,this.title,
+        ProspectFilter prospectFilter= new ProspectFilter(
+                this.id,this.prospectFilterName,this.contactOrigine,this.title,
                 this.ageComparator,this.age,this.profession,
                 this.authorizeContactOnSocialMedia
         );
+        return prospectFilter;
     }
 }
