@@ -33,14 +33,14 @@ public class ProspectDataAdapter implements ProspectSpi {
     @Override
     public List<ProspectStatistic> countByProfession() {
         return prospectRepository.countByProfession().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic(((Profession) prospectStatistic[0]).getLabel(), (long) prospectStatistic[1]))
                 .toList();
     }
 
     @Override
     public List<ProspectStatistic> countByContactOrigin() {
         return prospectRepository.countByContactOrigin().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic(((ContactOrigin) prospectStatistic[0]).getLabel(), (long) prospectStatistic[1]))
                 .toList();
     }
 
