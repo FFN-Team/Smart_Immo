@@ -2,9 +2,7 @@ package com.gangdestrois.smartimmo.domain.prospect;
 
 public enum Title {
     MR("Mr."),
-    MRS("Mrs."),
-    MISS("Miss"),
-    DR("Dr.");
+    MRS("Mrs.");
 
     private final String label;
 
