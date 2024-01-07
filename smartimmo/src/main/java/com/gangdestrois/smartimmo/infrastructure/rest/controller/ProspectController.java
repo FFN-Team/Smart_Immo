@@ -53,13 +53,14 @@ public class ProspectController {
 
 
     @PostMapping("/filtred")
-    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
-    public List<Prospect> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
-        return prospectFilterApi.filterProspects(prospectFilterRequest.toModel());
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProspectResponse> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
+        return prospectFilterApi.filterProspects(prospectFilterRequest.toModel()).stream()
+                .map(ProspectResponse::fromModel).toList();
     }
 
     @PutMapping("/filter")
-    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> saveProspectsFilter(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
         try {
             prospectFilterApi.saveProspectFilter(prospectFilterRequest.toModel());
@@ -79,8 +80,8 @@ public class ProspectController {
 
 
     @GetMapping("/existing-filter")
-    @ResponseStatus(HttpStatus.OK) //à faire : mettre ProspectResponse
-    public List<Prospect> filterProspectsWithExistingFilter(@Valid @RequestBody @NotNull
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProspectResponse> filterProspectsWithExistingFilter(@Valid @RequestBody @NotNull
                                               ExistingProspectFilterRequest existingProspectFilterRequest){
         ProspectFilter existingProspectFilter;
         try {
@@ -88,6 +89,7 @@ public class ProspectController {
         } catch (NoSuchElementException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ProspectFilter introuvable : " + ex.getMessage(), ex);
         }
-        return prospectFilterApi.filterProspects(existingProspectFilter);
+        return prospectFilterApi.filterProspects(existingProspectFilter).stream()
+                .map(ProspectResponse::fromModel).toList();
     }
 }
