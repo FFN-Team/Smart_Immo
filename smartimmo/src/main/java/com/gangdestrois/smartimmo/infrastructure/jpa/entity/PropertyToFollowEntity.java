@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import jakarta.persistence.*;
 
@@ -19,10 +20,11 @@ public class PropertyToFollowEntity {
     @JoinColumn(name = "fk_property", referencedColumnName = "id_property")
     private PropertyEntity property;
 
-    @Column(name = "status") /////////// mettre un enum ici  /////////////
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private PropertyToFollowStatus status;
 
-    public PropertyToFollowEntity(BuyerEntity buyer, PropertyEntity property, String status) {
+    public PropertyToFollowEntity(BuyerEntity buyer, PropertyEntity property, PropertyToFollowStatus status) {
         this.buyer = buyer;
         this.property = property;
         this.status = status;

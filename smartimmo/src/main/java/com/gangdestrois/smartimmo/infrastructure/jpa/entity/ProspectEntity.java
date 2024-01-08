@@ -6,6 +6,7 @@ import com.gangdestrois.smartimmo.domain.prospect.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class ProspectEntity {
     private String firstName;
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @Enumerated(EnumType.STRING)
     @Column(name = "profession")
     private Profession profession;
@@ -59,7 +60,7 @@ public class ProspectEntity {
     }
 
     public ProspectEntity(Long id, ContactOrigin contactOrigin, Title title, String lastName,
-                          String firstName, Date dateOfBirth, Profession profession, Long mobile,
+                          String firstName, LocalDate dateOfBirth, Profession profession, Long mobile,
                           String mail, Boolean authorizeContactOnSocialMedia, HomeEntity home,
                           Set<OwnerEntity> owners) {
         this.id = id;
@@ -77,7 +78,7 @@ public class ProspectEntity {
     }
 
     public ProspectEntity(Long id, ContactOrigin contactOrigin, Title title, String lastName, String firstName,
-                          Date dateOfBirth, Profession profession, Long mobile, String mail,
+                          LocalDate dateOfBirth, Profession profession, Long mobile, String mail,
                           Boolean authorizeContactOnSocialMedia, HomeEntity home) {
         this.id = id;
         this.contactOrigin = contactOrigin;

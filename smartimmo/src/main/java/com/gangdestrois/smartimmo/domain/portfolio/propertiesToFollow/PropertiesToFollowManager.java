@@ -52,7 +52,7 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     }
 
     @Override
-    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status) {
+    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
         propertyToFollowSpi.updateStatusByPropertyToFollowId(propertyToFollowId, status);
     }
 }

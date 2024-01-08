@@ -4,17 +4,18 @@ import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatus;
 import com.gangdestrois.smartimmo.domain.property.PropertyCriteria;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Buyer {
     private final Long id;
     private final Prospect prospect;
     private final BuyerStatus status;
-    private final Date searchStartDate; /*à changer en LocalDate*/
-    private final Date searchEndDate; /*à changer en LocalDate*/
+    private final LocalDate searchStartDate;
+    private final LocalDate searchEndDate;
     private final PropertyCriteria propertyCriteria;
 
-    public Buyer(Long id, Prospect prospect, BuyerStatus status, Date searchStartDate, Date searchEndDate) {
+    public Buyer(Long id, Prospect prospect, BuyerStatus status, LocalDate searchStartDate, LocalDate searchEndDate) {
         this.id = id;
         this.prospect=prospect;
         this.status = status;
@@ -23,7 +24,7 @@ public class Buyer {
         this.propertyCriteria =null;
     }
 
-    public Buyer(Long id, Prospect prospect, BuyerStatus status, Date searchStartDate, Date searchEndDate,
+    public Buyer(Long id, Prospect prospect, BuyerStatus status, LocalDate searchStartDate, LocalDate searchEndDate,
                  PropertyCriteria propertyCriteria) {
         this.id = id;
         this.prospect=prospect;
@@ -36,8 +37,8 @@ public class Buyer {
 
     public Long getId() { return id; }
     public BuyerStatus getStatus() { return status; }
-    public Date getSearchStartDate() { return searchStartDate; }
-    public Date getSearchEndDate() { return searchEndDate; }
+    public LocalDate getSearchStartDate() { return searchStartDate; }
+    public LocalDate getSearchEndDate() { return searchEndDate; }
     public PropertyCriteria getPropertyCriteria() { return propertyCriteria; }
     public Prospect getProspect() { return prospect; }
 }

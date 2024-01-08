@@ -9,6 +9,7 @@ import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.Title;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Prospect implements Model {
     private final Title title;
     private final String lastName;
     private final String firstName;
-    private final Date dateOfBirth;
+    private final LocalDate dateOfBirth;
     private final Profession profession;
     private final Long mobile;
     private final String mail;
@@ -27,7 +28,7 @@ public class Prospect implements Model {
     private final List<Owner> owners;
 
     public Prospect(Long id, ContactOrigin contactOrigin, Title title, String lastName, String firstName,
-                    Date dateOfBirth, Profession profession, Long mobile, String mail,
+                    LocalDate dateOfBirth, Profession profession, Long mobile, String mail,
                     Boolean authorizeContactOnSocialMedia, Home home, List<Owner> owners) {
         this.id = id;
         this.contactOrigin = contactOrigin;
@@ -64,7 +65,7 @@ public class Prospect implements Model {
         return firstName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

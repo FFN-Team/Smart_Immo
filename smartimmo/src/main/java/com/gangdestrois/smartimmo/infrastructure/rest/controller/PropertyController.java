@@ -43,6 +43,8 @@ public class PropertyController {
         return ResponseEntity.ok(propertyApi.findAll().stream().map(PropertyResponse::fromModel).toList());
     }
 
+
+
     @GetMapping("/{propertyId}")
     @Operation(
             summary = "Get a property by id.",
@@ -66,6 +68,8 @@ public class PropertyController {
                 .orElseThrow(() -> new NotFoundException(propertyId, "property"));
         return PropertyResponse.fromModel(property);
     }
+
+
 
     @PostMapping
     @Operation(
@@ -97,6 +101,8 @@ public class PropertyController {
             throw new AlreadyAssignedAddressException();
         }
     }
+
+
 
     @PutMapping("/{propertyId}")
     @Operation(
@@ -132,6 +138,8 @@ public class PropertyController {
         }
     }
 
+
+
     @DeleteMapping("/{propertyId}")
     @Operation(
             summary = "Delete a property by id.",
@@ -158,11 +166,15 @@ public class PropertyController {
         return ResponseEntity.ok(propertyResponse);
     }
 
+
+
     public Address getAddress(PropertyRequest propertyRequest) {
         Long idAddress = propertyRequest.getIdAddress();
         return addressApi.findById(idAddress)
                 .orElseThrow(() -> new NotFoundException(idAddress, "address"));
     }
+
+
 
     public ResponseEntity<PropertyResponse> updateProperties(PropertyRequest propertyRequest,
                                                              Long propertyId, Address address) {

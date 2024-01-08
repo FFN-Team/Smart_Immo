@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
@@ -42,7 +43,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
                 new PropertyToFollowEntity(
                         BuyerEntity.fromModelToEntity(buyer),
                         PropertyEntity.fromModelToEntity(property),
-                        "blabla"
+                        PropertyToFollowStatus.TO_STUDY
                 )
         );
     }
@@ -53,7 +54,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     }
 
     @Override
-    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status) {
-        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId,status);
+    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
+        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId,status.name());
     }
 }
