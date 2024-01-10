@@ -59,22 +59,34 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
+    public Optional<Event<Prospect>> findProspectNotificationById(Long prospectNotificationId) {
+        return notificationRepository.findById(prospectNotificationId)
+                .map(NotificationEntity::toProspectNotificationModel);
+    }
+
+    @Override
     public Optional<Event> findNotificationById(Long id) {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
-    public List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, Status status, EventType eventType) {
+    public List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<Status> statuses, EventType eventType) {
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         switch (eventType) {
             case PROJECT_DUE_DATE_APPROACHING -> {
                 var potentialProject = potentialProjectRepository.findById(elementId).orElse(null);
-                notificationEntities = notificationRepository
-                        .findNotificationEntitiesByPotentialProjectAndStatusAndType(potentialProject, status, eventType);
+                notificationEntities = statuses.stream()
+                        .map(status ->
+                                notificationRepository.findNotificationEntitiesByPotentialProjectAndStatusAndType
+                                        (potentialProject, status, eventType))
+                        .flatMap(List::stream)
+                        .toList();
             }
             case PROSPECT_MAY_BUY_BIGGER_HOUSE -> {
                 var prospect = prospectRepository.findById(elementId).orElse(null);
-                notificationEntities = notificationRepository
-                        .findNotificationEntitiesByProspectAndStatusAndType(prospect, status, eventType);
+                notificationEntities = statuses.stream().map(status -> notificationRepository
+                                .findNotificationEntitiesByProspectAndStatusAndType(prospect, status, eventType))
+                        .flatMap(List::stream)
+                        .toList();
             }
         }
         return notificationEntities

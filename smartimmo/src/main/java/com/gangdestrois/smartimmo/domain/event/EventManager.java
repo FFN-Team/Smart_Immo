@@ -7,8 +7,10 @@ import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @DomainComponent
-public class EventManager {
+public class EventManager<T extends Notify> {
     private final SubscriptionSpi subscriptionSpi;
     private final NotificationSpi notificationSpi;
 
@@ -38,9 +40,27 @@ public class EventManager {
         subscriptionSpi.remove(eventType, listener);
     }
 
-    public void notify(Event event) {
+    public void notify(Event<T> event) {
         subscriptionSpi.findAll()
                 .get(event.getEventType())
                 .forEach(eventListener -> eventListener.update(event));
+    }
+
+    public List<Event<T>> makeNotifications(List<? extends Notify<T>> elementToNotify, EventType eventType,
+                                            NotificationStrategy<T> notificationStrategy) {
+        elementToNotify.stream()
+                .filter(element -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
+                        element.id(), Status.statusesNotAlreadyDealt(), eventType).size() == 0)
+                .forEach(element -> {
+                    Event<T> elementNotification = element.mapToEvent();
+                    elementNotification.setId(notificationStrategy.save(elementNotification));
+                    notify(elementNotification);
+                });
+        return eventsFromEventType(eventType).stream()
+                .filter(event -> nonNull(event.getId()))
+                .filter(event -> event.status().isNotAlreadyDealt())
+                .map(projectNotification -> notificationStrategy.findNotificationById(projectNotification.getId())
+                        .orElse(null))
+                .toList();
     }
 }

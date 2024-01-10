@@ -1,16 +1,12 @@
 package com.gangdestrois.smartimmo.domain.potentialProject.model;
 
-import com.gangdestrois.smartimmo.domain.Model;
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.event.*;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.time.LocalDate;
 
-public class PotentialProject implements Model {
-    private final Long id;
+public class PotentialProject implements Notify<PotentialProject> {
+    private Long id;
     private final LocalDate dueDate;
     private final String message;
     private final Priority priority;
@@ -26,6 +22,11 @@ public class PotentialProject implements Model {
 
     public Event<PotentialProject> mapToEvent() {
         return new Event(Status.TO_READ, message, priority, this, EventType.PROJECT_DUE_DATE_APPROACHING);
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

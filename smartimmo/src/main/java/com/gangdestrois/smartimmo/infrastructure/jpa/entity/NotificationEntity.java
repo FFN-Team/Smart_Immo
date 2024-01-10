@@ -86,6 +86,10 @@ public class NotificationEntity {
         return new Event(this.id, status, message, priority, potentialProject.toModel(), type);
     }
 
+    public Event<Prospect> toProspectNotificationModel() {
+        return new Event(this.id, status, message, priority, prospect.toModel(), type);
+    }
+
     public Event toModel() {
         return new Event(this.id, this.status, this.message, this.priority, getElement(), type);
     }
