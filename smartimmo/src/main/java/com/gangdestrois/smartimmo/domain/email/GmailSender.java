@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.domain.email;
 import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
 import com.gangdestrois.smartimmo.infrastructure.apis.GoogleApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.EmailContentException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.GoogleUnauthorizedException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
@@ -13,6 +14,7 @@ import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -31,13 +33,18 @@ public class GmailSender implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailSender.class);
     private final GoogleApi googleApi;
 
-    public GmailSender() {
-        this.googleApi = new GoogleApi();
+    @Autowired
+    public GmailSender(GoogleApi googleApi) {
+        this.googleApi = googleApi;
     }
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
-        Gmail service = initialize();
-
+        Gmail service = null;
+        try {
+            service = initialize();
+        } catch (IOException e) {
+            throw new GoogleUnauthorizedException("Gmail", "Unable to send message");
+        }
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage email = new MimeMessage(session);
         setEmailContent(subject, message, senderEmail, recipientEmail, email);
@@ -68,7 +75,7 @@ public class GmailSender implements EmailSender {
         }
     }
 
-    private Gmail initialize() {
+    private Gmail initialize() throws IOException {
         HttpTransport httpTransport = new NetHttpTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
         return new Gmail.Builder(httpTransport, jsonFactory,

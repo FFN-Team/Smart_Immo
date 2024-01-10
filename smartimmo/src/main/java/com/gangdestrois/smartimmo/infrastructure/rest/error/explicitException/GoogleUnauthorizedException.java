@@ -21,6 +21,6 @@ public class GoogleUnauthorizedException extends UnauthorizedException implement
 
     @Override
     public String getDetails() {
-        return "to do";
+        return "Google API unauthorized";
     }
 }

@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class SecretsNotFoundExceptionException extends NotFoundException implements Exception {
 
-    private final String resource;
-
-    public SecretsNotFoundExceptionException(String resource, String message) {
+    public SecretsNotFoundExceptionException(String message) {
         super(message);
-        this.resource = resource;
     }
 
     @Override
@@ -22,6 +19,6 @@ public class SecretsNotFoundExceptionException extends NotFoundException impleme
 
     @Override
     public String getDetails() {
-        return "to do";
+        return "Google API Secrets not found.";
     }
 }

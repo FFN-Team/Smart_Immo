@@ -14,6 +14,7 @@ import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
+import com.gangdestrois.smartimmo.infrastructure.apis.GoogleApi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -144,8 +145,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public GmailSender gmailSender() {
-        return new GmailSender();
+    public GmailSender gmailSender(GoogleApi googleApi) {
+        return new GmailSender(googleApi);
     }
 
     @Bean

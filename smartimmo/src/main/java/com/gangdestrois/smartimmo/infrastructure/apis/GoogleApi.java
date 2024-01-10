@@ -31,13 +31,12 @@ public class GoogleApi {
     }
 
     public Credential getCredentials(Set<String> scopes, HttpTransport httpTransport, GsonFactory jsonFactory) {
-        if (isNull(secretKeyPath))
-            throw new SecretsNotFoundExceptionException("secretKeyPath", "Google API Secrets not found.");
+        if (isNull(secretKeyPath)) throw new SecretsNotFoundExceptionException("File not found.");
         GoogleClientSecrets secrets;
         try {
             secrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(secretKeyPath.getInputStream()));
         } catch (IOException e) {
-            throw new SecretsNotFoundExceptionException(secretKeyPath.getFilename(), "Google API Secrets not found.");
+            throw new SecretsNotFoundExceptionException(e.getMessage());
         }
         try {
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -49,7 +48,7 @@ public class GoogleApi {
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
             return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         } catch (IOException e) {
-            throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), "Google API unauthorized");
+            throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), e.getMessage());
         }
     }
 }
