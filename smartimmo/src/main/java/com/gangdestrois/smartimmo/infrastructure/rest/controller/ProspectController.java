@@ -125,7 +125,7 @@ public class ProspectController {
 
 
 
-    @GetMapping("/existing-filter")
+    @PostMapping("/existing-filter")
     @Operation(
             summary = "Filter prospects with existing filter",
             description = "Filters prospects based on an existing filter.",
