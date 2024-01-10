@@ -13,6 +13,7 @@ import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -31,8 +32,9 @@ public class GmailSender implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailSender.class);
     private final GoogleApi googleApi;
 
-    public GmailSender() {
-        this.googleApi = new GoogleApi();
+    @Autowired
+    public GmailSender(GoogleApi googleApi) {
+        this.googleApi = googleApi;
     }
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
