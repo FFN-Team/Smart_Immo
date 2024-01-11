@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.file;
+package com.gangdestrois.smartimmo.domain.document;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ public interface Composite<T> {
 
     void addChild(T t);
 
-    Boolean removeChild(List<T> t);
+    Boolean removeChild(T t);
 
     Boolean removeChildren(List<T> t);
 }
