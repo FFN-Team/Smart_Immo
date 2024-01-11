@@ -1,7 +1,7 @@
-package com.gangdestrois.smartimmo.domain.email;
+package com.gangdestrois.smartimmo.infrastructure.service;
 
+import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
 import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
-import com.gangdestrois.smartimmo.infrastructure.apis.GoogleApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.EmailContentException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;

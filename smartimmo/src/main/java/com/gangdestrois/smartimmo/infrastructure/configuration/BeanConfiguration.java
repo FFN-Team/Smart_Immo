@@ -2,7 +2,6 @@ package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
-import com.gangdestrois.smartimmo.domain.email.GmailSender;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
@@ -16,6 +15,8 @@ import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
+import com.gangdestrois.smartimmo.infrastructure.service.GmailSender;
+import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -149,7 +150,12 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
+    public ThymeleafConfigurer thymeleafConfigurer(SpringTemplateEngine springTemplateEngine) {
+        return new ThymeleafConfigurer(springTemplateEngine);
+    }
+
+    @Bean
+    public EmailManager emailManager(ThymeleafConfigurer thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
         if (nonNull(gmailSender)) return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
         else return new EmailManager(thymeleafTemplateEngine, prospectDataAdapter);
     }
