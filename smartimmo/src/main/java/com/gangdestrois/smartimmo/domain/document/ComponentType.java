@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.file;
+package com.gangdestrois.smartimmo.domain.document;
 
 public enum ComponentType {
     FILE,
