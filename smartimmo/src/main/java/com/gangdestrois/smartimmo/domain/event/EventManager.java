@@ -1,6 +1,8 @@
 package com.gangdestrois.smartimmo.domain.event;
 
 import com.gangdestrois.smartimmo.common.DomainComponent;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 
