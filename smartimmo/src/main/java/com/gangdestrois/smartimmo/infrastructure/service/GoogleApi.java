@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.infrastructure.apis;
+package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.GoogleUnauthorizedException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.SecretsNotFoundExceptionException;
@@ -8,15 +8,19 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.drive.DriveScopes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Objects.isNull;
@@ -26,6 +30,11 @@ public class GoogleApi {
 
     @Value("${google.api.key.path}")
     private Resource secretKeyPath;
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private static final List<String> SCOPES =
+            Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
+    private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     public GoogleApi() {
     }
@@ -51,5 +60,21 @@ public class GoogleApi {
         } catch (IOException e) {
             throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), "Google API unauthorized");
         }
+    }
+
+    public static Credential getCredentials2(List<String> scopes, final NetHttpTransport netHttpTransport) throws IOException {
+        InputStream in = GoogleApi.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (isNull(in)) {
+            throw new FileNotFoundException("Resource not found " + CREDENTIALS_FILE_PATH);
+        }
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(netHttpTransport, JSON_FACTORY, clientSecrets,
+                scopes)
+                .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
+                .setAccessType("offline")
+                .build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 }
