@@ -1,9 +1,9 @@
-package com.gangdestrois.smartimmo.domain.file;
+package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 public class File extends ComponentImpl implements Component {
-    private StringBuilder content;
+    private String url;
 
     File(String name, Prospect owner) {
         super(name, owner);
@@ -13,20 +13,19 @@ public class File extends ComponentImpl implements Component {
         return null;
     }
 
-    public String getContent() {
-        return null;
+    public String getUrl() {
+        return this.url;
     }
 
     public void appendContent(String content) {
-
     }
 
     public Boolean isComposite() {
-        return null;
+        return false;
     }
 
-    public String toString() {
-        return null;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.file;
+package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
@@ -13,41 +13,42 @@ public class Folder extends ComponentImpl implements Composite<Component>, Compo
 
     @Override
     public List<Component> getChildren() {
-        return null;
+        return this.components;
     }
 
     @Override
     public void addChild(Component c) {
-
+        this.components.add(c);
     }
 
     @Override
-    public Boolean removeChild(List<Component> t) {
-        return null;
+    public Boolean removeChild(Component t) {
+        return this.components.remove(t);
     }
 
     @Override
     public Boolean removeChildren(List<Component> t) {
-        return null;
+        return this.components.removeAll(t);
     }
 
     public void setOwner(Prospect owner, Boolean recursive) {
-
+        super.setOwner(owner, recursive);
+        if (recursive)
+            for (Component c : components) {
+                c.setOwner(owner, true);
+            }
     }
 
     public Integer getSize() {
         return null;
     }
 
-    public String getContent() {
+    public String getUrl() {
         return null;
-    }
-
-    public void appendContent(String name) {
     }
 
     public Boolean isComposite() {
-        return null;
+        return true;
     }
 
     public String toString() {
