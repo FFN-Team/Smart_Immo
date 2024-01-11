@@ -3,8 +3,8 @@ package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.Status;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.persistence.*;
@@ -24,7 +24,7 @@ public class NotificationEntity {
     private Long id;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private NotificationStatus notificationStatus;
     @Column(name = "message")
     private String message;
     @Column(name = "priority")
@@ -43,33 +43,33 @@ public class NotificationEntity {
     public NotificationEntity() {
     }
 
-    public NotificationEntity(Status status, String message, Priority priority,
+    public NotificationEntity(NotificationStatus notificationStatus, String message, Priority priority,
                               PotentialProjectEntity potentialProjectEntity, EventType eventType) {
-        this.status = status;
+        this.notificationStatus = notificationStatus;
         this.message = message;
         this.priority = priority;
         this.potentialProject = potentialProjectEntity;
         this.type = eventType;
     }
 
-    public NotificationEntity(Status status, String message, Priority priority, ProspectEntity prospect, EventType eventType) {
-        this.status = status;
+    public NotificationEntity(NotificationStatus notificationStatus, String message, Priority priority, ProspectEntity prospect, EventType eventType) {
+        this.notificationStatus = notificationStatus;
         this.message = message;
         this.priority = priority;
         this.prospect = prospect;
         this.type = eventType;
     }
 
-    public NotificationEntity(Status status, String message, Priority priority) {
-        this.status = status;
+    public NotificationEntity(NotificationStatus notificationStatus, String message, Priority priority) {
+        this.notificationStatus = notificationStatus;
         this.message = message;
         this.priority = priority;
     }
 
-    public NotificationEntity(Long id, Status status, String message, Priority priority,
+    public NotificationEntity(Long id, NotificationStatus notificationStatus, String message, Priority priority,
                               Model element) {
         this.id = id;
-        this.status = status;
+        this.notificationStatus = notificationStatus;
         this.message = message;
         this.priority = priority;
         if (element.getClass().equals(Prospect.class)) {
@@ -83,15 +83,15 @@ public class NotificationEntity {
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
-        return new Event(this.id, status, message, priority, potentialProject.toModel(), type);
+        return new Event(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
     }
 
     public Event<Prospect> toProspectNotificationModel() {
-        return new Event(this.id, status, message, priority, prospect.toModel(), type);
+        return new Event(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 
     public Event toModel() {
-        return new Event(this.id, this.status, this.message, this.priority, getElement(), type);
+        return new Event(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
     }
 
     public Model getElement() {

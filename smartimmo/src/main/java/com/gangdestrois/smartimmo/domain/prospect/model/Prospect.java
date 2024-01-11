@@ -95,7 +95,7 @@ public class Prospect implements Model, Notify<Prospect> {
 
     public Event<Prospect> mapToEvent() {
         return new Event(
-                Status.TO_READ,
+                NotificationStatus.TO_READ,
                 String.format("Suggestion : le prospect %s %s est susceptible de vouloir changer de logement. " +
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",
                         this.firstName, this.lastName),

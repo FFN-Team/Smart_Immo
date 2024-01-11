@@ -50,7 +50,7 @@ public class EventManager<T extends Notify> {
                                             NotificationStrategy<T> notificationStrategy) {
         elementToNotify.stream()
                 .filter(element -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
-                        element.id(), Status.statusesNotAlreadyDealt(), eventType).size() == 0)
+                        element.id(), NotificationStatus.statusesNotAlreadyDealt(), eventType).size() == 0)
                 .forEach(element -> {
                     Event<T> elementNotification = element.mapToEvent();
                     elementNotification.setId(notificationStrategy.save(elementNotification));

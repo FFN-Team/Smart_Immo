@@ -21,7 +21,7 @@ public class PotentialProject implements Notify<PotentialProject> {
     }
 
     public Event<PotentialProject> mapToEvent() {
-        return new Event(Status.TO_READ, message, priority, this, EventType.PROJECT_DUE_DATE_APPROACHING);
+        return new Event(NotificationStatus.TO_READ, message, priority, this, EventType.PROJECT_DUE_DATE_APPROACHING);
     }
 
     @Override

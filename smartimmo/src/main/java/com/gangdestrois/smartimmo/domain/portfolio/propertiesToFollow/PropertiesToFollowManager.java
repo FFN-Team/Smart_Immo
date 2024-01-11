@@ -10,7 +10,6 @@ import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.BuyerNotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -48,7 +47,7 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
         List<Property> filteredProperties = propertySpi.findAll().stream()
                 .filter(PropertyCriteriaPredicates.allCriteriaPredicate(this.buyer))
                 .peek(property -> propertyToFollowSpi.savePropertyToFollow(this.buyer, property))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

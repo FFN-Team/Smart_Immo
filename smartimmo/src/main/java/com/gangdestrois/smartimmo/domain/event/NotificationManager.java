@@ -1,10 +1,12 @@
 package com.gangdestrois.smartimmo.domain.event;
 
+import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 
 import java.util.Optional;
 
+@DomainComponent
 public class NotificationManager implements NotificationApi {
     private final NotificationSpi notificationSpi;
 

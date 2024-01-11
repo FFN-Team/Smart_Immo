@@ -3,14 +3,14 @@ package com.gangdestrois.smartimmo.domain.event;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Status {
+public enum NotificationStatus {
     TO_READ(false),
     OPEN(false),
     DEALT(true),
     ARCHIVED(true);
     private boolean isAlreadyDealt;
 
-    Status(boolean isAlreadyDealt) {
+    NotificationStatus(boolean isAlreadyDealt) {
     }
 
     public boolean isAlreadyDealt() {
@@ -21,7 +21,7 @@ public enum Status {
         return !this.isAlreadyDealt();
     }
 
-    public static List<Status> statusesNotAlreadyDealt() {
-        return Arrays.stream(Status.values()).filter(Status::isNotAlreadyDealt).toList();
+    public static List<NotificationStatus> statusesNotAlreadyDealt() {
+        return Arrays.stream(NotificationStatus.values()).filter(NotificationStatus::isNotAlreadyDealt).toList();
     }
 }
