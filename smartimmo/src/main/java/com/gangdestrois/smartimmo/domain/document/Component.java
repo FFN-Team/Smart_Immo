@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.file;
+package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
@@ -11,9 +11,7 @@ public interface Component {
 
     Integer getSize();
 
-    String getContent();
-
-    void appendContent(String name);
+    String getUrl();
 
     Boolean isComposite();
 }
