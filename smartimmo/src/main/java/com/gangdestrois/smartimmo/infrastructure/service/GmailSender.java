@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
 
-import static com.gangdestrois.smartimmo.domain.ApplicationData.TECHNIMMO;
+import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 import static javax.mail.Message.RecipientType.TO;
 
