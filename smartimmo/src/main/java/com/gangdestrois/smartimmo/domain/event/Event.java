@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.event;
 
-import com.gangdestrois.smartimmo.domain.Model;
+import com.gangdestrois.smartimmo.domain.tool.Model;
 
 public class Event<T extends Model> {
     private Long id;
