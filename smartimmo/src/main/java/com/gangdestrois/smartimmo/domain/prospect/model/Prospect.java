@@ -8,6 +8,7 @@ import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.tool.Model;
 
 import java.time.LocalDate;
 import java.util.List;
