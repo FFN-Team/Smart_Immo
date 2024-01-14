@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.event.port;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 
 import java.util.Map;
 import java.util.Set;

@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;

@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import jakarta.persistence.*;
 
 import java.util.HashSet;

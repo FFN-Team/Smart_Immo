@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.event;
+package com.gangdestrois.smartimmo.domain.event.enums;
 
 public enum EventType {
     PROJECT_DUE_DATE_APPROACHING("Suivi de votre projet immobilier imminent",

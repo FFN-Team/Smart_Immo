@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.domain.email;
 import com.gangdestrois.smartimmo.domain.email.port.EmailApi;
 import com.gangdestrois.smartimmo.domain.email.port.EmailConfigurer;
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ContactOnSocialMediaUnauthorizedException;

@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
 import org.junit.jupiter.api.Test;
