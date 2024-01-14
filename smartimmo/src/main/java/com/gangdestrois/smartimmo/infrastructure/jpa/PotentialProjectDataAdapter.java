@@ -17,7 +17,7 @@ public class PotentialProjectDataAdapter implements PotentialProjectSpi {
     }
 
     @Override
-    public List<Notify> findPotentialProjectToNotify() {
+    public List<PotentialProject> findPotentialProjectToNotify() {
         return potentialProjectRepository.findByNotificationDate(LocalDate.now())
                 .stream()
                 .map(PotentialProjectEntity::toModel)
@@ -25,7 +25,7 @@ public class PotentialProjectDataAdapter implements PotentialProjectSpi {
     }
 
     @Override
-    public List<Notify> findPotentialProjectsByNotificationToDisplay() {
+    public List<PotentialProject> findPotentialProjectsByNotificationToDisplay() {
         return potentialProjectRepository.findPotentialProjectEntitiesByNotificationToDisplay()
                 .stream()
                 .map(PotentialProjectEntity::toModel)

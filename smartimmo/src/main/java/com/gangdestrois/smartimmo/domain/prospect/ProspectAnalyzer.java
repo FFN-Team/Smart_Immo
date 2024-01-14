@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.domain.prospect;
 import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.ProspectNotificationStrategy;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
@@ -26,7 +27,7 @@ public class ProspectAnalyzer implements ProspectApi {
         this.eventManager = eventManager;
     }
 
-    public List<Event> notifyForProspectsThatMayBuyBiggerHouse() {
+    public List<Event<? extends Notify>> notifyForProspectsThatMayBuyBiggerHouse() {
         var prospectsToNotify = findProspectsThatMayBuyBiggerHouse();
         return eventManager.makeNotifications(prospectsToNotify, PROSPECT_MAY_BUY_BIGGER_HOUSE,
                 new ProspectNotificationStrategy(this.notificationSpi));

@@ -38,7 +38,7 @@ public class PotentialProjectEntity {
                 "le projet ci-dessous pour reprendre connaissance avec le projet.", prospect.getCompleteName());
     }
 
-    public Notify toModel() {
+    public PotentialProject toModel() {
         return new PotentialProject(id, dueDate, getMessage(), Priority.valueOf(priority), project.getProspect()
                 .map(ProspectEntity::toModel).orElse(null));
     }

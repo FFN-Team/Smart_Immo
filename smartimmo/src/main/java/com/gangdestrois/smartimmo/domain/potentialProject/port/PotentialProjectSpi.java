@@ -8,7 +8,7 @@ import java.util.List;
 public interface PotentialProjectSpi {
 
     //Potential projects with no notifications or notifications status different of ARCHIVED or DEALT
-    List<Notify> findPotentialProjectsByNotificationToDisplay();
+    List<PotentialProject> findPotentialProjectsByNotificationToDisplay();
 
-    List<? extends Notify> findPotentialProjectToNotify();
+    List<PotentialProject> findPotentialProjectToNotify();
 }

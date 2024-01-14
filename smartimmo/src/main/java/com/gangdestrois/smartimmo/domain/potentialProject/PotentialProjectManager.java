@@ -37,7 +37,7 @@ public class PotentialProjectManager implements PotentialProjectApi {
     }
 
     @Override
-    public List<Event<PotentialProject>> notifyPotentialProjects() {
+    public List<Event<? extends Notify>> notifyPotentialProjects() {
         var potentialProjectsToNotify = potentialProjectSpi.findPotentialProjectToNotify();
         return eventManager.makeNotifications(potentialProjectsToNotify, PROJECT_DUE_DATE_APPROACHING,
                 new PotentialProjectNotificationStrategy(this.notificationSpi));

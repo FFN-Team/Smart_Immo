@@ -49,8 +49,8 @@ public class EventManager {
                 .forEach(eventListener -> eventListener.update(event));
     }
 
-    public List<Event<>> makeNotifications(List<? extends Notify> elementToNotify, EventType eventType,
-                                            NotificationStrategy<> notificationStrategy) {
+    public List<Event<? extends Notify>> makeNotifications(List<? extends Notify> elementToNotify, EventType eventType,
+                                            NotificationStrategy<? extends Notify> notificationStrategy) {
         elementToNotify.stream()
                 .filter(element -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
                         element.id(), NotificationStatus.statusesNotAlreadyDealt(), eventType).size() == 0)
