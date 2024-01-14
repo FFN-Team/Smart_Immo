@@ -18,15 +18,15 @@ import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROSPECT_M
 public class ProspectAnalyzer implements ProspectApi {
     private final ProspectSpi prospectSpi;
     private final NotificationSpi notificationSpi;
-    private final EventManager<Prospect> eventManager;
+    private final EventManager eventManager;
 
-    public ProspectAnalyzer(ProspectSpi prospectSpi, NotificationSpi notificationSpi, EventManager<Prospect> eventManager) {
+    public ProspectAnalyzer(ProspectSpi prospectSpi, NotificationSpi notificationSpi, EventManager eventManager) {
         this.prospectSpi = prospectSpi;
         this.notificationSpi = notificationSpi;
         this.eventManager = eventManager;
     }
 
-    public List<Event<Prospect>> notifyForProspectsThatMayBuyBiggerHouse() {
+    public List<Event> notifyForProspectsThatMayBuyBiggerHouse() {
         var prospectsToNotify = findProspectsThatMayBuyBiggerHouse();
         return eventManager.makeNotifications(prospectsToNotify, PROSPECT_MAY_BUY_BIGGER_HOUSE,
                 new ProspectNotificationStrategy(this.notificationSpi));

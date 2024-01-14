@@ -13,7 +13,7 @@ import com.gangdestrois.smartimmo.domain.prospect.Title;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Prospect implements Model, Notify<Prospect> {
+public class Prospect implements Model, Notify {
     private Long id;
     private final ContactOrigin contactOrigin;
     private final Title title;

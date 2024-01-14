@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
@@ -110,7 +111,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public List<Event> findNotificationByEventType(EventType eventType) {
+    public List<Event<? extends Notify>> findNotificationByEventType(EventType eventType) {
         return notificationRepository.findNotificationEntitiesByType(eventType)
                 .stream().map(NotificationEntity::toModel)
                 .toList();

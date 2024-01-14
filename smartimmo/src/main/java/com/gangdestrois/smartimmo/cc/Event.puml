@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Notify {
+mapToEvent() : Event<T>
+setId(id : Long)
+}
+interface NotificationStrategy<T extends Notify> {
+save(event : Event<T>) : Long
+findNotificationById(notificationId : Long ) : Optional<Event<T>>
+}
+class PotentialProjectNotificationStrategy {
++ findNotificationById(notificationId : Long) : Optional<Event<PotentialProject>>
++  save(event : Event) : Long
+}
+class ProspectNotificationStrategy {
++ findNotificationById(notificationId : Long) : Optional<Event<Prospect>>
++  save(event : Event) : Long
+}
+interface EventListener {
+update(event : Event)
+}
+class NotificationAlertListener {
++ update(event : Event)
+}
+class EventManager {
++ subscribe(type : EventType, listener : EventListener)
++ unSubscribe(type : EventType, listener : EventListener)
++ notify(event : Event)
++ makeNotifications(elementToNotify: Notify<T>[],
+                    eventType: EventType,
+                    notificationStrategy: NotificationStrategy<T>) : Event<T>[]
+}
+class Event {
+- type : EventType
+}
+enum EventType{
+PROJECT_DUE_DATE_APPROACHING
+PROSPECT_MAY_BUY_BIGGER_HOUSE
+}
+class Prospect {
+}
+class PotentialProject {
+}
+
+EventListener <|.. NotificationAlertListener
+EventType <-- Event
+NotificationStrategy "<PotentialProject>" <|.. PotentialProjectNotificationStrategy
+NotificationStrategy "<Prospect>" <|.. ProspectNotificationStrategy
+Notify <|.. Prospect
+Notify <|.. PotentialProject
+
+@enduml

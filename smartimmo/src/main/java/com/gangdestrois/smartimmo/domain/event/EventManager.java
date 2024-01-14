@@ -13,7 +13,7 @@ import java.util.List;
 import static java.util.Objects.nonNull;
 
 @DomainComponent
-public class EventManager<T extends Notify> {
+public class EventManager {
     private final SubscriptionSpi subscriptionSpi;
     private final NotificationSpi notificationSpi;
 
@@ -22,7 +22,7 @@ public class EventManager<T extends Notify> {
         this.notificationSpi = notificationSpi;
     }
 
-    public List<Event> eventsFromEventType(EventType... eventTypes) {
+    public List<Event<? extends Notify>> eventsFromEventType(EventType... eventTypes) {
         return Arrays.stream(eventTypes)
                 .map(notificationSpi::findNotificationByEventType)
                 .flatMap(List::stream)
@@ -43,19 +43,19 @@ public class EventManager<T extends Notify> {
         subscriptionSpi.remove(eventType, listener);
     }
 
-    public void notify(Event<T> event) {
+    public void notify(Event<? extends Notify> event) {
         subscriptionSpi.findAll()
                 .get(event.getEventType())
                 .forEach(eventListener -> eventListener.update(event));
     }
 
-    public List<Event<T>> makeNotifications(List<? extends Notify<T>> elementToNotify, EventType eventType,
-                                            NotificationStrategy<T> notificationStrategy) {
+    public List<Event<>> makeNotifications(List<? extends Notify> elementToNotify, EventType eventType,
+                                            NotificationStrategy<> notificationStrategy) {
         elementToNotify.stream()
                 .filter(element -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
                         element.id(), NotificationStatus.statusesNotAlreadyDealt(), eventType).size() == 0)
                 .forEach(element -> {
-                    Event<T> elementNotification = element.mapToEvent();
+                    Event elementNotification = element.mapToEvent();
                     elementNotification.setId(notificationStrategy.save(elementNotification));
                     notify(elementNotification);
                 });

@@ -3,7 +3,6 @@ package com.gangdestrois.smartimmo.domain.event;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
-
 import java.util.Optional;
 
 public class ProspectNotificationStrategy implements NotificationStrategy<Prospect> {

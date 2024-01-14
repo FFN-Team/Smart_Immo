@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
@@ -16,7 +17,7 @@ public class PotentialProjectDataAdapter implements PotentialProjectSpi {
     }
 
     @Override
-    public List<PotentialProject> findPotentialProjectToNotify() {
+    public List<Notify> findPotentialProjectToNotify() {
         return potentialProjectRepository.findByNotificationDate(LocalDate.now())
                 .stream()
                 .map(PotentialProjectEntity::toModel)
@@ -24,7 +25,7 @@ public class PotentialProjectDataAdapter implements PotentialProjectSpi {
     }
 
     @Override
-    public List<PotentialProject> findPotentialProjectsByNotificationToDisplay() {
+    public List<Notify> findPotentialProjectsByNotificationToDisplay() {
         return potentialProjectRepository.findPotentialProjectEntitiesByNotificationToDisplay()
                 .stream()
                 .map(PotentialProjectEntity::toModel)

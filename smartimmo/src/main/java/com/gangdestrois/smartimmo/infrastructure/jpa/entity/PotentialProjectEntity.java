@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
@@ -37,7 +38,7 @@ public class PotentialProjectEntity {
                 "le projet ci-dessous pour reprendre connaissance avec le projet.", prospect.getCompleteName());
     }
 
-    public PotentialProject toModel() {
+    public Notify toModel() {
         return new PotentialProject(id, dueDate, getMessage(), Priority.valueOf(priority), project.getProspect()
                 .map(ProspectEntity::toModel).orElse(null));
     }

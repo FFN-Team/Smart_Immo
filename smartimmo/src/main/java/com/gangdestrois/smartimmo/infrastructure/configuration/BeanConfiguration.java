@@ -86,27 +86,18 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager<PotentialProject> potentialProjectEventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
+    public EventManager potentialProjectEventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
         return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
     }
 
     @Bean
-    public EventManager<Prospect> prospectEventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
         return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
-    }
-
-    @Bean
-    public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
-                                                           EventManager<PotentialProject> eventManager,
-                                                           NotificationDataAdapter notificationDataAdapter,
-                                                           ProjectDataAdapter projectDataAdapter
-    ) {
-        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
     }
 
     @Bean
     public ProspectAnalyzer prospectAnalyzer(ProspectDataAdapter prospectDataAdapter, NotificationDataAdapter notificationDataAdapter,
-                                             EventManager<Prospect> eventManager) {
+                                             EventManager eventManager) {
         return new ProspectAnalyzer(prospectDataAdapter, notificationDataAdapter, eventManager);
     }
 

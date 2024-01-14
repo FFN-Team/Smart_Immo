@@ -9,7 +9,7 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.time.LocalDate;
 
-public class PotentialProject implements Notify<PotentialProject> {
+public class PotentialProject implements Notify {
     private Long id;
     private final LocalDate dueDate;
     private final String message;

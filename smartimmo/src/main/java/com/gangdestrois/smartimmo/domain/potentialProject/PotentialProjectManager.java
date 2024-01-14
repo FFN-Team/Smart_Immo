@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.domain.potentialProject;
 import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.PotentialProjectNotificationStrategy;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
@@ -21,12 +22,12 @@ import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROJECT_DU
 @DomainComponent
 public class PotentialProjectManager implements PotentialProjectApi {
     private final PotentialProjectSpi potentialProjectSpi;
-    private final EventManager<PotentialProject> eventManager;
+    private final EventManager eventManager;
     private final NotificationSpi notificationSpi;
     private final ProjectSpi projectSpi;
 
     public PotentialProjectManager(PotentialProjectSpi potentialProjectSpi,
-                                   EventManager<PotentialProject> eventManager,
+                                   EventManager eventManager,
                                    NotificationSpi notificationSpi,
                                    ProjectSpi projectSpi) {
         this.potentialProjectSpi = potentialProjectSpi;
