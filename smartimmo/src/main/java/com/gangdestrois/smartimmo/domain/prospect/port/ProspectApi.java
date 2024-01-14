@@ -2,11 +2,12 @@ package com.gangdestrois.smartimmo.domain.prospect.port;
 
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
+import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ProspectApi {
-    Set<Event> notifyForProspectsThatMayBuyBiggerHouse();
+    List<Event<Prospect>> notifyForProspectsThatMayBuyBiggerHouse();
 
     void subscription(EventListener eventListener);
 }

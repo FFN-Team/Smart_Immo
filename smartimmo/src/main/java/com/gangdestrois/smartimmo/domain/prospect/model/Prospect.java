@@ -1,20 +1,16 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
 import com.gangdestrois.smartimmo.domain.Model;
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.Priority;
-import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.event.*;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.Title;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-public class Prospect implements Model {
-    private final Long id;
+public class Prospect implements Model, Notify<Prospect> {
+    private Long id;
     private final ContactOrigin contactOrigin;
     private final Title title;
     private final String lastName;
@@ -97,13 +93,18 @@ public class Prospect implements Model {
         return firstName + " " + lastName;
     }
 
-    public Event<Prospect> mapToProspectNotification() {
+    public Event<Prospect> mapToEvent() {
         return new Event(
-                Status.TO_READ,
+                NotificationStatus.TO_READ,
                 String.format("Suggestion : le prospect %s %s est susceptible de vouloir changer de logement. " +
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",
                         this.firstName, this.lastName),
                 Priority.LOW,
                 this, EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE);
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 }

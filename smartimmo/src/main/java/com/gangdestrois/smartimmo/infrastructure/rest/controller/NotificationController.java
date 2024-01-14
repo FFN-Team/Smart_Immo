@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.StatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,12 +41,12 @@ public class NotificationController {
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody StatusRequest statusRequest) {
+    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody NotificationStatusRequest notificationStatusRequest) {
         Event originalEvent = notificationApi.findNotificationById(notificationId)
                 .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
         Event eventToSave = new Event<>(
                 notificationId,
-                statusRequest.status(),
+                notificationStatusRequest.notificationStatus(),
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement(),

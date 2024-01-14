@@ -15,12 +15,12 @@ public interface PotentialProjectRepository extends JpaRepository<PotentialProje
             SELECT pp 
             FROM PotentialProjectEntity pp INNER join NotificationEntity n
             ON pp.id = n.id
-            WHERE n.status <> 'ARCHIVED' AND n.status <> 'DEALT'
+            WHERE n.notificationStatus <> 'ARCHIVED' AND n.notificationStatus <> 'DEALT'
             """)
     List<PotentialProjectEntity> findPotentialProjectEntitiesByNotificationToDisplay();
 
     @Query(value = """
-        select pp from PotentialProjectEntity pp where pp.notificationDate <= :today
-    """)
+                select pp from PotentialProjectEntity pp where pp.notificationDate <= :today
+            """)
     List<PotentialProjectEntity> findByNotificationDate(@Param("today") LocalDate today);
 }

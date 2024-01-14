@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.StatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,11 +23,11 @@ class NotificationControllerTest {
 
     @Test
     void changeStatus() throws Exception {
-        StatusRequest statusRequest = new StatusRequest(Status.OPEN);
+        NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
 
         mockMvc.perform(patch("/api/v1/notifications/1/status")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(statusRequest.toString())
+                        .content(notificationStatusRequest.toString())
                         .characterEncoding("utf-8"))
                 .andExpect(status().isBadRequest());
     }
