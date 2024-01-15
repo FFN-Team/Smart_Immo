@@ -7,6 +7,7 @@ import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.event.NotificationManager;
 import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
+import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
 import com.gangdestrois.smartimmo.domain.property.AddressManager;
 import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
@@ -83,19 +84,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager potentialProjectEventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
-        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
-    }
-
-    @Bean
     public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
         return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
-    }
-
-    @Bean
-    public ProspectAnalyzer prospectAnalyzer(ProspectDataAdapter prospectDataAdapter, NotificationDataAdapter notificationDataAdapter,
-                                             EventManager eventManager) {
-        return new ProspectAnalyzer(prospectDataAdapter, notificationDataAdapter, eventManager);
     }
 
     @Bean
@@ -116,8 +106,23 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
+                                                           EventManager eventManager,
+                                                           NotificationDataAdapter notificationDataAdapter,
+                                                           ProjectDataAdapter projectDataAdapter
+    ) {
+        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
+    }
+
+    @Bean
     public ProspectDataAdapter prospectDataAdapter(ProspectRepository prospectRepository) {
         return new ProspectDataAdapter(prospectRepository);
+    }
+
+    @Bean
+    public ProspectAnalyzer prospectAnalyzer(ProspectDataAdapter prospectDataAdapter, NotificationDataAdapter notificationDataAdapter,
+                                             EventManager eventManager) {
+        return new ProspectAnalyzer(prospectDataAdapter, notificationDataAdapter, eventManager);
     }
 
     @Bean
