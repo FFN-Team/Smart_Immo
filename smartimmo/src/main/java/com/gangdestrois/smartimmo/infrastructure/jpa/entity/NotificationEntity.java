@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.Model;
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
@@ -90,7 +91,7 @@ public class NotificationEntity {
         return new Event<Prospect>(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 
-    public Event toModel() {
+    public Event<Notify> toModel() {
         return new Event(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
     }
 

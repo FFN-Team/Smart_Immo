@@ -3,10 +3,10 @@ package com.gangdestrois.smartimmo.domain.potentialProject;
 import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
-import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.PotentialProjectNotificationStrategy;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
+import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectSpi;
 import com.gangdestrois.smartimmo.domain.project.Project;
@@ -36,10 +36,12 @@ public class PotentialProjectManager implements PotentialProjectApi {
     }
 
     @Override
-    public List<Event<? extends Notify>> notifyPotentialProjects() {
+    public List<Event<PotentialProject>> notifyPotentialProjects() {
         var potentialProjectsToNotify = potentialProjectSpi.findPotentialProjectToNotify();
-        return eventManager.makeNotifications(potentialProjectsToNotify, PROJECT_DUE_DATE_APPROACHING,
-                new PotentialProjectNotificationStrategy(this.notificationSpi));
+        var potentialProjectNotificationStrategy = new PotentialProjectNotificationStrategy(this.notificationSpi, eventManager);
+        potentialProjectNotificationStrategy.makeNotification(potentialProjectsToNotify,
+                PROJECT_DUE_DATE_APPROACHING);
+        return potentialProjectNotificationStrategy.getNotifications(PROJECT_DUE_DATE_APPROACHING);
     }
 
     @Override

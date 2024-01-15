@@ -70,7 +70,7 @@ public class NotificationDataAdapter implements NotificationSpi {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
-    public List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
+    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         switch (eventType) {
             case PROJECT_DUE_DATE_APPROACHING -> {
@@ -111,7 +111,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public List<Event<? extends Notify>> findNotificationByEventType(EventType eventType) {
+    public List<Event<Notify>> findNotificationByEventType(EventType eventType) {
         return notificationRepository.findNotificationEntitiesByType(eventType)
                 .stream().map(NotificationEntity::toModel)
                 .toList();

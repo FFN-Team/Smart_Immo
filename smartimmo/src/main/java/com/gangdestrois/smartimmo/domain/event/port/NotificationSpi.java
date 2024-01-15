@@ -21,9 +21,9 @@ public interface NotificationSpi {
 
     Optional<Event> findNotificationById(Long id);
 
-    List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType);
+    List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType);
 
     Event save(Event event);
 
-    List<Event<? extends Notify>> findNotificationByEventType(EventType eventType);
+    List<Event<Notify>> findNotificationByEventType(EventType eventType);
 }

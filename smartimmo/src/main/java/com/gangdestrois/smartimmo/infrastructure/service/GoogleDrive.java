@@ -15,23 +15,11 @@ import com.google.api.services.drive.model.Permission;
 import java.io.IOException;
 import java.util.List;
 
-public class GoogleDriveDemo {
+public class GoogleDrive {
     private static final String FILE_PATH = "C:\\Users\\fphil\\Documents\\Smart_Immo\\smartimmo\\src\\main\\resources\\EDT.png";
     private static final String FILE_NAME = "example.jpg";
     private static final String FILE_ID = "1bdCRsOLgTrbWu6Abb2ZJFx2_TloT5Rbw";
-
-    public static void main(String[] args) {
-        try {
-            Drive drive = initializeDrive();
-
-            // Uncomment the method calls based on what you want to demonstrate
-            //uploadFile(drive);
-             deleteFile(drive, FILE_ID);
-           // generatePublicUrl(drive);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private Drive drive;
 
     private static Drive initializeDrive() throws Exception {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -52,7 +40,7 @@ public class GoogleDriveDemo {
                 .setRefreshToken("REFRESH_TOKEN");
     }
 
-    private static String uploadFile(Drive drive, String stringFilePath, String fileName) throws IOException {
+    public static String uploadFile(Drive drive, String stringFilePath, String fileName) throws Exception {
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
         java.io.File filePath = new java.io.File(stringFilePath);
@@ -63,12 +51,11 @@ public class GoogleDriveDemo {
         return file.getId();
     }
 
-    private static void deleteFile(Drive drive, String fileId) throws IOException {
+    public static void deleteFile(Drive drive, String fileId) throws IOException {
         drive.files().delete(fileId).execute();
-        System.out.println("File deleted successfully.");
     }
 
-    private static void generatePublicUrl(Drive drive) throws IOException {
+    public static File generatePublicUrl(Drive drive) throws IOException {
         Permission permission = new Permission();
         permission.setRole("reader");
         permission.setType("anyone");
@@ -77,5 +64,6 @@ public class GoogleDriveDemo {
         File file = drive.files().get(FILE_ID).setFields("webViewLink, webContentLink").execute();
         System.out.println("webViewLink: " + file.getWebViewLink());
         System.out.println("webContentLink: " + file.getWebContentLink());
+        return file;
     }
 }
