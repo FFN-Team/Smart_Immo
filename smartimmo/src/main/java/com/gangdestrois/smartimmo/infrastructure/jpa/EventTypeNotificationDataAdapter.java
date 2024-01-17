@@ -26,8 +26,8 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
         this.notificationRepository = notificationRepository;
     }
 
-    public Map<EventType, Set<Event<Notify>>> findEventsGroupByEventType() {
-        Map<EventType, Set<Event<Notify>>> map = new HashMap<>();
+    public Map<EventType, Set<Event<? extends Notify>>> findEventsGroupByEventType() {
+        Map<EventType, Set<Event<? extends Notify>>> map = new HashMap<>();
         eventTypeNotificationRepository.findAll()
                 .forEach(eventTypeNotificationEntity -> eventTypeNotificationEntity.toModel(map));
         return map;
@@ -35,10 +35,10 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
 
     @Override
     @Transactional
-    public void saveAll(Map<EventType, Set<Event<Notify>>> notifications) {
+    public void saveAll(Map<EventType, Set<Event<? extends Notify>>> notifications) {
         List<EventTypeNotificationEntity> eventTypeNotificationEntities = new ArrayList<>();
         for (EventType eventType : notifications.keySet()) {
-            for (Event<Notify> event : notifications.get(eventType)) {
+            for (Event<? extends Notify> event : notifications.get(eventType)) {
                 if (nonNull(event.getId()) && notificationRepository.findById(event.getId()).isPresent()) {
                     eventTypeNotificationEntities.add(
                             new EventTypeNotificationEntity(eventType,

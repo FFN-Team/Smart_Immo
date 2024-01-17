@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface EventTypeNotificationSpi {
 
-    Map<EventType, Set<Event<Notify>>> findEventsGroupByEventType();
+    Map<EventType, Set<Event<? extends Notify>>> findEventsGroupByEventType();
 
-    void saveAll(Map<EventType, Set<Event<Notify>>> notifications);
+    void saveAll(Map<EventType, Set<Event<? extends Notify>>> notifications);
 }

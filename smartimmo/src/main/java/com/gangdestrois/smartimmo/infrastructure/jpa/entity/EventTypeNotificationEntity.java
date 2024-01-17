@@ -31,10 +31,10 @@ public class EventTypeNotificationEntity {
         this.notification = notificationEntity;
     }
 
-    public Map<EventType, Set<Event<Notify>>> toModel(Map<EventType, Set<Event<Notify>>> map) {
+    public Map<EventType, Set<Event<? extends Notify>>> toModel(Map<EventType, Set<Event<? extends Notify>>> map) {
         if (map.containsKey(eventType)) map.get(eventType).add(notification.toModel());
         else {
-            var events = new HashSet<Event<Notify>>();
+            var events = new HashSet<Event<? extends Notify>>();
             events.add(notification.toModel());
             map.put(eventType, events);
         }

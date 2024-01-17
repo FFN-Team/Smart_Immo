@@ -23,7 +23,7 @@ public abstract class AbstractNotificationStrategy<T extends Notify> implements 
         elementToNotify.stream()
                 .filter(element -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
                         element.id(), NotificationStatus.statusesNotAlreadyDealt(), eventType).size() == 0)
-                .forEach(this::saveNotification);
+                .forEach(this::notify);
     }
 
     @Override
@@ -38,5 +38,9 @@ public abstract class AbstractNotificationStrategy<T extends Notify> implements 
 
     public NotificationSpi getNotificationSpi() {
         return notificationSpi;
+    }
+
+    public EventManager getEventManager() {
+        return eventManager;
     }
 }

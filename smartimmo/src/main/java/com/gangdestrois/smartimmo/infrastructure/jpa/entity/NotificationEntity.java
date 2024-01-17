@@ -8,8 +8,11 @@ import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProjectNotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProspectNotFoundException;
 import jakarta.persistence.*;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -57,12 +60,6 @@ public class NotificationEntity {
         this.type = eventType;
     }
 
-    public NotificationEntity(NotificationStatus notificationStatus, String message, Priority priority) {
-        this.notificationStatus = notificationStatus;
-        this.message = message;
-        this.priority = priority;
-    }
-
     public NotificationEntity(Long id, NotificationStatus notificationStatus, String message, Priority priority,
                               Model element) {
         this.id = id;
@@ -80,15 +77,17 @@ public class NotificationEntity {
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
-        return new Event(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
+        if (isNull(potentialProject)) throw new ProjectNotFoundException("project not found");
+        return new Event<PotentialProject>(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
     }
 
     public Event<Prospect> toProspectNotificationModel() {
-        return new Event(this.id, notificationStatus, message, priority, prospect.toModel(), type);
+        if (isNull(prospect)) throw new ProspectNotFoundException("prospect not found");
+        return new Event<Prospect>(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 
     public Event<Notify> toModel() {
-        return new Event(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
+        return new Event<Notify>(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
     }
 
     public Notify getElement() {

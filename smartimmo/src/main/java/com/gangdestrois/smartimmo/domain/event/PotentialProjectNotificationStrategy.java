@@ -22,11 +22,9 @@ public class PotentialProjectNotificationStrategy extends AbstractNotificationSt
         return super.getNotificationSpi().findProjectNotificationById(notificationId);
     }
 
-    public Event<PotentialProject> saveNotification(PotentialProject potentialProject) {
+    public void notify(PotentialProject potentialProject) {
         var elementNotification = potentialProject.mapToEvent();
         elementNotification.setId(save(elementNotification));
-        return elementNotification;
+        getEventManager().notify(elementNotification);
     }
-
-
 }

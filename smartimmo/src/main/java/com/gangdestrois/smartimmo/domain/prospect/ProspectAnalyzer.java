@@ -12,7 +12,6 @@ import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 
 import java.util.List;
 
-import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROJECT_DUE_DATE_APPROACHING;
 import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE;
 
 @DomainComponent
@@ -32,8 +31,8 @@ public class ProspectAnalyzer implements ProspectApi {
         var prospectsToNotify = findProspectsThatMayBuyBiggerHouse();
         var prospectNotificationStrategy = new ProspectNotificationStrategy(this.notificationSpi, eventManager);
         prospectNotificationStrategy.makeNotification(prospectsToNotify,
-                PROJECT_DUE_DATE_APPROACHING);
-        return prospectNotificationStrategy.getNotifications(PROJECT_DUE_DATE_APPROACHING);
+                PROSPECT_MAY_BUY_BIGGER_HOUSE);
+        return prospectNotificationStrategy.getNotifications(PROSPECT_MAY_BUY_BIGGER_HOUSE);
     }
 
     public List<Prospect> findProspectsThatMayBuyBiggerHouse() {
