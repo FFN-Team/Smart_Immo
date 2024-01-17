@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class GoogleDrive {
-    private static final String FILE_PATH = "C:\\Users\\fphil\\Documents\\Smart_Immo\\smartimmo\\src\\main\\resources\\EDT.png";
-    private static final String FILE_NAME = "example.jpg";
     private static final String FILE_ID = "1bdCRsOLgTrbWu6Abb2ZJFx2_TloT5Rbw";
     private Drive drive;
 
