@@ -1,4 +1,4 @@
-= ```Smart_Immo``` Documentation
+= ```TechnImmo``` Documentation
 FFN-Team
 2023-11-26
 :toc:
@@ -7,11 +7,14 @@ FFN-Team
 ifndef::sourcedir[:sourcedir: ../../main/java/com/gangdestrois/smartimmo]
 ifndef::modelsdir[:modelsdir: models]
 
+<<<
+
 == Synthèse
 
 === Identité du projet
-
 * *Nom du projet* : TechnImmo
+* *Abréviation* : TI
+
 
 === Membres de l'équipe
 
@@ -51,9 +54,12 @@ Stratégies :
 * Faire jouer le réseau professionnel / personnel
 * Faire un site web
 
+<<<
+
 == Aspects techniques
 
 === README
+//TODO : Mettre une variable pour le readMe pour le générer automatiquement
 
 ==== To do before setting up your development environment
 
@@ -96,6 +102,8 @@ All tests
 mvn clean verify
 ----
 
+<<<
+
 === Type d'application
 
 C'est une application *web*.
@@ -131,9 +139,16 @@ Utilisation pour l’automatisation, l’aide à la décision et l'excellence de
 
 Par exemple : amélioration de la recherche des biens, personnalisation des recommandations, évaluation immobilière…
 
+<<<
+
 == Modélisation
 
 === v0.0.2
+//- maquette du front correspondent à la feature (une ou plusieurs représentation d'interface,
+//  avec la description des enchainements)
+//- diagramme de classes global (partie métier)
+//- description API back (ex REST)
+//- diagrammes de séquence des interactions front/back (par feature, voir le back comme une boîte noire)
 
 ==== Feature 1 : Notifier l'agent quand la date d'un projet anticipé approche
 
