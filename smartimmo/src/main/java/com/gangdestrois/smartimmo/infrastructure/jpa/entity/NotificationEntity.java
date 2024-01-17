@@ -10,10 +10,6 @@ import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -84,29 +80,19 @@ public class NotificationEntity {
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
-        return new Event<PotentialProject>(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
+        return new Event(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
     }
 
     public Event<Prospect> toProspectNotificationModel() {
-        return new Event<Prospect>(this.id, notificationStatus, message, priority, prospect.toModel(), type);
+        return new Event(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 
     public Event<Notify> toModel() {
         return new Event(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
     }
 
-    public Model getElement() {
+    public Notify getElement() {
         return nonNull(this.prospect) ? this.prospect.toModel() : this.potentialProject.toModel();
-    }
-
-    public Map<EventType, Set<Event>> toModel(Map<EventType, Set<Event>> map) {
-        if (map.containsKey(type)) map.get(type).add(this.toModel());
-        else {
-            var events = new HashSet<Event>();
-            events.add(this.toProjectNotificationModel());
-            map.put(type, events);
-        }
-        return map;
     }
 
     public Long getId() {
