@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.domain.potentialProject.port;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 
 import java.util.List;

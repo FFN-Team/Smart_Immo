@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.event;
+package com.gangdestrois.smartimmo.domain.event.enums;
 
 import java.util.Arrays;
 import java.util.List;

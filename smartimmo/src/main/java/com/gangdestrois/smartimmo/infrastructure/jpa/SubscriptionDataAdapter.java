@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.event.EventListener;
-import com.gangdestrois.smartimmo.domain.event.EventType;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventListenerEnum;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.SubscriptionEntity;

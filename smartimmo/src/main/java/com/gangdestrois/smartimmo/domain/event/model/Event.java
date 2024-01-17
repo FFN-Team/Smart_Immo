@@ -1,8 +1,12 @@
-package com.gangdestrois.smartimmo.domain.event;
+package com.gangdestrois.smartimmo.domain.event.model;
 
 import com.gangdestrois.smartimmo.domain.Model;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 
-public class Event<T extends Model> {
+public class Event<T extends Notify> implements Model {
     private Long id;
     private final NotificationStatus notificationStatus;
     private final String message;
@@ -53,5 +57,10 @@ public class Event<T extends Model> {
 
     public EventType getEventType() {
         return eventType;
+    }
+
+    @Override
+    public Long id() {
+        return id;
     }
 }

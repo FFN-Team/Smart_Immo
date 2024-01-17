@@ -1,8 +1,9 @@
 package com.gangdestrois.smartimmo.domain.event.port;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
@@ -20,9 +21,9 @@ public interface NotificationSpi {
 
     Optional<Event> findNotificationById(Long id);
 
-    List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType);
+    List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType);
 
     Event save(Event event);
 
-    List<Event> findNotificationByEventType(EventType eventType);
+    List<Event<Notify>> findNotificationByEventType(EventType eventType);
 }

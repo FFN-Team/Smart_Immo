@@ -1,8 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
@@ -69,7 +70,7 @@ public class NotificationDataAdapter implements NotificationSpi {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
-    public List<Event> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
+    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         switch (eventType) {
             case PROJECT_DUE_DATE_APPROACHING -> {
@@ -110,7 +111,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public List<Event> findNotificationByEventType(EventType eventType) {
+    public List<Event<Notify>> findNotificationByEventType(EventType eventType) {
         return notificationRepository.findNotificationEntitiesByType(eventType)
                 .stream().map(NotificationEntity::toModel)
                 .toList();

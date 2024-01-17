@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.event;
+package com.gangdestrois.smartimmo.domain.event.enums;
 
 public enum Priority {
     HIGH,

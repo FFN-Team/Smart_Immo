@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;

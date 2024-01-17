@@ -1,24 +1,30 @@
 package com.gangdestrois.smartimmo.domain.event;
 
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 
 import java.util.Optional;
 
-public class PotentialProjectNotificationStrategy implements NotificationStrategy<PotentialProject> {
-    private final NotificationSpi notificationSpi;
+public class PotentialProjectNotificationStrategy extends AbstractNotificationStrategy<PotentialProject> {
 
-    public PotentialProjectNotificationStrategy(NotificationSpi notificationSpi) {
-        this.notificationSpi = notificationSpi;
+    public PotentialProjectNotificationStrategy(NotificationSpi notificationSpi, EventManager eventManager) {
+        super(notificationSpi, eventManager);
     }
 
     @Override
-    public Long save(Event event) {
-        return notificationSpi.savePotentialProjectNotification(event);
+    public Long save(Event<PotentialProject> event) {
+        return super.getNotificationSpi().savePotentialProjectNotification(event);
     }
 
     @Override
     public Optional<Event<PotentialProject>> findNotificationById(Long notificationId) {
-        return notificationSpi.findProjectNotificationById(notificationId);
+        return super.getNotificationSpi().findProjectNotificationById(notificationId);
+    }
+
+    public void notify(PotentialProject potentialProject) {
+        var elementNotification = potentialProject.mapToEvent();
+        elementNotification.setId(save(elementNotification));
+        getEventManager().notify(elementNotification);
     }
 }

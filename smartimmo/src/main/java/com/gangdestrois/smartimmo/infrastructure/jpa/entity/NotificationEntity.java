@@ -1,18 +1,18 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.Model;
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.NotificationStatus;
-import com.gangdestrois.smartimmo.domain.event.Priority;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
+import com.gangdestrois.smartimmo.domain.event.enums.Priority;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProjectNotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProspectNotFoundException;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -60,12 +60,6 @@ public class NotificationEntity {
         this.type = eventType;
     }
 
-    public NotificationEntity(NotificationStatus notificationStatus, String message, Priority priority) {
-        this.notificationStatus = notificationStatus;
-        this.message = message;
-        this.priority = priority;
-    }
-
     public NotificationEntity(Long id, NotificationStatus notificationStatus, String message, Priority priority,
                               Model element) {
         this.id = id;
@@ -83,29 +77,21 @@ public class NotificationEntity {
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
-        return new Event(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
+        if (isNull(potentialProject)) throw new ProjectNotFoundException("project not found");
+        return new Event<PotentialProject>(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
     }
 
     public Event<Prospect> toProspectNotificationModel() {
-        return new Event(this.id, notificationStatus, message, priority, prospect.toModel(), type);
+        if (isNull(prospect)) throw new ProspectNotFoundException("prospect not found");
+        return new Event<Prospect>(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 
-    public Event toModel() {
-        return new Event(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
+    public Event<Notify> toModel() {
+        return new Event<Notify>(this.id, this.notificationStatus, this.message, this.priority, getElement(), type);
     }
 
-    public Model getElement() {
+    public Notify getElement() {
         return nonNull(this.prospect) ? this.prospect.toModel() : this.potentialProject.toModel();
-    }
-
-    public Map<EventType, Set<Event>> toModel(Map<EventType, Set<Event>> map) {
-        if (map.containsKey(type)) map.get(type).add(this.toModel());
-        else {
-            var events = new HashSet<Event>();
-            events.add(this.toProjectNotificationModel());
-            map.put(type, events);
-        }
-        return map;
     }
 
     public Long getId() {
