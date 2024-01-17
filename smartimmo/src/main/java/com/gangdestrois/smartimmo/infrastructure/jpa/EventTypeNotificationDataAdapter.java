@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
@@ -25,8 +26,8 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
         this.notificationRepository = notificationRepository;
     }
 
-    public Map<EventType, Set<Event>> findEventsGroupByEventType() {
-        Map<EventType, Set<Event>> map = new HashMap<>();
+    public Map<EventType, Set<Event<Notify>>> findEventsGroupByEventType() {
+        Map<EventType, Set<Event<Notify>>> map = new HashMap<>();
         eventTypeNotificationRepository.findAll()
                 .forEach(eventTypeNotificationEntity -> eventTypeNotificationEntity.toModel(map));
         return map;
@@ -34,10 +35,10 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
 
     @Override
     @Transactional
-    public void saveAll(Map<EventType, Set<Event>> notifications) {
+    public void saveAll(Map<EventType, Set<Event<Notify>>> notifications) {
         List<EventTypeNotificationEntity> eventTypeNotificationEntities = new ArrayList<>();
         for (EventType eventType : notifications.keySet()) {
-            for (Event event : notifications.get(eventType)) {
+            for (Event<Notify> event : notifications.get(eventType)) {
                 if (nonNull(event.getId()) && notificationRepository.findById(event.getId()).isPresent()) {
                     eventTypeNotificationEntities.add(
                             new EventTypeNotificationEntity(eventType,

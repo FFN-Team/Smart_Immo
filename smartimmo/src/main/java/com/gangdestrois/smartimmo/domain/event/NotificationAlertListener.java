@@ -15,12 +15,12 @@ public class NotificationAlertListener implements EventListener {
     }
 
     @Override
-    public void update(Event notification) {
+    public void update(Event<Notify> notification) {
         var notifications = eventTypeNotificationSpi.findEventsGroupByEventType();
         if (notifications.containsKey(notification.getEventType()))
             notifications.get(notification.getEventType()).add(notification);
         else {
-            var events = new HashSet<Event>();
+            var events = new HashSet<Event<Notify>>();
             events.add(notification);
             notifications.put(notification.getEventType(), events);
         }

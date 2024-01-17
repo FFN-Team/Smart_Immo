@@ -14,12 +14,12 @@ public class ProspectNotificationStrategy extends AbstractNotificationStrategy<P
 
     @Override
     public Long save(Event<Prospect> event) {
-        return super.getNotificationSpi().saveProspectNotification(event);
+        return getNotificationSpi().saveProspectNotification(event);
     }
 
     @Override
     public Optional<Event<Prospect>> findNotificationById(Long notificationId) {
-        return super.getNotificationSpi().findProspectNotificationById(notificationId);
+        return getNotificationSpi().findProspectNotificationById(notificationId);
     }
 
     public Event<Prospect> saveNotification(Prospect potentialProject) {

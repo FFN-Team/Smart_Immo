@@ -40,7 +40,7 @@ public class EventManager {
         subscriptionSpi.remove(eventType, listener);
     }
 
-    public void notify(Event<? extends Notify> event) {
+    public void notify(Event<Notify> event) {
         subscriptionSpi.findAll()
                 .get(event.getEventType())
                 .forEach(eventListener -> eventListener.update(event));
