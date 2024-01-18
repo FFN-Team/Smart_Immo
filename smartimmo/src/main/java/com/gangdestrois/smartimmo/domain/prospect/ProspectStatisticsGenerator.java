@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProspectStatisticsGenerator implements ProspectStatisticsGeneratorApi {
-    ProspectSpi prospectSpi;
+    private final ProspectSpi prospectSpi;
 
     public ProspectStatisticsGenerator(ProspectSpi prospectSpi) {
         this.prospectSpi = prospectSpi;

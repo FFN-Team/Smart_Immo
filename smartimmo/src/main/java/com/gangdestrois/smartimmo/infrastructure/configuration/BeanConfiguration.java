@@ -14,6 +14,7 @@ import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
+import com.gangdestrois.smartimmo.domain.salesHistory.SalesHistoryStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -163,5 +164,16 @@ public class BeanConfiguration {
     public ProspectFilterManager prospectFilterManager(ProspectDataAdapter prospectDataAdapter,
                                                        ProspectFilterDataAdapter prospectFilterDataAdapter) {
         return new ProspectFilterManager(prospectDataAdapter, prospectFilterDataAdapter);
+    }
+
+    @Bean
+    public SalesHistoryDataAdapter salesHistoryDataAdapter(SalesHistoryRepository salesHistoryRepository) {
+        return new SalesHistoryDataAdapter(salesHistoryRepository);
+    }
+
+    @Bean
+    public SalesHistoryStatisticsGenerator salesHistoryStatisticsGenerator
+            (SalesHistoryDataAdapter salesHistoryDataAdapter, PropertyDataAdapter propertyDataAdapter) {
+        return new SalesHistoryStatisticsGenerator(salesHistoryDataAdapter, propertyDataAdapter);
     }
 }
