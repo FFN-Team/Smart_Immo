@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
-import com.gangdestrois.smartimmo.domain.ApplicationData;
+import com.gangdestrois.smartimmo.domain.tool.ApplicationData;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -19,7 +19,11 @@ public class GoogleDrive {
     private static final String FILE_ID = "1bdCRsOLgTrbWu6Abb2ZJFx2_TloT5Rbw";
     private Drive drive;
 
-    private static Drive initializeDrive() throws Exception {
+    public GoogleDrive() throws Exception {
+        this.drive = initializeDrive();
+    }
+
+    private Drive initializeDrive() throws Exception {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         return new Drive.Builder(
                 httpTransport,
@@ -38,7 +42,7 @@ public class GoogleDrive {
                 .setRefreshToken("REFRESH_TOKEN");
     }
 
-    public static String uploadFile(Drive drive, String stringFilePath, String fileName) throws Exception {
+    public String uploadFile(String stringFilePath, String fileName) throws Exception {
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
         java.io.File filePath = new java.io.File(stringFilePath);
@@ -49,11 +53,11 @@ public class GoogleDrive {
         return file.getId();
     }
 
-    public static void deleteFile(Drive drive, String fileId) throws IOException {
+    public void deleteFile(String fileId) throws IOException {
         drive.files().delete(fileId).execute();
     }
 
-    public static File generatePublicUrl(Drive drive) throws IOException {
+    public File generatePublicUrl(Drive drive) throws IOException {
         Permission permission = new Permission();
         permission.setRole("reader");
         permission.setType("anyone");

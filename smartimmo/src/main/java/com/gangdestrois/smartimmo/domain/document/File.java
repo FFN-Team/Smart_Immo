@@ -5,12 +5,8 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 public class File extends DocumentImplementation {
     private Prospect owner;
 
-    File(String name, Folder parent) {
+    public File(String name, Folder parent) {
         super(name, parent);
-    }
-
-    public Integer getSize() {
-        return null;
     }
 
     public Boolean isComposite() {
