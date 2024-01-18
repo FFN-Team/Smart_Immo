@@ -7,7 +7,7 @@ import java.util.List;
 public class Folder extends DocumentImplementation implements Composite<Document> {
     private List<Document> documents;
 
-    Folder(String name){
+    public Folder(String name){
         super(name);
     }
 
@@ -35,10 +35,6 @@ public class Folder extends DocumentImplementation implements Composite<Document
         return this.documents.removeAll(t);
     }
 
-    public Integer getSize() {
-        return documents.stream().map(Document::getSize).reduce(0, Integer::sum);
-    }
-
     public Boolean isComposite() {
         return true;
     }
@@ -47,9 +43,5 @@ public class Folder extends DocumentImplementation implements Composite<Document
     public void accept(DocumentVisitor documentVisitor) {
         documentVisitor.visit(this);
         documents.forEach(c -> c.accept(documentVisitor));
-    }
-
-    public String toString() {
-        return null;
     }
 }
