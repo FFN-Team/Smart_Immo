@@ -1,11 +1,12 @@
 = ```TechnImmo``` Documentation
 FFN-Team
-2023-11-26
 :toc:
 //:revnumber: {project-version}
 //:example-caption!:
 ifndef::sourcedir[:sourcedir: ../../main/java/com/gangdestrois/smartimmo]
 ifndef::modelsdir[:modelsdir: models]
+ifndef::imagesdir[:imagesdir: images]
+ifndef::pustylefile[:pustylefile: ../../commons.style]
 
 <<<
 
@@ -14,7 +15,6 @@ ifndef::modelsdir[:modelsdir: models]
 === Identité du projet
 * *Nom du projet* : TechnImmo
 * *Abréviation* : TI
-
 
 === Membres de l'équipe
 
@@ -57,52 +57,6 @@ Stratégies :
 <<<
 
 == Aspects techniques
-
-=== README
-//TODO : Mettre une variable pour le readMe pour le générer automatiquement
-
-==== To do before setting up your development environment
-
-* Install https://jdk.java.net/java-se-ri/21[Java 21]
-* Install https://docs.docker.com/engine/install/[Docker]
-* Install https://docs.docker.com/engine/install/[Docker Compose]
-* Install your favorite IDE (IntelliJ, Eclipse, Visual Source Code, ...)
-
-==== How to setup your local development environment
-
-.Setting up Docker
-
-Run docker-compose.yml
-
-.Setting up TechnImmo
-
-[source,shell]
-----
-mvn clean install
-mvn flyway:migrate
-----
-
-.Run the application in local
-* Use your IDE to create a run configuration from SmartimmoApplication.java
-* Use profile log-txt to prevent from logging in json
-
-==== Testing
-
-Unit tests
-
-[source,shell]
-----
-mvn test
-----
-
-All tests
-
-[source,shell]
-----
-mvn clean verify
-----
-
-<<<
 
 === Type d'application
 
@@ -153,3 +107,79 @@ Par exemple : amélioration de la recherche des biens, personnalisation des reco
 ==== Feature 1 : Notifier l'agent quand la date d'un projet anticipé approche
 
 ==== Feature 2 : Créer un portfolio des biens pouvant plaire à un acquéreur
+
+=== v0.0.3
+
+==== Grande fonctionnalité 1 : Générer des statistiques pour les agents immobiliers
+
+Cette fonctionnalité permet à l'agent immobilier d'obtenir des statistiques concernant ses prospects afin de l’aider à orienter ses décisions.
+
+Ces statistiques sont :
+
+* Le nombre de prospects par catégorie d'âge
+** Les catégories d'âge sont :
+*** 0-20 ans
+*** 21-40 ans
+*** 41-60 ans
+*** 61-80 ans
+*** 81-120 ans
+* Le nombre de prospects par profession
+* Le nombre de prospects par source de contact
+
+'''
+
+*Endpoints* :
+
+[source,http]
+----
+GET /api/v1/statistics/prospects/count-by-age-group
+----
+Retourne le nombre de prospects par catégorie d'âge.
+
+'''
+
+[source,http]
+----
+GET /api/v1/statistics/prospects/count-by-profession
+----
+Retourne le nombre de prospects par profession.
+
+'''
+
+[source,http]
+----
+GET /api/v1/statistics/prospects/count-by-contact-origin
+----
+Retourne le nombre de prospects par source de contact.
+
+'''
+
+*Paramètres* : Aucun
+
+*Réponse* :
+[source,json]
+----
+{
+    "title": "string",
+    "data": [
+        {
+            "label": "string",
+            "value": 0
+        }
+    ]
+}
+----
+
+'''
+
+*Diagramme de classes* :
+
+plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.pu[svg,config="{pustylefile}"]
+
+'''
+
+*Affichage* :
+
+.Page affichant les statistiques générées pour l'agent immobilier
+
+image::v0.0.3/gf_statistics_estate_agents.png[alt=Page affichant les statistiques générées pour l'agent immobilier]
