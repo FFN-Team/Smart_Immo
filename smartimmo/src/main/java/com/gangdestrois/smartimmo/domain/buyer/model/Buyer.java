@@ -5,7 +5,6 @@ import com.gangdestrois.smartimmo.domain.property.PropertyCriteria;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Buyer {
     private final Long id;
