@@ -1,9 +1,12 @@
 package com.gangdestrois.smartimmo.domain.document;
 
+import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
+
 public class SaveDocumentVisitor implements DocumentVisitor {
+    DocumentService documentService;
+
     @Override
     public void visit(File file) {
-        System.out.println(file.getName());
     }
 
     @Override
