@@ -14,16 +14,20 @@ import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 import static java.util.Objects.nonNull;
 
+@Component
 public class EventTypeNotificationDataAdapter implements EventTypeNotificationSpi {
     private static final Logger logger = LogManager.getLogger(EventTypeNotificationDataAdapter.class);
     private final EventTypeNotificationRepository eventTypeNotificationRepository;
     private final NotificationRepository notificationRepository;
 
+    @Autowired
     public EventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository, NotificationRepository notificationRepository) {
         this.eventTypeNotificationRepository = eventTypeNotificationRepository;
         this.notificationRepository = notificationRepository;
