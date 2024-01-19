@@ -16,12 +16,12 @@ public class NotificationManager implements NotificationApi {
     }
 
     @Override
-    public Optional<Event> findNotificationById(Long id) {
+    public Optional<Event<Notify>> findNotificationById(Long id) {
         return notificationSpi.findNotificationById(id);
     }
 
     @Override
-    public Event save(Event event) {
+    public Event<Notify> save(Event<Notify> event) {
         return notificationSpi.save(event);
     }
 }

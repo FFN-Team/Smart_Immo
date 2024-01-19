@@ -7,5 +7,5 @@ import jakarta.validation.constraints.NotNull;
 
 @JsonIgnoreProperties()
 @RecordBuilder
-public record NotificationStatusRequest(@NotNull NotificationStatus notificationStatus) {
+public record NotificationStatusRequest(@NotNull NotificationStatus status) {
 }

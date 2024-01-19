@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
@@ -23,35 +24,30 @@ public class NotificationController {
 
     @PatchMapping("/{notificationId}/status")
     @Operation(
-            summary = "Update the status of a notification by id.",
-            description = "Returns the updated notification.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Update successfully."
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Bad request."
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Resource not found."
-                    )
-            }
+        summary = "Update the status of a notification by id.",
+        description = "Returns the updated notification.",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Update successfully."),
+            @ApiResponse(responseCode = "400", description = "Bad request."),
+            @ApiResponse(responseCode = "404", description = "Resource not found.")
+        }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody NotificationStatusRequest notificationStatusRequest) {
-        Event originalEvent = notificationApi.findNotificationById(notificationId)
+    public ResponseEntity<EventResponse> changeStatus(
+            @PathVariable Long notificationId,
+            @Valid @RequestBody NotificationStatusRequest notificationStatusRequest
+    ) {
+        Event<Notify> originalEvent = notificationApi.findNotificationById(notificationId)
                 .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
-        Event eventToSave = new Event<>(
+        Event<Notify> eventToSave = new Event<Notify>(
                 notificationId,
-                notificationStatusRequest.notificationStatus(),
+                notificationStatusRequest.status(),
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement(),
-                originalEvent.getEventType());
-        Event savedEvent = notificationApi.save(eventToSave);
+                originalEvent.getEventType()
+        );
+        Event<Notify> savedEvent = notificationApi.save(eventToSave);
         EventResponse response = EventResponse.fromModel(savedEvent);
         return ResponseEntity.ok(response);
     }
