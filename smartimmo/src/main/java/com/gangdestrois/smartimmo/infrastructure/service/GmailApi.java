@@ -14,6 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -28,12 +29,13 @@ import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
 import static javax.mail.Message.RecipientType.TO;
 
-public class GmailSender implements EmailSender {
-    private static final Logger log = LogManager.getLogger(GmailSender.class);
+@Component
+public class GmailApi implements EmailSender {
+    private static final Logger log = LogManager.getLogger(GmailApi.class);
     private final GoogleApi googleApi;
 
     @Autowired
-    public GmailSender(GoogleApi googleApi) {
+    public GmailApi(GoogleApi googleApi) {
         this.googleApi = googleApi;
     }
 
@@ -86,7 +88,7 @@ public class GmailSender implements EmailSender {
             email.setSubject(subject);
             email.setContent(message, "text/html");
         } catch (MessagingException e) {
-            throw new EmailContentException(senderEmail, recipientEmail, message, "Error during set email content.");
+            throw new EmailContentException(senderEmail, recipientEmail, message, e.getMessage());
         }
     }
 }

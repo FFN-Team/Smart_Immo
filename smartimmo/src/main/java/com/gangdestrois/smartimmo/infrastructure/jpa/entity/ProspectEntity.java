@@ -7,7 +7,7 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Objects.nonNull;
@@ -48,6 +48,8 @@ public class ProspectEntity {
     private Set<OwnerEntity> owners;
     @OneToMany(mappedBy = "prospect")
     private Set<ProjectEntity> projects;
+    @OneToMany(mappedBy = "prospect")
+    private List<FileEntity> files;
 
     //private Adresse adresseTravail;
     //private Prospect personneCompagnon;
@@ -94,13 +96,20 @@ public class ProspectEntity {
     }
 
     public Prospect toModel() {
-        return new Prospect(
-                id, contactOrigin, title, lastName, firstName, dateOfBirth,
-                profession, mobile, mail,
-                nonNull(authorizeContactOnSocialMedia) ? authorizeContactOnSocialMedia : null,
-                nonNull(home) ? home.toModel() : null,
-                this.owners.stream().map(OwnerEntity::toModel).toList()
-        );
+        return new Prospect.Builder()
+                .id(id)
+                .contactOrigin(contactOrigin)
+                .title(title)
+                .home(nonNull(home) ? home.toModel() : null)
+                .lastName(lastName)
+                .firstName(firstName)
+                .dateOfBirth(dateOfBirth)
+                .authorizeContactOnSocialMedia(nonNull(authorizeContactOnSocialMedia) ? authorizeContactOnSocialMedia : null)
+                .mail(mail)
+                .profession(profession)
+                .mobile(mobile)
+                .owners(owners.stream().map(OwnerEntity::toModel).toList())
+                .build();
     }
 
     public static ProspectEntity fromModelToEntity(Prospect prospect) {

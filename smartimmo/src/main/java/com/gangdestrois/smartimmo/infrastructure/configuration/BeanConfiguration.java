@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
+import com.gangdestrois.smartimmo.domain.document.DocumentManager;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
@@ -13,15 +14,13 @@ import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
-import com.gangdestrois.smartimmo.infrastructure.service.GmailSender;
-import com.gangdestrois.smartimmo.infrastructure.service.GoogleApi;
+import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
+import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
 import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import static java.util.Objects.nonNull;
 
@@ -29,24 +28,10 @@ import static java.util.Objects.nonNull;
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
 @EnableConfigurationProperties
 public class BeanConfiguration {
-    @Bean
-    public PropertyDataAdapter propertyDataAdapter(PropertyRepository propertyRepository) {
-        return new PropertyDataAdapter(propertyRepository);
-    }
 
     @Bean
     public PropertyManager propertyManager(PropertyDataAdapter propertyDataAdapter) {
         return new PropertyManager(propertyDataAdapter);
-    }
-
-    @Bean
-    public BuyerDataAdapter buyerDataAdapter(PropertyCriteriaRepository propertyCriteriaRepository) {
-        return new BuyerDataAdapter(propertyCriteriaRepository);
-    }
-
-    @Bean
-    public PropertyToFollowDataAdapter propertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
-        return new PropertyToFollowDataAdapter(propertyToFollowRepository);
     }
 
     @Bean
@@ -61,25 +46,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PotentialProjectDataAdapter potentialProjectDataAdapter(PotentialProjectRepository potentialProjectRepository) {
-        return new PotentialProjectDataAdapter(potentialProjectRepository);
-    }
-
-    @Bean
-    public EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository,
-                                                                             NotificationRepository notificationRepository) {
-        return new EventTypeNotificationDataAdapter(eventTypeNotificationRepository, notificationRepository);
-    }
-
-    @Bean
     public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
         return new NotificationAlertListener(eventTypeNotificationDataAdapter);
-    }
-
-    @Bean
-    public SubscriptionDataAdapter subscriptionDataAdapter(SubscriptionRepository subscriptionRepository,
-                                                           NotificationAlertListener notificationAlertListener) {
-        return new SubscriptionDataAdapter(subscriptionRepository, notificationAlertListener);
     }
 
     @Bean
@@ -88,15 +56,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public NotificationDataAdapter notificationDataAdapter(NotificationRepository notificationRepository,
-                                                           PotentialProjectRepository potentialProjectRepository,
-                                                           ProspectRepository prospectRepository) {
-        return new NotificationDataAdapter(notificationRepository, potentialProjectRepository, prospectRepository);
-    }
-
-    @Bean
-    public ProjectDataAdapter projectDataAdapter(ProjectRepository projectRepository) {
-        return new ProjectDataAdapter(projectRepository);
+    public NotificationManager notificationManager(NotificationDataAdapter notificationDataAdapter) {
+        return new NotificationManager(notificationDataAdapter);
     }
 
     @Bean
@@ -106,11 +67,6 @@ public class BeanConfiguration {
                                                            ProjectDataAdapter projectDataAdapter
     ) {
         return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
-    }
-
-    @Bean
-    public ProspectDataAdapter prospectDataAdapter(ProspectRepository prospectRepository) {
-        return new ProspectDataAdapter(prospectRepository);
     }
 
     @Bean
@@ -130,39 +86,24 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public AddressDataAdapter addressDataAdapter(AddressRepository addressRepository) {
-        return new AddressDataAdapter(addressRepository);
-    }
-
-    @Bean
     public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
         return new AddressManager(addressDataAdapter);
     }
 
     @Bean
-    public GmailSender gmailSender(GoogleApi googleApi) {
-        return new GmailSender(googleApi);
-    }
-
-    @Bean
-    public ThymeleafConfigurer thymeleafConfigurer(SpringTemplateEngine springTemplateEngine) {
-        return new ThymeleafConfigurer(springTemplateEngine);
-    }
-
-    @Bean
-    public EmailManager emailManager(ThymeleafConfigurer thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
-        if (nonNull(gmailSender)) return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
+    public EmailManager emailManager(ThymeleafConfigurer thymeleafTemplateEngine, GmailApi gmailApi, ProspectDataAdapter prospectDataAdapter) {
+        if (nonNull(gmailApi)) return new EmailManager(thymeleafTemplateEngine, gmailApi, prospectDataAdapter);
         else return new EmailManager(thymeleafTemplateEngine, prospectDataAdapter);
-    }
-
-    @Bean
-    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository) {
-        return new ProspectFilterDataAdapter(prospectFilterRepository);
     }
 
     @Bean
     public ProspectFilterManager prospectFilterManager(ProspectDataAdapter prospectDataAdapter,
                                                        ProspectFilterDataAdapter prospectFilterDataAdapter) {
         return new ProspectFilterManager(prospectDataAdapter, prospectFilterDataAdapter);
+    }
+
+    @Bean
+    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter) {
+        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter);
     }
 }

@@ -13,14 +13,12 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.drive.DriveScopes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +44,7 @@ public class GoogleApi {
         try {
             secrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(secretKeyPath.getInputStream()));
         } catch (IOException e) {
-            throw new SecretsNotFoundExceptionException(secretKeyPath.getFilename(), "Google API Secrets not found.");
+            throw new SecretsNotFoundExceptionException(secretKeyPath.getFilename(), e.getMessage());
         }
         try {
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -58,7 +56,7 @@ public class GoogleApi {
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
             return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         } catch (IOException e) {
-            throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), "Google API unauthorized");
+            throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), e.getMessage());
         }
     }
 
