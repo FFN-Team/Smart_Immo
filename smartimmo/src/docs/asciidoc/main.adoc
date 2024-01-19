@@ -6,7 +6,7 @@ FFN-Team
 ifndef::sourcedir[:sourcedir: ../../main/java/com/gangdestrois/smartimmo]
 ifndef::modelsdir[:modelsdir: models]
 ifndef::imagesdir[:imagesdir: images]
-ifndef::pustylefile[:pustylefile: ../../commons.style]
+ifndef::pumlstylefile[:pumlstylefile: ../../commons.style]
 
 <<<
 
@@ -110,7 +110,7 @@ Par exemple : amélioration de la recherche des biens, personnalisation des reco
 
 === v0.0.3
 
-==== Grande fonctionnalité 1 : Générer des statistiques pour les agents immobiliers
+==== Grande fonctionnalité : Générer des statistiques pour les agents immobiliers
 
 Cette fonctionnalité permet à l'agent immobilier d'obtenir des statistiques concernant ses prospects afin de l’aider à orienter ses décisions.
 
@@ -174,7 +174,7 @@ Retourne le nombre de prospects par source de contact.
 
 *Diagramme de classes* :
 
-plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.pu[svg,config="{pustylefile}"]
+plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.puml[svg,config="{pumlstylefile}"]
 
 '''
 
@@ -183,3 +183,81 @@ plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.pu[svg,config="{pust
 .Page affichant les statistiques générées pour l'agent immobilier
 
 image::v0.0.3/gf_statistics_estate_agents.png[alt=Page affichant les statistiques générées pour l'agent immobilier]
+
+<<<
+
+=== v0.0.4
+
+==== Petite fonctionnalité : Rendre les notifications interactives
+
+Cette fonctionnalité permet, lorsque l'on clique sur une notification, de :
+
+* Changer son statut (passe de _TO_READ_ à _OPEN_).
+* Rediriger directement vers la page concernée.
+
+Cette fonctionnalité permet donc d’accélérer le travail de l'agent immobilier car il peut directement voir s’il a déjà cliqué sur une notification et il peut aussi voir plus rapidement les détails de la personne ou de l'élément concerné par cette notification.
+
+'''
+
+*Endpoint* :
+
+[source,http]
+----
+PATCH /api/v1/notifications/{notificationId}/status
+----
+Retourne la notification modifiée.
+
+'''
+
+*Paramètres* :
+
+* notificationId : int
+
+*Requête* :
+[source,json]
+----
+{
+    "status": "enum[TO_READ, OPEN, DEALT, ARCHIVED]"
+}
+----
+
+*Réponse* :
+[source,json]
+----
+{
+    "id": 0,
+    "state": "string",
+    "message": "string",
+    "priority": "string",
+    "subResponse": {}
+}
+----
+
+'''
+
+*Affichage* :
+
+En cliquant sur le bouton "Cloche" présente dans la barre située en haut de la page, la fenêtre des notifications s'affichent. Pour savoir s'il a reçu des notifications, l'agent peut cliquer sur le bouton "Rafraîchir" en haut à gauche de la fenêtre de notifications.
+
+.Barre de notifications vide dans la page d'accueil
+image::v0.0.4/pf_interactive_notification/step_1.png[alt=Barre de notifications vide dans la page d'accueil]
+
+L'agent peut maintenant voir les notifications reçues. S'il veut consulter les détails de la personne ou de l'élément concerné par une notification, il peut cliquer sur le bouton "Consulter" de la notification.
+
+.Barre avec deux nouvelles notifications
+image::v0.0.4/pf_interactive_notification/step_2.png[alt=Barre avec deux nouvelles notifications]
+
+L'agent est alors redirigé vers la page de la personne ou de l'élément concerné par la notification (note : ces pages n'ont pas encore été ajoutées donc, pour l'instant, une page par défaut est affichée).
+
+.Page de redirection
+image::v0.0.4/pf_interactive_notification/step_3.png[alt=Page de redirection]
+
+Pour consulter à nouveau ses notifications, l'agent peut cliquer sur le bouton "Cloche" de la barre située en haut de la page.
+
+.Barre de notifications vide dans la page de redirection
+image::v0.0.4/pf_interactive_notification/step_4.png[alt=Barre de notifications vide dans la page de redirection]
+
+Si l'agent clique sur le bouton "Rafraîchir" en haut à gauche de la fenêtre de notifications, il peut maintenant voir qu'il a déjà cliqué sur la première notification.
+
+.Nouveau statut de la notification (_OPEN_)
+image::v0.0.4/pf_interactive_notification/step_5.png[alt=Nouveau statut de la notification (OPEN)]
