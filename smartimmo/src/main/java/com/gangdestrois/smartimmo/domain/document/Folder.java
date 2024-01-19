@@ -2,17 +2,25 @@ package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.domain.tool.Composite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Folder extends DocumentImplementation implements Composite<Document> {
-    private List<Document> documents;
+    private final List<Document> documents;
 
-    public Folder(String name){
-        super(name);
+    public Folder(String fileId, String name, String webContentLink, String webLink) {
+        super(fileId, name, webContentLink, webLink);
+        this.documents = new ArrayList<>();
     }
 
-    Folder(String name, Folder folder) {
-        super(name, folder);
+    public Folder(Long id, String fileId, String name, String webContentLink, String webLink, List<Document> documents) {
+        super(id, fileId, name, webContentLink, webLink);
+        this.documents = new ArrayList<>(documents);
+    }
+
+    public Folder(String fileId, String name, String webContentLink, String webLink, List<Document> documents) {
+        super(fileId, name, webContentLink, webLink);
+        this.documents = new ArrayList<>(documents);
     }
 
     @Override

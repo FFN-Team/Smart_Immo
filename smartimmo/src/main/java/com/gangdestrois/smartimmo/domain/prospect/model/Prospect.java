@@ -8,12 +8,11 @@ import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.Title;
-import com.gangdestrois.smartimmo.domain.tool.Model;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class Prospect implements Model, Notify {
+public class Prospect implements Notify {
     private Long id;
     private final ContactOrigin contactOrigin;
     private final Title title;
@@ -27,21 +26,19 @@ public class Prospect implements Model, Notify {
     private final Home home;
     private final List<Owner> owners;
 
-    public Prospect(Long id, ContactOrigin contactOrigin, Title title, String lastName, String firstName,
-                    LocalDate dateOfBirth, Profession profession, Long mobile, String mail,
-                    Boolean authorizeContactOnSocialMedia, Home home, List<Owner> owners) {
-        this.id = id;
-        this.contactOrigin = contactOrigin;
-        this.title = title;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.dateOfBirth = dateOfBirth;
-        this.profession = profession;
-        this.mobile = mobile;
-        this.mail = mail;
-        this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
-        this.home = home;
-        this.owners = owners;
+    private Prospect(Builder builder) {
+        this.id = builder.id;
+        this.contactOrigin = builder.contactOrigin;
+        this.title = builder.title;
+        this.lastName = builder.lastName;
+        this.firstName = builder.firstName;
+        this.dateOfBirth = builder.dateOfBirth;
+        this.profession = builder.profession;
+        this.mobile = builder.mobile;
+        this.mail = builder.mail;
+        this.authorizeContactOnSocialMedia = builder.authorizeContactOnSocialMedia;
+        this.home = builder.home;
+        this.owners = builder.owners;
     }
 
     @Override
@@ -110,5 +107,89 @@ public class Prospect implements Model, Notify {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static class Builder {
+        Long id;
+        ContactOrigin contactOrigin;
+        Title title;
+        String lastName;
+        String firstName;
+        LocalDate dateOfBirth;
+        Profession profession;
+        Long mobile;
+        String mail;
+        Boolean authorizeContactOnSocialMedia;
+        Home home;
+        List<Owner> owners;
+
+
+        public Builder() {
+            // Initialisez les valeurs par défaut si nécessaire
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder mail(String mail) {
+            this.mail = mail;
+            return this;
+        }
+
+        public Builder contactOrigin(ContactOrigin contactOrigin) {
+            this.contactOrigin = contactOrigin;
+            return this;
+        }
+
+        public Builder title(Title title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder dateOfBirth(LocalDate dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
+            return this;
+        }
+
+        public Builder profession(Profession profession) {
+            this.profession = profession;
+            return this;
+        }
+
+        public Builder mobile(Long mobile) {
+            this.mobile = mobile;
+            return this;
+        }
+
+        public Builder authorizeContactOnSocialMedia(Boolean authorizeContactOnSocialMedia) {
+            this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
+            return this;
+        }
+
+        public Builder home(Home home) {
+            this.home = home;
+            return this;
+        }
+
+        public Builder owners(List<Owner> owners) {
+            this.owners = owners;
+            return this;
+        }
+
+        public Prospect build() {
+            return new Prospect(this);
+        }
     }
 }

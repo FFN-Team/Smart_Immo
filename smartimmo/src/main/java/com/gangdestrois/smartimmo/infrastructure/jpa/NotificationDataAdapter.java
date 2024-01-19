@@ -12,16 +12,20 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepo
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class NotificationDataAdapter implements NotificationSpi {
     private final NotificationRepository notificationRepository;
     private final PotentialProjectRepository potentialProjectRepository;
     private final ProspectRepository prospectRepository;
 
+    @Autowired
     public NotificationDataAdapter(NotificationRepository notificationRepository,
                                    PotentialProjectRepository potentialProjectRepository,
                                    ProspectRepository prospectRepository) {

@@ -4,13 +4,17 @@ import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.port.AddressSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.AddressEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.AddressRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class AddressDataAdapter implements AddressSpi {
     private final AddressRepository addressRepository;
 
+    @Autowired
     public AddressDataAdapter(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
     }
