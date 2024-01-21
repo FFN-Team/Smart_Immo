@@ -16,7 +16,7 @@ public class NotificationManager implements NotificationApi {
     }
 
     @Override
-    public Optional<Event> findNotificationById(Long id) {
+    public Optional<Event<? extends Notify>> findNotificationById(Long id) {
         return notificationSpi.findNotificationById(id);
     }
 

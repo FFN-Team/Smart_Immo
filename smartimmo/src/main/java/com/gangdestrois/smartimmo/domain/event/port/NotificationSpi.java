@@ -19,11 +19,13 @@ public interface NotificationSpi {
 
     Optional<Event<Prospect>> findProspectNotificationById(Long prospectNotificationId);
 
-    Optional<Event> findNotificationById(Long id);
+    Optional<Event<? extends Notify>> findNotificationById(Long id);
 
     List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType);
 
     Event save(Event event);
+
+    Long saveNotification(Event<? extends Notify> potentialProjectEvent);
 
     List<Event<Notify>> findNotificationByEventType(EventType eventType);
 }

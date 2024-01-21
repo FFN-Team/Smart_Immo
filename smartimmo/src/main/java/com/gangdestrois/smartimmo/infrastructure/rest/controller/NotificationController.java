@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
@@ -42,7 +43,7 @@ public class NotificationController {
     )
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody NotificationStatusRequest notificationStatusRequest) {
-        Event originalEvent = notificationApi.findNotificationById(notificationId)
+        Event<? extends Notify> originalEvent = notificationApi.findNotificationById(notificationId)
                 .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
         Event eventToSave = new Event<>(
                 notificationId,
@@ -55,4 +56,5 @@ public class NotificationController {
         EventResponse response = EventResponse.fromModel(savedEvent);
         return ResponseEntity.ok(response);
     }
+    // TODO : faire la logique métier dans le domaine
 }

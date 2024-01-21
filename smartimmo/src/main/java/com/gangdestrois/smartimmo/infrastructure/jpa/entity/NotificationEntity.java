@@ -1,6 +1,5 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
@@ -61,7 +60,7 @@ public class NotificationEntity {
     }
 
     public NotificationEntity(Long id, NotificationStatus notificationStatus, String message, Priority priority,
-                              Model element) {
+                              Notify element, EventType eventType) {
         this.id = id;
         this.notificationStatus = notificationStatus;
         this.message = message;
@@ -74,6 +73,7 @@ public class NotificationEntity {
             PotentialProject potentialProjectElement = (PotentialProject) element;
             this.potentialProject = new PotentialProjectEntity(potentialProjectElement.id());
         }
+        this.type = eventType;
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
