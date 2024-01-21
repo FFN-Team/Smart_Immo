@@ -15,5 +15,5 @@ public interface NotificationStrategy<T extends Notify> {
 
     List<Event<T>> getNotifications(EventType eventType);
 
-    void notify(T elementToNotify);
+    void notify(T element);
 }
