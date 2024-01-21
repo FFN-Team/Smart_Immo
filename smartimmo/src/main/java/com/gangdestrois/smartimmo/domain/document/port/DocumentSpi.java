@@ -8,14 +8,8 @@ import java.util.Optional;
 
 public interface DocumentSpi {
     File saveFile(File file, Folder folder);
-
     Folder saveFolder(Folder folder, Folder parent);
-
     Folder getFolderByDocumentId(String documentId);
-
     List<Folder> getFolderByName(String name);
-
-    File getFile(String id);
-
     Optional<Folder> getFolderById(Long id);
 }
