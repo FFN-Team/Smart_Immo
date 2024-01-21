@@ -66,7 +66,7 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public Optional<Event> findNotificationById(Long id) {
+    public Optional<Event<Notify>> findNotificationById(Long id) {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
@@ -98,13 +98,14 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Event save(Event event) {
+    public Event<Notify> save(Event<Notify> event) {
         NotificationEntity receivedNotification = new NotificationEntity(
                 event.getId(),
                 event.status(),
                 event.message(),
                 event.priority(),
-                event.getElement()
+                event.getElement(),
+                event.getEventType()
         );
         NotificationEntity savedNotification = notificationRepository.save(receivedNotification);
         return savedNotification.toModel();
