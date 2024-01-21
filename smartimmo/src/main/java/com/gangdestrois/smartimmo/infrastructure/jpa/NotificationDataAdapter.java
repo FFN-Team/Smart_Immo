@@ -66,11 +66,13 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public Optional<Event<Notify>> findNotificationById(Long id) {
+    public Optional<Event<? extends Notify>> findNotificationById(Long id) {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
-    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
+    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId,
+                                                                                List<NotificationStatus> notificationStatuses,
+                                                                                EventType eventType) {
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         switch (eventType) {
             case PROJECT_DUE_DATE_APPROACHING -> {
@@ -98,7 +100,7 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Event<Notify> save(Event<Notify> event) {
+    public Event save(Event event) {
         NotificationEntity receivedNotification = new NotificationEntity(
                 event.getId(),
                 event.status(),
@@ -109,6 +111,15 @@ public class NotificationDataAdapter implements NotificationSpi {
         );
         NotificationEntity savedNotification = notificationRepository.save(receivedNotification);
         return savedNotification.toModel();
+    }
+
+    //mal fait
+    @Override
+    public Long saveNotification(Event<? extends Notify> event) {
+        if (event.getElement() instanceof PotentialProject)
+            return savePotentialProjectNotification((Event<PotentialProject>) event);
+        if (event.getElement() instanceof Prospect) return saveProspectNotification((Event<Prospect>) event);
+        throw new RuntimeException("to do");
     }
 
     @Override

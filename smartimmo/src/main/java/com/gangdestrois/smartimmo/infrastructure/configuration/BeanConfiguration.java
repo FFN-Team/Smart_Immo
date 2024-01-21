@@ -72,8 +72,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
-        return new NotificationAlertListener(eventTypeNotificationDataAdapter);
+    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter,
+                                                               NotificationDataAdapter notificationSpi) {
+        return new NotificationAlertListener(eventTypeNotificationDataAdapter, notificationSpi);
     }
 
     @Bean
@@ -83,8 +84,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
-        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, EventTypeNotificationDataAdapter eventTypeNotificationSpi) {
+        return new EventManager(subscriptionDataAdapter, eventTypeNotificationSpi);
     }
 
     @Bean

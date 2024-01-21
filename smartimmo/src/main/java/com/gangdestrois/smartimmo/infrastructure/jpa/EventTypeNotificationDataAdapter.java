@@ -5,8 +5,10 @@ import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventTypeNotificationEntity;
+import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.EventTypeNotificationRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -50,5 +52,19 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
             }
         }
         eventTypeNotificationRepository.saveAll(eventTypeNotificationEntities);
+    }
+
+    @Override
+    public void save(Event<? extends Notify> notification) {
+        var notificationToSave = notificationRepository.findById(notification.getId())
+                .orElseThrow(() -> new NotFoundException("notification not found"));
+        eventTypeNotificationRepository.save(new EventTypeNotificationEntity(notification.getEventType(), notificationToSave));
+    }
+
+    @Override
+    public List<Event<Notify>> findNotificationByEventType(EventType eventType) {
+        return eventTypeNotificationRepository.findNotificationsByEventType(eventType)
+                .stream().map(NotificationEntity::toModel)
+                .toList();
     }
 }

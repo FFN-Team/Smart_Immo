@@ -1,8 +1,12 @@
 package com.gangdestrois.smartimmo.domain.event.port;
 
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
+
+import java.util.Optional;
 
 public interface NotificationApi {
-    EventResponse save(Long notificationId, NotificationStatusRequest notificationStatusRequest);
+    Optional<Event<? extends Notify>> findNotificationById(Long id);
+
+    Event save(Event event);
 }
