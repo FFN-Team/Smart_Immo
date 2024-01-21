@@ -18,11 +18,6 @@ public class Folder extends DocumentImplementation implements Composite<Document
         this.documents = new ArrayList<>(documents);
     }
 
-    public Folder(String fileId, String name, String webContentLink, String webLink, List<Document> documents) {
-        super(fileId, name, webContentLink, webLink);
-        this.documents = new ArrayList<>(documents);
-    }
-
     @Override
     public List<Document> getChildren() {
         return this.documents;
@@ -41,15 +36,5 @@ public class Folder extends DocumentImplementation implements Composite<Document
     @Override
     public Boolean removeChildren(List<Document> t) {
         return this.documents.removeAll(t);
-    }
-
-    public Boolean isComposite() {
-        return true;
-    }
-
-    @Override
-    public void accept(DocumentVisitor documentVisitor) {
-        documentVisitor.visit(this);
-        documents.forEach(c -> c.accept(documentVisitor));
     }
 }

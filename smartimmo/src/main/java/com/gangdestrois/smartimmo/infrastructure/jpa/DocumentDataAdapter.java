@@ -67,11 +67,6 @@ public class DocumentDataAdapter implements DocumentSpi {
     }
 
     @Override
-    public File getFile(String id) {
-        return null;
-    }
-
-    @Override
     public Optional<Folder> getFolderById(Long id) {
         var folderEntities = folderRepository.findById(id);
         return folderEntities.map(FolderEntity::toModel);
