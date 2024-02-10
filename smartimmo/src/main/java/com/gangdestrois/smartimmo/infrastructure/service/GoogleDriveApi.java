@@ -18,23 +18,25 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Component
 public class GoogleDriveApi implements DocumentService {
-    private static final Drive drive = initializeDrive();
+    private static Drive drive;
 
     @Autowired
     public GoogleDriveApi() {
-
     }
 
-    private static Drive initializeDrive() {
+    private static void initializeDrive() {
+        if(nonNull(drive)) return;
         NetHttpTransport httpTransport;
         try {
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-            return new Drive.Builder(
+            drive = new Drive.Builder(
                     httpTransport,
                     GsonFactory.getDefaultInstance(),
-                    GoogleApi.getCredentials2(List.of(DriveScopes.DRIVE_FILE), httpTransport))
+                    GoogleApi.getCredentialsWithClientSecretFile(List.of(DriveScopes.DRIVE_FILE), httpTransport))
                     .setApplicationName(ApplicationData.TECHNIMMO)
                     .build();
         } catch (Exception e) {
@@ -52,12 +54,14 @@ public class GoogleDriveApi implements DocumentService {
     }*/
 
     public String uploadFile(String stringFilePath, String fileName, String fileType) {
+        initializeDrive();
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
         return saveFileInDrive(stringFilePath, fileType, fileMetadata);
     }
 
     private String saveFileInDrive(String stringFilePath, String fileType, File fileMetadata) {
+        initializeDrive();
         java.io.File filePath = new java.io.File(stringFilePath);
         FileContent mediaContent = new FileContent(fileType, filePath);
         File file;
@@ -72,6 +76,7 @@ public class GoogleDriveApi implements DocumentService {
     }
 
     public String uploadFileIntoFolder(String stringFilePath, String fileName, String fileType, String folderId) {
+        initializeDrive();
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
 
@@ -85,6 +90,7 @@ public class GoogleDriveApi implements DocumentService {
 
 
     public Folder createFolder(String folderName) {
+        initializeDrive();
         File folderMetadata = new File();
         folderMetadata.setName(folderName);
         folderMetadata.setMimeType("application/vnd.google-apps.folder");
@@ -101,6 +107,7 @@ public class GoogleDriveApi implements DocumentService {
 
 
     public void deleteFile(String fileId) {
+        initializeDrive();
         try {
             drive.files().delete(fileId).execute();
         } catch (IOException e) {
@@ -109,7 +116,7 @@ public class GoogleDriveApi implements DocumentService {
     }
 
     public com.gangdestrois.smartimmo.domain.document.File generatePublicUrl(String fileId) {
-        var drive = initializeDrive();
+        initializeDrive();
         Permission permission = new Permission();
         permission.setRole("reader");
         permission.setType("anyone");

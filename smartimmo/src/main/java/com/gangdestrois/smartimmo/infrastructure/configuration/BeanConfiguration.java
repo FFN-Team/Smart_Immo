@@ -56,11 +56,6 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public NotificationManager notificationManager(NotificationDataAdapter notificationDataAdapter) {
-        return new NotificationManager(notificationDataAdapter);
-    }
-
-    @Bean
     public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
                                                            EventManager eventManager,
                                                            NotificationDataAdapter notificationDataAdapter,
