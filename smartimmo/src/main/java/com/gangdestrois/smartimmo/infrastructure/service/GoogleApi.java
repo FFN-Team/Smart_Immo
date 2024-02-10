@@ -28,7 +28,7 @@ import static java.util.Objects.isNull;
 public class GoogleApi {
 
     @Value("${google.api.key.path}")
-    private Resource secretKeyPath;
+    private static Resource secretKeyPath;
     private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -36,7 +36,8 @@ public class GoogleApi {
     public GoogleApi() {
     }
 
-    public Credential getCredentials(Set<String> scopes, HttpTransport httpTransport, GsonFactory jsonFactory) {
+    public static Credential getCredentialsWithEnvironmentsVariables(Set<String> scopes, HttpTransport httpTransport,
+                                                                     GsonFactory jsonFactory) {
         if (isNull(secretKeyPath))
             throw new NotFoundException(ExceptionEnum.SECRETS_NOT_FOUND, "Secret key pass not found for Google API. ");
         GoogleClientSecrets secrets;
@@ -61,7 +62,7 @@ public class GoogleApi {
         }
     }
 
-    public static Credential getCredentials2(List<String> scopes, final NetHttpTransport netHttpTransport) throws IOException {
+    public static Credential getCredentialsWithClientSecretFile(List<String> scopes, final NetHttpTransport netHttpTransport) throws IOException {
         InputStream in = GoogleApi.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (isNull(in)) {
             throw new FileNotFoundException("Resource not found " + CREDENTIALS_FILE_PATH);

@@ -6,7 +6,6 @@ import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
@@ -23,8 +22,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
@@ -33,12 +32,9 @@ import static javax.mail.Message.RecipientType.TO;
 @Component
 public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
-    private final GoogleApi googleApi;
 
     @Autowired
-    public GmailApi(GoogleApi googleApi) {
-        this.googleApi = googleApi;
-    }
+    public GmailApi() {}
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
         Gmail service = initialize();
@@ -72,12 +68,16 @@ public class GmailApi implements EmailSender {
     }
 
     private Gmail initialize() {
-        HttpTransport httpTransport = new NetHttpTransport();
+        NetHttpTransport httpTransport = new NetHttpTransport();
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-        return new Gmail.Builder(httpTransport, jsonFactory,
-                googleApi.getCredentials(Set.of(GMAIL_SEND), httpTransport, jsonFactory))
-                .setApplicationName(TECHNIMMO)
-                .build();
+        try {
+            return new Gmail.Builder(httpTransport, jsonFactory,
+                    GoogleApi.getCredentialsWithClientSecretFile(List.of(GMAIL_SEND), httpTransport))
+                    .setApplicationName(TECHNIMMO)
+                    .build();
+        } catch (IOException e) {
+            throw new InternalServerErrorException("error during google api connexion for gmail service.");
+        }
     }
 
     private void setEmailContent(String subject, String message, String senderEmail, String recipientEmail, MimeMessage email) {
