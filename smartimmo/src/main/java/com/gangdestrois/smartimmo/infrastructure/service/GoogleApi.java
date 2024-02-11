@@ -35,19 +35,19 @@ public class GoogleApi {
     public GoogleApi() {
     }
 
-    public static Credential getCredentialsWithEnvironmentsVariables(Set<String> scopes, HttpTransport httpTransport,
-                                                                     GsonFactory jsonFactory) {
+    // possibilité de mettre une strategy
+    public static Credential getCredentialsWithEnvironmentsVariables(Set<String> scopes, HttpTransport httpTransport) {
         if (isNull(secretKeyPath))
             throw new SecretsNotFoundExceptionException("secretKeyPath", "Google API Secrets not found.");
         GoogleClientSecrets secrets;
         try {
-            secrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(secretKeyPath.getInputStream()));
+            secrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(secretKeyPath.getInputStream()));
         } catch (IOException e) {
             throw new SecretsNotFoundExceptionException(secretKeyPath.getFilename(), e.getMessage());
         }
         try {
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    httpTransport, jsonFactory, secrets, scopes)
+                    httpTransport, JSON_FACTORY, secrets, scopes)
                     .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
                     .setAccessType("offline")
                     .build();

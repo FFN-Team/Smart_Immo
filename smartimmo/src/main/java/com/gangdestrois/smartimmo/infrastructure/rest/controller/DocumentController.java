@@ -1,12 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.document.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("/api/v1/documents")
@@ -18,10 +20,13 @@ public class DocumentController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/upload")
-    public ResponseEntity<DocumentResponse> saveDocument(@RequestBody DocumentRequest documentRequest) {
-        var file = documentApi.uploadFile(documentRequest.filePath(), documentRequest.fileName(),
-                documentRequest.documentType(), documentRequest.ownerId());
+    @PostMapping(value = "/upload", consumes = MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<DocumentResponse> saveDocument(
+            @RequestPart("fileContent") byte[] fileContent,
+            @RequestParam("fileName") String fileName,
+            @RequestParam("documentType") DocumentType documentType,
+            @RequestParam("ownerId") Long ownerId) {
+        var file = documentApi.uploadFile(fileContent, fileName, documentType, ownerId);
         var documentResponse = new DocumentResponse(file.getName(), file.getDocumentId(),
                 file.getWebContentLink(), file.getWebLink());
         return ResponseEntity.ok(documentResponse);
