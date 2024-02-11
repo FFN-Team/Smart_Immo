@@ -29,7 +29,7 @@ public class GoogleDriveApi implements DocumentService {
     }
 
     private static void initializeDrive() {
-        if(nonNull(drive)) return;
+        if (nonNull(drive)) return;
         NetHttpTransport httpTransport;
         try {
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
@@ -53,29 +53,28 @@ public class GoogleDriveApi implements DocumentService {
                 .setRefreshToken("REFRESH_TOKEN");
     }*/
 
-    public String uploadFile(String stringFilePath, String fileName, String fileType) {
+    public String uploadFile(java.io.File file, String fileName, String fileType) {
         initializeDrive();
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
-        return saveFileInDrive(stringFilePath, fileType, fileMetadata);
+        return saveFileInDrive(file, fileType, fileMetadata);
     }
 
-    private String saveFileInDrive(String stringFilePath, String fileType, File fileMetadata) {
+    private String saveFileInDrive(java.io.File file, String fileType, File fileMetadata) {
         initializeDrive();
-        java.io.File filePath = new java.io.File(stringFilePath);
-        FileContent mediaContent = new FileContent(fileType, filePath);
-        File file;
+        FileContent mediaContent = new FileContent(fileType, file);
+        File uploadFile;
         try {
-            file = drive.files().create(fileMetadata, mediaContent)
+            uploadFile = drive.files().create(fileMetadata, mediaContent)
                     .setFields("id")
                     .execute();
-            return file.getId();
+            return uploadFile.getId();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String uploadFileIntoFolder(String stringFilePath, String fileName, String fileType, String folderId) {
+    public String uploadFileIntoFolder(java.io.File filePath, String fileName, String fileType, String folderId) {
         initializeDrive();
         File fileMetadata = new File();
         fileMetadata.setName(fileName);
@@ -85,7 +84,7 @@ public class GoogleDriveApi implements DocumentService {
             fileMetadata.setParents(parents);
         }
 
-        return saveFileInDrive(stringFilePath, fileType, fileMetadata);
+        return saveFileInDrive(filePath, fileType, fileMetadata);
     }
 
 
