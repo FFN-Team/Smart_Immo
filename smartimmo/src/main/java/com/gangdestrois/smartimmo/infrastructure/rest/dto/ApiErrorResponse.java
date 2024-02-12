@@ -1,4 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-public record ApiErrorResponse(String error, String message, String detail) {
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+
+public record ApiErrorResponse(ExceptionEnum error, String message) {
 }

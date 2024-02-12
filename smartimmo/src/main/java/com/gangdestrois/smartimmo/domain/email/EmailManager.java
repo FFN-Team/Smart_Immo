@@ -6,9 +6,9 @@ import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ContactOnSocialMediaUnauthorizedException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.EmailSenderNotFoundExceptionException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.UnauthorizedException;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 
 import java.util.HashMap;
@@ -37,11 +37,14 @@ public class EmailManager implements EmailApi {
     @Override
     public void configAndSendEmail(Long prospectId, EventType eventType) throws Exception {
         if (isNull(emailSender))
-            throw new EmailSenderNotFoundExceptionException("EmailSender", "No email sender found.");
-        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(prospectId, "prospect"));
+            throw new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.EMAIL_SENDER_NOT_FOUND,
+                    "No email sender found.");
+        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
+                String.format("Prospect with id %d not found.", prospectId)));
         if (!prospect.authorizeContactOnSocialMedia())
-            throw new ContactOnSocialMediaUnauthorizedException(prospectId, "contact",
-                    "this prospect does not wish to be contacted via social networks.");
+            throw new UnauthorizedException(ExceptionEnum.CONTACT_ON_SOCIAL_MEDIA_UNAUTHORIZED,
+                    String.format("this prospect %s with id %d does not wish to be contacted via social networks.", prospect.getCompleteName(),
+                            prospectId));
         String from = "plantefloni@gmail.com";
         String to = prospect.getMail();
         Map<String, Object> templateModel = switch (eventType) {

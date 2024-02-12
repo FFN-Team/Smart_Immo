@@ -3,7 +3,8 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.AddressResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,8 @@ public class AddressController {
             List<Address> addresses = addressApi.findNonAssignedAddressesPlusAddressWithId(id);
             return ResponseEntity.ok(addresses.stream().map(AddressResponse::fromModel).toList());
         } else {
-            throw new NotFoundException(id, "address");
+            throw new NotFoundException(ExceptionEnum.ADDRESS_NOT_FOUND,
+                    String.format("Address with id %d not found", id));
         }
     }
 }

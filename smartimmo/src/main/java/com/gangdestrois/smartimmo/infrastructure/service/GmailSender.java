@@ -2,7 +2,8 @@ package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
 import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.EmailContentException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpTransport;
@@ -63,9 +64,7 @@ public class GmailSender implements EmailSender {
             } else {
                 throw e;
             }
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (MessagingException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -86,7 +85,9 @@ public class GmailSender implements EmailSender {
             email.setSubject(subject);
             email.setContent(message, "text/html");
         } catch (MessagingException e) {
-            throw new EmailContentException(senderEmail, recipientEmail, message, "Error during set email content.");
+            throw new InternalServerErrorException(ExceptionEnum.EMAIL_CONTENT_ERROR,
+                    String.format("Error during set email content for sender %s, recipient %s and message : \n'%s.'",
+                            senderEmail, recipientEmail, message));
         }
     }
 }
