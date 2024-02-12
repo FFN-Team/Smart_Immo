@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterApi;
+import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.*;
@@ -58,29 +59,6 @@ public class ProspectController {
     }
 
 
-
-    @PostMapping("/filtred")
-    @Operation(
-            summary = "Filter prospects",
-            description = "Filters prospects based on the provided filter criteria.",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Request body containing the filter criteria.",required = true,
-                    content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ProspectFilterRequest.class))
-            ),
-            responses = {
-                    @ApiResponse(responseCode = "200",description = "Successfully filtered prospects."),
-                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request.")
-            }
-    )
-    @ResponseStatus(HttpStatus.OK)
-    public List<ProspectResponse> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
-        return prospectFilterApi.filterProspects(prospectFilterRequest.toModel()).stream()
-                .map(ProspectResponse::fromModel).toList();
-    }
-
-
-
     @PutMapping("/filter")
     @Operation(
             summary = "Save prospects filter",
@@ -105,6 +83,34 @@ public class ProspectController {
         }
     }
 
+
+    @DeleteMapping("/filter")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer deleteByProspectFilterName(@Valid @RequestBody @NotNull
+                                                                 ExistingProspectFilterRequest existingProspectFilterRequest) {
+        return prospectFilterApi.deleteByProspectFilterName(existingProspectFilterRequest.prospectFilterName());
+    }
+
+
+    @PostMapping("/filtred")
+    @Operation(
+            summary = "Filter prospects",
+            description = "Filters prospects based on the provided filter criteria.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Request body containing the filter criteria.",required = true,
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProspectFilterRequest.class))
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200",description = "Successfully filtered prospects."),
+                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request.")
+            }
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProspectResponse> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
+        return prospectFilterApi.filterProspects(prospectFilterRequest.toModel()).stream()
+                .map(ProspectResponse::fromModel).toList();
+    }
 
 
     @GetMapping("/filters")

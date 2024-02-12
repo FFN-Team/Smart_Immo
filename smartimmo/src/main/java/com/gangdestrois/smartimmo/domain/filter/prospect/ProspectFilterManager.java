@@ -69,6 +69,11 @@ public class ProspectFilterManager implements ProspectFilterApi {
     }
 
     @Override
+    public Integer deleteByProspectFilterName(String prospectFilterName) {
+        return prospectFilterSpi.deleteByProspectFilterName(prospectFilterName);
+    }
+
+    @Override
     public List<ProspectFilter> findAll() {
         return prospectFilterSpi.findAll();
     }
