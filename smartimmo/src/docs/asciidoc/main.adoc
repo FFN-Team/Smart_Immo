@@ -61,7 +61,7 @@ Stratégies :
 
 //=== README
 
-// La variable entraîne un problème de niveaux de titres
+// La variable entraîne un problème de niveaux de titres, pour cette raison je l'ai commenté
 //include::{readmefile}[]
 
 <<<
@@ -112,9 +112,68 @@ Par exemple : amélioration de la recherche des biens, personnalisation des reco
 //- description API back (ex REST)
 //- diagrammes de séquence des interactions front/back (par feature, voir le back comme une boîte noire)
 
-==== Feature 1 : Notifier l'agent quand la date d'un projet anticipé approche
+==== Grande fonctionnalité : Notifier l'agent quand la date d'un projet anticipé approche
 
-==== Feature 2 : Créer un portfolio des biens pouvant plaire à un acquéreur
+==== Grande fonctionnalité : Créer un portfolio des biens pouvant plaire à un acquéreur
+
+Cette fonctionnalité permet à l'agent immobilier de créer un portfolio “Properties to follow”, un catalogue de biens qui pourraient satisfaire un acquéreur.
+
+Un bien a des caractéristiques. Un acquéreur a des critères de bien. Dans ce portfolio, pour un acquéreur, on aura les biens dont les caractéristiques correspondent aux critères de bien.
+
+'''
+
+*Endpoints* :
+
+[source,http]
+----
+GET /api/v1/buyers/{buyerId}/properties-to-follow
+----
+Retourne une liste de bien à suivre.
+
+'''
+*Paramètres* : +
+
+* buyerId : int
+
+*Réponse* :
+[source,json]
+----
+[
+    {
+        "id": 0,
+        "buyer": {
+            "id": 0,
+            "prospect": {
+                "contactOrigin": "string",
+                "title": "string",
+                "lastName": "string",
+                "firstName": "string",
+                "dateOfBirth": "1985-07-20",
+                "profession": "string",
+                "mobile": 987654321,
+                "mail": "string",
+                "home": null,
+                "owners": [],
+                "completeName": "string"
+            },
+            "status": "string",
+            "searchStartDate": "2023-01-01",
+            "searchEndDate": "2023-06-30",
+            "propertyCriteria": null
+        }
+    }
+]
+----
+
+'''
+
+*Affichage* :
+
+.Page affichant les biens à suivre pour un prospect avant l'appel à la fonctionnalité
+image::v0.0.2/ptf.png[alt=Avant l'appel à la fonctionnalité]
+.Page affichant les biens à suivre pour un prospect après l'appel à la fonctionnalité via le bouton find
+image::v0.0.2/ptf2.png[alt=Après l'appel à la fonctionnalité via le bouton find]
+
 
 === v0.0.3
 
@@ -192,9 +251,109 @@ plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.puml[svg,config="{pu
 
 image::v0.0.3/gf_statistics_estate_agents.png[alt=Page affichant les statistiques générées pour l'agent immobilier]
 
+==== Grande fonctionnalité : Notification pour un client qui est susceptible de changer de logement
+
+==== Petite fonctionnalité : Personnaliser la date de notification pour un projet potentiel
+
+==== Petite fonctionnalité : Afficher la page du bien quand on clique sur un bien du portfolio
+Cette fonctionnalité permet d'afficher la page du bien quand on clique sur un bien du portfolio "Bien à Suivre".
+
+*Affichage* :
+
+En cliquant sur un bien du portfolio ça redirige vers la page du bien en question.
+
+.Page de l'acquéreur avec son portfolio
+image::v0.0.3/page_acquereur.png[alt=Page de l'acquéreur avec son portfolio]
+
+.Page du bien suite au clic dans le portfolio
+image::v0.0.3/page_bien.png[alt=Page du bien suite au clic dans le portfolio]
+
 <<<
 
 === v0.0.4
+
+==== Grande fonctionnalité : Filtrer des prospects selon des critères complexes
+Cette fonctionnalité permet : +
+- d'effectuer une recherche filtré des prospects +
+- d'enregistrer ce filtre sous la forme d'un dossier pour pouvoir retrouvé plus facilement les éléments du filtre et faire des actions regroupés
+
+'''
+*Endpoint* :
+
+[source,http]
+----
+POST /api/v1/prospects/filtred
+@Operation(
+        summary = "Filter prospects",
+        description = "Filters prospects based on the provided filter criteria.",
+        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Request body containing the filter criteria.",required = true,
+                content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ProspectFilterRequest.class))
+        ),
+        responses = {
+                @ApiResponse(responseCode = "200",description = "Successfully filtered prospects."),
+                @ApiResponse(responseCode = "400",description = "Invalid request body or bad request.")
+        }
+)
+----
+Retourne les prospects filtrés en fonction du filtre.
+
+'''
+
+*Paramètres* :
+
+* prospectFilterRequest : ProspectFilterRequest
+
+*Requête* :
+[source,json]
+----
+{
+  "prospectFilterName" : "String",
+  "contactOrigin" : "String",
+  "title" : "String",
+  "ageComparator" : "String",
+  "age"  : 20,
+  "profession" : "String",
+  "authorizeContactOnSocialMedia" : true
+}
+----
+
+*Réponse* :
+[source,json]
+----
+[
+    {
+        "id": 1,
+        "firstName": "Sophie",
+        "lastName": "Martin",
+        "completeName": "Sophie Martin",
+        "email": "sophie.martin@email.com",
+        "contactOrigin": "EMAIL",
+        "title": "MR",
+        "dateOfBirth": "1985-07-20",
+        "profession": "ENGINEER",
+        "mobile": 987654321,
+        "authorizeContactOnSocialMedia": false,
+        "home": null,
+        "owners": []
+    }
+]
+----
+
+'''
+
+*Affichage* :
+
+.Page de recherche filtrée de prospects
+image::v0.0.4/rechercheFiltree.png[alt=Page de recherche filtrée de prospects]
+
+.Après enregistrement du filtre grâce au bouton save
+image::v0.0.4/savedfiltre.png[alt=Enregistrement du filtre grâce au bouton save]
+
+==== Grande fonctionnalité : Envoi de mail en fonction d'une notification depuis la fiche prospect
+
+==== Petite fonctionnalité : Avoir accès à l'avancement des biens
 
 ==== Petite fonctionnalité : Rendre les notifications interactives
 
