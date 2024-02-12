@@ -7,7 +7,8 @@ import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.Prope
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.BuyerNotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     public void resetAndSavePropertiesToFollowForBuyer(Long buyerId) {
 
         if (isNull(buyerSpi.findBuyerById(buyerId)))
-            throw new BuyerNotFoundException("Buyer not found with ID: " + buyerId);
+            throw new NotFoundException(ExceptionEnum.BUYER_NOT_FOUND, "Buyer not found with ID: " + buyerId);
 
         this.buyer = buyerSpi.findBuyerById(buyerId);
         propertyToFollowSpi.deletePropertiesToFollowForBuyer(buyerId);
