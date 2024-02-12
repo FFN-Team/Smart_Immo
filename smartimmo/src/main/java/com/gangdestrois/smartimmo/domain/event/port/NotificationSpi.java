@@ -27,7 +27,5 @@ public interface NotificationSpi {
 
     Long saveNotification(Event<? extends Notify> potentialProjectEvent);
 
-    Long saveNotification(Event<? extends Notify> potentialProjectEvent);
-
     List<Event<Notify>> findNotificationByEventType(EventType eventType);
 }

@@ -2,8 +2,6 @@ package com.gangdestrois.smartimmo.infrastructure.rest.error;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ApiErrorResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +32,7 @@ public class RestExceptionHandler {
         return handleException(internalServerErrorException, INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(InternalServerErrorException.class)
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BadRequestException> handleBadRequestException(
             final Exception badRequest) {
         return handleException(badRequest, BAD_REQUEST);
