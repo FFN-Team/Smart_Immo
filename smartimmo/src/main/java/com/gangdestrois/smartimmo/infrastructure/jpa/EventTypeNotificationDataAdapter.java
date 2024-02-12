@@ -8,6 +8,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventTypeNotificatio
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.EventTypeNotificationRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.Level;
@@ -57,7 +58,8 @@ public class EventTypeNotificationDataAdapter implements EventTypeNotificationSp
     @Override
     public void save(Event<? extends Notify> notification) {
         var notificationToSave = notificationRepository.findById(notification.getId())
-                .orElseThrow(() -> new NotFoundException("notification not found"));
+                .orElseThrow(() -> new NotFoundException(ExceptionEnum.NOTIFICATION_NOT_FOUND,
+                        String.format("Notification not found for id : %d.", notification.getId())));
         eventTypeNotificationRepository.save(new EventTypeNotificationEntity(notification.getEventType(), notificationToSave));
     }
 
