@@ -24,26 +24,10 @@ public class EventManagerTest {
 
     @Before
     public void setUp() {
-        // Initialisation des objets nécessaires
         subscriptionSpi = mock(SubscriptionDataAdapter.class);
         EventTypeNotificationSpi eventTypeNotificationSpi = mock(EventTypeNotificationDataAdapter.class);
         NotificationSpi notificationSpi = mock(NotificationDataAdapter.class);
-        eventService = new EventManager(subscriptionSpi, eventTypeNotificationSpi, notificationSpi); // Assurez-vous que le constructeur prend la dépendance en paramètre
-    }
-
-    @Test
-    public void unsubscribe_should_remove_entry_set_when_eventType_subscribe_event_listener() {
-        // Getters
-        EventType eventType = EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE;
-        EventListener listener = mock(EventListener.class);
-        when(subscriptionSpi.findAll()).thenReturn(Map.of(EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE,
-                List.of(mock(EventListener.class))));
-
-        // When
-        eventService.unSubscribe(eventType, listener);
-
-        // Then
-        verify(subscriptionSpi).remove(eq(eventType), eq(listener));
+        eventService = new EventManager(subscriptionSpi, eventTypeNotificationSpi, notificationSpi);
     }
 
     @Test
@@ -57,4 +41,35 @@ public class EventManagerTest {
         // When and then
         assertThrows(BadRequestException.class, () -> eventService.unSubscribe(eventType, listener));
     }
+
+    @Test
+    public void unsubscribe_should_remove_entry_set_when_eventType_subscribe_eventListener() {
+        // Getters
+        EventType eventType = EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE;
+        EventListener listener = mock(EventListener.class);
+        when(subscriptionSpi.findAll()).thenReturn(Map.of(EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE,
+                List.of(listener)));
+
+        // When
+        eventService.unSubscribe(eventType, listener);
+
+        // Then
+        verify(subscriptionSpi).remove(eq(eventType), eq(listener));
+    }
+
+/*    @Test
+    public void unsubscribe_should_do_nothing_when_eventType_subscribe_another_eventLiner(){
+        // Getters
+        EventType eventType = EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE;
+        EventListener listener = mock(NotificationAlertListener.class);
+        EventListener anotherListener = mock(EventListener.class);
+        when(subscriptionSpi.findAll()).thenReturn(Map.of(EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE,
+                List.of(anotherListener)));
+
+        // When
+        eventService.unSubscribe(eventType, listener);
+
+        // Then
+        verify(subscriptionSpi, never()).remove(eq(eventType), eq(listener));
+    }*/
 }
