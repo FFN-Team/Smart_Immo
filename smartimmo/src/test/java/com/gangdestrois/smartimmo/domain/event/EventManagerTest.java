@@ -5,105 +5,88 @@ import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
-import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
+import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
+import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectResponse;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
-class EventManagerTest {
-    @MockBean
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({NotificationDataAdapter.class, SubscriptionDataAdapter.class, ProspectResponse.class,
+        Prospect.class, EventResponse.class})
+public class EventManagerTest {
     private EventManager eventManager;
+    private NotificationSpi notificationSpi;
 
-    class NotificationSpiMock implements NotificationSpi {
-        @Override
-        public Long savePotentialProjectNotification(Event<PotentialProject> event) {
-            return null;
-        }
-
-        @Override
-        public Long saveProspectNotification(Event<Prospect> event) {
-            return null;
-        }
-
-        @Override
-        public Optional<Event<PotentialProject>> findProjectNotificationById(Long projectNotificationId) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Event<Prospect>> findProspectNotificationById(Long prospectNotificationId) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Event<Notify>> findNotificationById(Long id) {
-            return Optional.of(new Event<Notify>(
-                    1L,
-                    NotificationStatus.OPEN,
-                    "Message",
-                    Priority.LOW,
-                    new Prospect(1L, null, null, null, null, null,
-                        null, null, null, null, null,
-                        null),
-                    EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE
-                )
-            );
-        }
-
-        @Override
-        public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
-            return null;
-        }
-
-        @Override
-        public Event<Notify> save(Event<Notify> event) {
-            return new Event<Notify>(
-                1L,
-                NotificationStatus.OPEN,
-                "Message",
-                Priority.LOW,
-                new Prospect(1L, null, null, null, null, null,
-                    null, null, null, null, null,
-                    null),
-                EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE
-            );
-        }
-
-        @Override
-        public List<Event<Notify>> findNotificationByEventType(EventType eventType) {
-            return null;
-        }
-    }
-
-    @BeforeEach
-    void setUp() {
-        eventManager = new EventManager(null, new NotificationSpiMock());
+    @Before
+    public void setUp() throws Exception {
+        notificationSpi = mock(NotificationDataAdapter.class);
+        SubscriptionSpi subscriptionSpi = mock(SubscriptionDataAdapter.class);
+        eventManager = new EventManager(subscriptionSpi, notificationSpi);
     }
 
     @Test
-    void save() {
+    public void saveShouldThrowNotFoundExceptionWhenNotificationIdNotFound() {
+        Long notificationId = -1L;
+        NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
+        when(notificationSpi.findNotificationById(notificationId)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> eventManager.save(notificationId, notificationStatusRequest));
+    }
+
+    @Test
+    public void saveShouldReturnSavedNotificationWhenNotificationIdFound() {
+        Long notificationId = 1L;
+        NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
+        ProspectResponse prospectResponse = PowerMockito.mock(ProspectResponse.class);
+        Event<Notify> event = new Event<Notify>(
+            notificationId,
+            notificationStatusRequest.status(),
+            "Message",
+            Priority.LOW,
+            mock(Prospect.class),
+            EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE
+        );
         EventResponse expected = new EventResponse(
-            1L,
-            NotificationStatus.OPEN.name(),
+            notificationId,
+            notificationStatusRequest.status().name(),
             "Message",
             Priority.LOW.name(),
-            ProspectResponse.fromModel(
-                new Prospect(1L, null, null, null, null,
-                null, null, null, null, null, null,
-                null)
+            prospectResponse
+        );
+
+        when(notificationSpi.findNotificationById(notificationId)).thenReturn(Optional.of(event));
+        when(notificationSpi.save(event)).thenReturn(event);
+        PowerMockito.mockStatic(EventResponse.class);
+        PowerMockito.when(EventResponse.fromModel(event)).thenReturn(new EventResponse(
+                event.getId(),
+                event.status().name(),
+                event.message(),
+                event.priority().name(),
+                prospectResponse
             )
         );
 
-        EventResponse actual = eventManager.save(1L, new NotificationStatusRequest(NotificationStatus.OPEN));
+        //verifyStatic(EventResponse.class, times(1));
+
+        EventResponse actual = eventManager.save(notificationId, notificationStatusRequest);
 
         assertEquals(expected, actual);
     }
