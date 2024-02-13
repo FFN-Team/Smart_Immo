@@ -2,12 +2,10 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterSpi;
-import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectFilterEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectFilterRepository;
 import jakarta.transaction.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,6 +36,12 @@ public class ProspectFilterDataAdapter implements ProspectFilterSpi {
             throw new NoSuchElementException("Aucun ProspectFilter avec le nom " + prospectFilterName + " n'a été trouvé.");
         }
         return prospectFilterEntity.toModel();
+    }
+
+    @Override
+    @Transactional
+    public Integer deleteByProspectFilterName(String prospectFilterName) {
+        return prospectFilterRepository.deleteByProspectFilterName(prospectFilterName);
     }
 
     @Override
