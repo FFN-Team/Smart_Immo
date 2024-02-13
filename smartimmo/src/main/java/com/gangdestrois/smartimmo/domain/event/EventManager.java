@@ -9,6 +9,7 @@ import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 
@@ -45,7 +46,8 @@ public class EventManager implements NotificationApi {
 
     public void unSubscribe(EventType eventType, EventListener listener) {
         if (!subscriptionSpi.findAll().containsKey(eventType))
-            throw new EnumConstantNotPresentException(eventType.getClass(), eventType.name());
+            throw new BadRequestException(ExceptionEnum.EVENT_NOT_SUBSCRIBE,
+                    String.format("Event %s not subscribe for this listener.", eventType.name()));
         subscriptionSpi.remove(eventType, listener);
     }
 
