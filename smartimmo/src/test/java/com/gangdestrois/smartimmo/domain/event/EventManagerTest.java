@@ -18,15 +18,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({NotificationDataAdapter.class, SubscriptionDataAdapter.class, ProspectResponse.class,
@@ -72,10 +69,10 @@ public class EventManagerTest {
             prospectResponse
         );
 
-        when(notificationSpi.findNotificationById(notificationId)).thenReturn(Optional.of(event));
-        when(notificationSpi.save(event)).thenReturn(event);
+        when(notificationSpi.findNotificationById(anyLong())).thenReturn(Optional.of(event));
+        when(notificationSpi.save(any())).thenReturn(event);
         PowerMockito.mockStatic(EventResponse.class);
-        PowerMockito.when(EventResponse.fromModel(event)).thenReturn(new EventResponse(
+        PowerMockito.when(EventResponse.fromModel(any())).thenReturn(new EventResponse(
                 event.getId(),
                 event.status().name(),
                 event.message(),
@@ -84,10 +81,12 @@ public class EventManagerTest {
             )
         );
 
-        //verifyStatic(EventResponse.class, times(1));
-
         EventResponse actual = eventManager.save(notificationId, notificationStatusRequest);
 
         assertEquals(expected, actual);
+        verify(notificationSpi).findNotificationById(notificationId);
+        verify(notificationSpi).save(any());
+        PowerMockito.verifyStatic(EventResponse.class);
+        EventResponse.fromModel(any());
     }
 }
