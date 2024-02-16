@@ -33,8 +33,7 @@ public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
 
     @Autowired
-    public GmailApi() {
-    }
+    public GmailApi() {}
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
         Gmail service = initialize();
