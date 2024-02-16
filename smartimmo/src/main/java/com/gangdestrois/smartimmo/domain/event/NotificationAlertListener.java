@@ -15,20 +15,6 @@ public class NotificationAlertListener implements EventListener {
         this.notificationSpi = notificationSpi;
     }
 
-/*    @Override
-    public void update(Event<? extends Notify> notification) {
-        notification.setId(notificationSpi.saveNotification(notification));
-        var notifications = eventTypeNotificationSpi.findEventsGroupByEventType();
-        if (notifications.containsKey(notification.getEventType()))
-            notifications.get(notification.getEventType()).add(notification);
-        else {
-            var events = new HashSet<Event<? extends Notify>>();
-            events.add(notification);
-            notifications.put(notification.getEventType(), events);
-        }
-        eventTypeNotificationSpi.saveAll(notifications);
-    }*/
-
     @Override
     public void update(Event<? extends Notify> notification) {
         notification.setId(notificationSpi.saveNotification(notification));
