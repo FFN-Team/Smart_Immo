@@ -31,8 +31,7 @@ public abstract class AbstractNotificationStrategy<T extends Notify> implements 
         return eventManager.eventsFromEventType(eventType).stream()
                 .filter(event -> nonNull(event.getId()))
                 .filter(event -> event.status().isNotAlreadyDealt())
-                .map(projectNotification -> findNotificationById(projectNotification.getId())
-                        .orElse(null))
+                .map(projectNotification -> findNotificationById(projectNotification.getId()).orElse(null))
                 .toList();
     }
 

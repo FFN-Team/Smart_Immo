@@ -1,6 +1,5 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.Model;
 import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
@@ -8,8 +7,8 @@ import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProjectNotFoundException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ProspectNotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import jakarta.persistence.*;
 
 import static java.util.Objects.isNull;
@@ -61,7 +60,7 @@ public class NotificationEntity {
     }
 
     public NotificationEntity(Long id, NotificationStatus notificationStatus, String message, Priority priority,
-                              Model element, EventType eventType) {
+                              Notify element, EventType eventType) {
         this.id = id;
         this.notificationStatus = notificationStatus;
         this.message = message;
@@ -78,12 +77,13 @@ public class NotificationEntity {
     }
 
     public Event<PotentialProject> toProjectNotificationModel() {
-        if (isNull(potentialProject)) throw new ProjectNotFoundException("project not found");
+        if (isNull(potentialProject)) throw new NotFoundException(ExceptionEnum.PROJECT_NOT_FOUND,
+                "Project not found.");
         return new Event<PotentialProject>(this.id, notificationStatus, message, priority, potentialProject.toModel(), type);
     }
 
     public Event<Prospect> toProspectNotificationModel() {
-        if (isNull(prospect)) throw new ProspectNotFoundException("prospect not found");
+        if (isNull(prospect)) throw new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND, "Prospect not found");
         return new Event<Prospect>(this.id, notificationStatus, message, priority, prospect.toModel(), type);
     }
 

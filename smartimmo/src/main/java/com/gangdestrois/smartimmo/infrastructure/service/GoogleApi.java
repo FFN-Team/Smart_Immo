@@ -1,7 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.GoogleUnauthorizedException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.SecretsNotFoundExceptionException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.UnauthorizedException;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -13,14 +14,12 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.drive.DriveScopes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -36,17 +35,17 @@ public class GoogleApi {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     public GoogleApi() {
-        OAuth2Utils oAuth2Utils = new OAuth2Utils();
     }
 
     public Credential getCredentials(Set<String> scopes, HttpTransport httpTransport, GsonFactory jsonFactory) {
         if (isNull(secretKeyPath))
-            throw new SecretsNotFoundExceptionException("secretKeyPath", "Google API Secrets not found.");
+            throw new NotFoundException(ExceptionEnum.SECRETS_NOT_FOUND, "Secret key pass not found for Google API. ");
         GoogleClientSecrets secrets;
         try {
             secrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(secretKeyPath.getInputStream()));
         } catch (IOException e) {
-            throw new SecretsNotFoundExceptionException(secretKeyPath.getFilename(), "Google API Secrets not found.");
+            throw new NotFoundException(ExceptionEnum.SECRETS_NOT_FOUND,
+                    String.format("Google API Secrets not found. for file %s.", secretKeyPath.getFilename()));
         }
         try {
             GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -58,7 +57,8 @@ public class GoogleApi {
             LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
             return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
         } catch (IOException e) {
-            throw new GoogleUnauthorizedException(secretKeyPath.getFilename(), "Google API unauthorized");
+            throw new UnauthorizedException(ExceptionEnum.GOOGLE_UNAUTHORIZED,
+                    String.format("Google API unauthorized for file %s.", secretKeyPath.getFilename()));
         }
     }
 

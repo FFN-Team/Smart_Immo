@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
@@ -72,8 +73,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
-        return new NotificationAlertListener(eventTypeNotificationDataAdapter);
+    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter,
+                                                               NotificationDataAdapter notificationSpi) {
+        return new NotificationAlertListener(eventTypeNotificationDataAdapter, notificationSpi);
     }
 
     @Bean
@@ -83,8 +85,10 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
-        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter,
+                                     NotificationSpi notificationSpi,
+                                     EventTypeNotificationDataAdapter eventTypeNotificationSpi) {
+        return new EventManager(subscriptionDataAdapter, eventTypeNotificationSpi, notificationSpi);
     }
 
     @Bean

@@ -8,9 +8,10 @@ public enum NotificationStatus {
     OPEN(false),
     DEALT(true),
     ARCHIVED(true);
-    private boolean isAlreadyDealt;
+    private final boolean isAlreadyDealt;
 
     NotificationStatus(boolean isAlreadyDealt) {
+        this.isAlreadyDealt = isAlreadyDealt;
     }
 
     public boolean isAlreadyDealt() {
