@@ -33,7 +33,8 @@ public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
 
     @Autowired
-    public GmailApi() {}
+    public GmailApi() {
+    }
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
         Gmail service = initialize();
@@ -75,7 +76,8 @@ public class GmailApi implements EmailSender {
                     .setApplicationName(TECHNIMMO)
                     .build();
         } catch (IOException e) {
-            throw new InternalServerErrorException("error during google api connexion for gmail service.");
+            throw new InternalServerErrorException(ExceptionEnum.GOOGLE_CREDENTIALS_ERROR,
+                    "error during google api connexion for gmail service.");
         }
     }
 
