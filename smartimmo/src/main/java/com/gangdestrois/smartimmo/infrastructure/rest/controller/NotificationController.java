@@ -46,5 +46,4 @@ public class NotificationController {
         EventResponse response = notificationApi.save(notificationId, notificationStatusRequest);
         return ResponseEntity.ok(response);
     }
-    // TODO : faire la logique métier dans le domaine
 }
