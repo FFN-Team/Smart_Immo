@@ -22,11 +22,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
-import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
+import static java.util.Objects.nonNull;
 import static javax.mail.Message.RecipientType.TO;
 
 @Component
@@ -57,7 +56,7 @@ public class GmailApi implements EmailSender {
             log.info(msg.toPrettyString());
         } catch (GoogleJsonResponseException e) {
             GoogleJsonError error = e.getDetails();
-            if (error.getCode() == HttpStatusCode.FORBIDDEN.getCode()) {
+            if (nonNull(error) && error.getCode() == HttpStatusCode.FORBIDDEN.getCode()) {
                 log.error("Unable to send message: " + error);
             } else {
                 throw e;
@@ -72,7 +71,7 @@ public class GmailApi implements EmailSender {
         GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
         try {
             return new Gmail.Builder(httpTransport, jsonFactory,
-                    GoogleApi.getCredentialsWithClientSecretFile(List.of(GMAIL_SEND), httpTransport))
+                    GoogleApi.getCredentials(httpTransport))
                     .setApplicationName(TECHNIMMO)
                     .build();
         } catch (IOException e) {

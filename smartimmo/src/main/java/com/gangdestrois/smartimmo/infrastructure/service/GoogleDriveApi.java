@@ -8,7 +8,6 @@ import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class GoogleDriveApi implements DocumentService {
             drive = new Drive.Builder(
                     httpTransport,
                     GsonFactory.getDefaultInstance(),
-                    GoogleApi.getCredentialsWithClientSecretFile(List.of(DriveScopes.DRIVE_FILE), httpTransport))
+                    GoogleApi.getCredentials(httpTransport))
                     .setApplicationName(ApplicationData.TECHNIMMO)
                     .build();
         } catch (Exception e) {
