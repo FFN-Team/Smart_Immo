@@ -23,7 +23,8 @@ public class ProspectStatisticsGeneratorTest {
     }
 
     @Test
-    public void countByAgeGroup() {
+    public void countByAgeGroup_should_retrieve_age_group_statistics_everytime() {
+        // Given
         ProspectStatisticsResponse expectedStatistics = new ProspectStatisticsResponse(
             "Number of prospects by age group",
             List.of(
@@ -40,13 +41,16 @@ public class ProspectStatisticsGeneratorTest {
         when(prospectSpi.countByAgeBetween(61, 80)).thenReturn(20L);
         when(prospectSpi.countByAgeBetween(81, 120)).thenReturn(25L);
 
+        // When
         ProspectStatisticsResponse actualStatistics = prospectStatisticsGenerator.countByAgeGroup();
 
+        // Then
         assertEquals(expectedStatistics, actualStatistics);
     }
 
     @Test
-    public void countByProfession() {
+    public void countByProfession_should_retrieve_profession_statistics_everytime() {
+        // Given
         ProspectStatisticsResponse expectedStatistics = new ProspectStatisticsResponse(
             "Number of prospects by profession",
             List.of(
@@ -67,13 +71,16 @@ public class ProspectStatisticsGeneratorTest {
             )
         );
 
+        // When
         ProspectStatisticsResponse actualStatistics = prospectStatisticsGenerator.countByProfession();
 
+        // Then
         assertEquals(expectedStatistics, actualStatistics);
     }
 
     @Test
-    public void countByContactOrigin() {
+    public void countByContactOrigin_should_retrieve_contact_origin_statistics_everytime() {
+        // Given
         ProspectStatisticsResponse expectedStatistics = new ProspectStatisticsResponse(
             "Number of prospects by contact origin",
             List.of(
@@ -94,8 +101,10 @@ public class ProspectStatisticsGeneratorTest {
             )
         );
 
+        // When
         ProspectStatisticsResponse actualStatistics = prospectStatisticsGenerator.countByContactOrigin();
 
+        // Then
         assertEquals(expectedStatistics, actualStatistics);
     }
 }
