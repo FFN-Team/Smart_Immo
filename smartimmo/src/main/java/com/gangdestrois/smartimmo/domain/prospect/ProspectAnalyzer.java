@@ -11,6 +11,7 @@ import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE;
 
@@ -45,6 +46,16 @@ public class ProspectAnalyzer implements ProspectApi {
     @Override
     public void subscription(EventListener eventListener) {
         eventManager.subscribe(PROSPECT_MAY_BUY_BIGGER_HOUSE, eventListener);
+    }
+
+    @Override
+    public List<Prospect> getProspects() {
+        return prospectSpi.findAll();
+    }
+
+    @Override
+    public Optional<Prospect> getProspect(Long id) {
+        return prospectSpi.findById(id);
     }
 
 }

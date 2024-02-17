@@ -149,4 +149,19 @@ public class ProspectController {
         return prospectFilterApi.filterProspects(existingProspectFilter).stream()
                 .map(ProspectResponse::fromModel).toList();
     }
+
+    @GetMapping()
+    public List<ProspectResponse> getAllProspects() {
+        return prospectApi.getProspects().stream()
+                .map(ProspectResponse::fromModel)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProspectResponse getProspects(@PathVariable Long id) {
+        return prospectApi.getProspect(id)
+                .map(ProspectResponse::fromModel)
+                .orElse(null);
+    }
 }

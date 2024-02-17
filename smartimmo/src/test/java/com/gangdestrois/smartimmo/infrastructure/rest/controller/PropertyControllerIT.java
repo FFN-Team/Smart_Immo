@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PropertyController.class)
-class PropertyControllerTest {
+class PropertyControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
@@ -38,35 +38,35 @@ class PropertyControllerTest {
     @Test
     void save() throws Exception {
         PropertyRequest propertyRequest = new PropertyRequest(
-            "Property name",
-            "Description",
-            4,
-            80.0,
-            1L
+                "Property name",
+                "Description",
+                4,
+                80.0,
+                1L
         );
 
         mockMvc.perform(post("/api/v1/properties")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(propertyRequest.toString())
-                .characterEncoding("utf-8"))
-            .andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(propertyRequest.toString())
+                        .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     void update() throws Exception {
         PropertyRequest propertyRequest = new PropertyRequest(
-            "Property name",
-            "Description",
-            4,
-            80.0,
-            1L
+                "Property name",
+                "Description",
+                4,
+                80.0,
+                1L
         );
 
         mockMvc.perform(put("/api/v1/properties/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(propertyRequest.toString())
-                .characterEncoding("utf-8"))
-            .andExpect(status().isBadRequest());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(propertyRequest.toString())
+                        .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

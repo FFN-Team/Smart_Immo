@@ -10,12 +10,16 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyToFollowEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PropertyToFollowRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     PropertyToFollowRepository propertyToFollowRepository;
 
+    @Autowired
     public PropertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
         this.propertyToFollowRepository = propertyToFollowRepository;
     }
@@ -55,6 +59,6 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
 
     @Override
     public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
-        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId,status.name());
+        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId, status.name());
     }
 }

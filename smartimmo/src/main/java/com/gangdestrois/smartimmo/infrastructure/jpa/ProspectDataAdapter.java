@@ -9,13 +9,17 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ProspectDataAdapter implements ProspectSpi {
     private final ProspectRepository prospectRepository;
 
+    @Autowired
     public ProspectDataAdapter(ProspectRepository prospectRepository) {
         this.prospectRepository = prospectRepository;
     }

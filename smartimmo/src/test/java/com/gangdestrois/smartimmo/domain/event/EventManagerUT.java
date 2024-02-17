@@ -17,7 +17,7 @@ import java.util.Map;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class EventManagerTest {
+public class EventManagerUT {
 
     private EventManager eventService;
     private SubscriptionSpi subscriptionSpi;
@@ -31,7 +31,7 @@ public class EventManagerTest {
     }
 
     @Test
-    public void unsubscribe_should_throw_bad_request_exception_when_eventType_subscribe_no_event_listener(){
+    public void unsubscribe_should_throw_bad_request_exception_when_eventType_subscribe_no_event_listener() {
         // Getters
         EventType eventType = EventType.PROJECT_DUE_DATE_APPROACHING;
         EventListener listener = mock(EventListener.class);
