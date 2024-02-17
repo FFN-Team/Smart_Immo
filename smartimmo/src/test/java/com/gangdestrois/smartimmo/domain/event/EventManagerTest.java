@@ -40,16 +40,19 @@ public class EventManagerTest {
     }
 
     @Test
-    public void saveShouldThrowNotFoundExceptionWhenNotificationIdNotFound() {
+    public void save_should_throw_not_found_exception_when_notification_id_not_found() {
+        // Given
         Long notificationId = -1L;
         NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
         when(notificationSpi.findNotificationById(notificationId)).thenReturn(Optional.empty());
 
+        // When and then
         assertThrows(NotFoundException.class, () -> eventManager.save(notificationId, notificationStatusRequest));
     }
 
     @Test
-    public void saveShouldReturnSavedNotificationWhenNotificationIdFound() {
+    public void save_should_return_saved_notification_when_notification_id_found() {
+        // Given
         Long notificationId = 1L;
         NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
         ProspectResponse prospectResponse = PowerMockito.mock(ProspectResponse.class);
@@ -81,8 +84,10 @@ public class EventManagerTest {
             )
         );
 
+        // When
         EventResponse actual = eventManager.save(notificationId, notificationStatusRequest);
 
+        // Then
         assertEquals(expected, actual);
         verify(notificationSpi).findNotificationById(notificationId);
         verify(notificationSpi).save(any());
