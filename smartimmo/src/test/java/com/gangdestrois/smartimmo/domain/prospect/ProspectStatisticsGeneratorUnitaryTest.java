@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ProspectStatisticsGeneratorTest {
+public class ProspectStatisticsGeneratorUnitaryTest {
     private ProspectStatisticsGenerator prospectStatisticsGenerator;
     private ProspectSpi prospectSpi;
 

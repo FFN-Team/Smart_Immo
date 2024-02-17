@@ -8,21 +8,21 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.EventTypeNotificationDataAd
 import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class EventManagerUT {
+public class EventManagerUnitaryTest {
 
     private EventManager eventService;
     private SubscriptionSpi subscriptionSpi;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         subscriptionSpi = mock(SubscriptionDataAdapter.class);
         EventTypeNotificationSpi eventTypeNotificationSpi = mock(EventTypeNotificationDataAdapter.class);

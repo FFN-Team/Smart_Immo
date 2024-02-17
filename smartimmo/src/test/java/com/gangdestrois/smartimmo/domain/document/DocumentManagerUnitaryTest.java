@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.document;
 
-import com.gangdestrois.smartimmo.DataForUT;
+import com.gangdestrois.smartimmo.DataForUnitaryTest;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
@@ -10,26 +10,26 @@ import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class DocumentManagerUT {
+public class DocumentManagerUnitaryTest {
 
     private DocumentSpi documentSpi;
     private ProspectSpi prospectSpi;
     private DocumentService documentService;
     private DocumentManager documentManager;
-    private final DataForUT dataForUT = new DataForUT();
+    private final DataForUnitaryTest dataForUT = new DataForUnitaryTest();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         documentSpi = mock(DocumentDataAdapter.class);
         prospectSpi = mock(ProspectDataAdapter.class);
