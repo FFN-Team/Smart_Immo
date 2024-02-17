@@ -14,6 +14,7 @@ ifndef::readmefile[:readmefile: ../../../../README.md]
 == Synthèse
 
 === Identité du projet
+
 * *Nom du projet* : TechnImmo
 * *Abréviation* : TI
 
@@ -25,11 +26,16 @@ ifndef::readmefile[:readmefile: ../../../../README.md]
 
 === Présentation du projet
 
-En théorie, la prospection représente 80% du temps de travail d'un agent immobilier. Cependant, de nombreux agents passent trop de temps sur les activités de vente ou à utiliser des logiciels, au détriment de leur présence sur le terrain. Comment pouvons-nous les aider à recentrer leurs efforts sur leur cœur de métier ? Il est essentiel de leur fournir un support capable de collecter et d’organiser les informations afin d’optimiser leur temps de présence sur le terrain.
+En théorie, la prospection représente 80% du temps de travail d'un agent immobilier.
+Cependant, de nombreux agents passent trop de temps sur les activités de vente ou à utiliser des logiciels, au détriment de leur présence sur le terrain.
+Comment pouvons-nous les aider à recentrer leurs efforts sur leur cœur de métier ?
+Il est essentiel de leur fournir un support capable de collecter et d’organiser les informations afin d’optimiser leur temps de présence sur le terrain.
 
-C'est dans cette optique que nous avons entrepris un projet professionnel visant à créer une application conviviale et complète spécialement conçue pour aider les agents immobiliers. Nous tirons inspiration de ce cours pour concrétiser notre initiative, c'est là notre principale source de motivation.
+C'est dans cette optique que nous avons entrepris un projet professionnel visant à créer une application conviviale et complète spécialement conçue pour aider les agents immobiliers.
+Nous tirons inspiration de ce cours pour concrétiser notre initiative, c'est là notre principale source de motivation.
 
-Nous avons analysé attentivement les concurrents pour ne pas négliger les fonctionnalités déjà existantes, tout en cherchant à innover et à combler les besoins non satisfaits des agents immobiliers. Notre objectif est de développer une application qui combine le meilleur des deux mondes : les fonctionnalités éprouvées et des solutions innovantes pour améliorer l'efficacité et l'expérience des agents immobiliers.
+Nous avons analysé attentivement les concurrents pour ne pas négliger les fonctionnalités déjà existantes, tout en cherchant à innover et à combler les besoins non satisfaits des agents immobiliers.
+Notre objectif est de développer une application qui combine le meilleur des deux mondes : les fonctionnalités éprouvées et des solutions innovantes pour améliorer l'efficacité et l'expérience des agents immobiliers.
 
 === Les personas et leurs fonctionnalités
 
@@ -114,11 +120,60 @@ Par exemple : amélioration de la recherche des biens, personnalisation des reco
 
 ==== Grande fonctionnalité : Notifier l'agent quand la date d'un projet anticipé approche
 
+Un projet anticipé correspond à un projet qui n'est pas encore effectif (les clients ne souhaitent pas encore acheter ou vendre un bien), mais qu'il y a de fortes probabilités qu'il le soit dans un certain laps de temps.
+Ce projet anticipé se prévoit lorsqu'un client informe l'agent immobilier qu'il aura la volonté de vendre ou acheter un bien soit après l'arrivée d'un évenement soit dans un certain temps qu'il aura indiqué sans préciser de raison.
+Ce projet anticipé est donc enregistré dans l'application par l'agent immobilier.
+
+Un agent immobilier peut s'inscrire aux notifications qu'il souhaite reçevoir.
+Si celui-ci est inscrit à la notification de projet anticipé, l'application lui rappellera de recontacter le client lorque la date prévue de son projet anticipé approche.
+La date de notification est fixée par défaut (6 mois avant la date prévue).
+
+Ainsi, lorque l'agent immobilier reçoit la notification, celle-ci lui indique le type de notification qu'il a reçu.
+Il a alors la possibilité de consulter la page du projet de son client.
+
+Les wireframes des notifications seront présentés dans la petite fonctionnalité : Rendre les notifications interactives, de la v0.0.4.
+
+'''
+
+*Endpoints* :
+
+[source,http]
+----
+POST /api/v1/potential-projects/subscription
+----
+
+Permet de s'inscrire à la notification de projet potentiel.
+
+[source,http]
+----
+POST /api/v1/potential-projects/notification
+----
+
+Envoi des notifications du jour pour les projets anticipés.
+
+'''
+
+*Diagramme de classes* :
+
+plantuml::{modelsdir}/v0.0.2/gf_event/NotificationSystemClass.puml[svg,config="{pumlstylefile}"]
+
+'''
+
+'''
+
+*Diagramme de séquences* :
+
+plantuml::{modelsdir}/v0.0.2/gf_event/PotentialProjectNotificationSequence.puml[svg,config="{pumlstylefile}"]
+
+'''
+
 ==== Grande fonctionnalité : Créer un portfolio des biens pouvant plaire à un acquéreur
 
 Cette fonctionnalité permet à l'agent immobilier de créer un portfolio “Properties to follow”, un catalogue de biens qui pourraient satisfaire un acquéreur.
 
-Un bien a des caractéristiques. Un acquéreur a des critères de bien. Dans ce portfolio, pour un acquéreur, on aura les biens dont les caractéristiques correspondent aux critères de bien.
+Un bien a des caractéristiques.
+Un acquéreur a des critères de bien.
+Dans ce portfolio, pour un acquéreur, on aura les biens dont les caractéristiques correspondent aux critères de bien.
 
 '''
 
@@ -128,14 +183,17 @@ Un bien a des caractéristiques. Un acquéreur a des critères de bien. Dans ce 
 ----
 GET /api/v1/buyers/{buyerId}/properties-to-follow
 ----
+
 Retourne une liste de bien à suivre.
 
 '''
+
 *Paramètres* : +
 
 * buyerId : int
 
 *Réponse* :
+
 [source,json]
 ----
 [
@@ -174,7 +232,6 @@ image::v0.0.2/ptf.png[alt=Avant l'appel à la fonctionnalité]
 .Page affichant les biens à suivre pour un prospect après l'appel à la fonctionnalité via le bouton find
 image::v0.0.2/ptf2.png[alt=Après l'appel à la fonctionnalité via le bouton find]
 
-
 === v0.0.3
 
 ==== Grande fonctionnalité : Générer des statistiques pour les agents immobiliers
@@ -201,6 +258,7 @@ Ces statistiques sont :
 ----
 GET /api/v1/statistics/prospects/count-by-age-group
 ----
+
 Retourne le nombre de prospects par catégorie d'âge.
 
 '''
@@ -209,6 +267,7 @@ Retourne le nombre de prospects par catégorie d'âge.
 ----
 GET /api/v1/statistics/prospects/count-by-profession
 ----
+
 Retourne le nombre de prospects par profession.
 
 '''
@@ -217,6 +276,7 @@ Retourne le nombre de prospects par profession.
 ----
 GET /api/v1/statistics/prospects/count-by-contact-origin
 ----
+
 Retourne le nombre de prospects par source de contact.
 
 '''
@@ -224,6 +284,7 @@ Retourne le nombre de prospects par source de contact.
 *Paramètres* : Aucun
 
 *Réponse* :
+
 [source,json]
 ----
 {
@@ -248,14 +309,47 @@ plantuml::{modelsdir}/v0.0.3/gf_statistics_estate_agents/dc.puml[svg,config="{pu
 *Affichage* :
 
 .Page affichant les statistiques générées pour l'agent immobilier
-
 image::v0.0.3/gf_statistics_estate_agents.png[alt=Page affichant les statistiques générées pour l'agent immobilier]
 
 ==== Grande fonctionnalité : Notification pour un client qui est susceptible de changer de logement
 
+Il est possible de prédire avec une probabilité plus ou moins forte lorsqu'un client est susceptible de vouloir changer de logement.
+L'application peut fournir des informations à l'agent immobilier selon certains critères, par exemple en fonction de la durée depuis laquelle il a emménagé dans son logement ou bien en fonction des critères de sélection de son logement qui ne sont pas respectés dans le bien qu'il a acheté.
+
+Si l'agent immobilier décide de s'inscrire au type de notification : "notification de prospects", alors il pourra bénéficier de notification qui l'informeront lorsqu'il y a une forte probabilité qu'un client souhaite changer de logement.
+Cela pourra l'aider à anticiper les besoins des clients et répondre au mieux (efficacement et rapidement) à leurs demandes.
+Cela pourra aussi permettre à l'agent immobilier de faire des suggestions de biens immobiliers si les clients ont donné leur accord pour reçevoir des actualités sur les biens du marché.
+
+L'agent immobilier sera ainsi apte à cibler les besoins de ses clients et à leur proposer des suggestions de biens qui correspondent à leurs besoins particuliers.
+
+Les wireframes des notifications seront présentés dans la petite fonctionnalité : Rendre les notifications interactives, de la v0.0.4.
+
+'''
+
+*Endpoints* :
+
+[source,http]
+----
+POST /api/v1/prospects/subscription
+----
+
+Permet de s'inscrire à la notification de prospect.
+
+[source,http]
+----
+POST /api/v1/prospects/notification
+----
+
+Envoi les notifications du jour pour les prospects.
+
+'''
+
 ==== Petite fonctionnalité : Personnaliser la date de notification pour un projet potentiel
 
+La date de notification peut-être fixée par défaut (6 mois avant la date prévue) ou bien directement par l’agent immobilier lorsqu’il enregistre un projet anticipé.
+
 ==== Petite fonctionnalité : Afficher la page du bien quand on clique sur un bien du portfolio
+
 Cette fonctionnalité permet d'afficher la page du bien quand on clique sur un bien du portfolio "Bien à Suivre".
 
 *Affichage* :
@@ -273,11 +367,13 @@ image::v0.0.3/page_bien.png[alt=Page du bien suite au clic dans le portfolio]
 === v0.0.4
 
 ==== Grande fonctionnalité : Filtrer des prospects selon des critères complexes
+
 Cette fonctionnalité permet : +
 - d'effectuer une recherche filtré des prospects +
 - d'enregistrer ce filtre sous la forme d'un dossier pour pouvoir retrouvé plus facilement les éléments du filtre et faire des actions regroupés
 
 '''
+
 *Endpoint* :
 
 [source,http]
@@ -297,6 +393,7 @@ POST /api/v1/prospects/filtred
         }
 )
 ----
+
 Retourne les prospects filtrés en fonction du filtre.
 
 '''
@@ -306,6 +403,7 @@ Retourne les prospects filtrés en fonction du filtre.
 * prospectFilterRequest : ProspectFilterRequest
 
 *Requête* :
+
 [source,json]
 ----
 {
@@ -320,6 +418,7 @@ Retourne les prospects filtrés en fonction du filtre.
 ----
 
 *Réponse* :
+
 [source,json]
 ----
 [
@@ -353,6 +452,46 @@ image::v0.0.4/savedfiltre.png[alt=Enregistrement du filtre grâce au bouton save
 
 ==== Grande fonctionnalité : Envoi de mail en fonction d'une notification depuis la fiche prospect
 
+L'agent immobilier a la possibilité d'envoyer des mails depuis l'application.
+Les emails peuvent avoir des templates prédéfinis qui s'adaptent au contexte en fonction du type d'email que l'on souhaite envoyer et du prospect à contacter.
+
+Cette fonctionnalité est utilisée dans les notifications afin de permettre à l'agent immobilier de contacter par mail le client directement depuis une notification.
+S'il utilise cette fonctionnalité un mail personnalisé, adapté à la notification sera directement envoyé au prospect.
+Cela facilitera la reprise de contact avec le client notamment lorsqu'il s'agit de le recontacter après une longue période, ce qui est souvent le cas le cas pour les notifications et rappels que nous envoyons.
+
+'''
+
+*Endpoint* :
+
+[source,http]
+----
+POST /api/v1/email
+@Operation(description = "send email to prospect based on an eventType",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Email send successfully."),
+                    @ApiResponse(responseCode = "400", description = "The given prospectId does not correspond to any prospect."),
+                    @ApiResponse(responseCode = "401", description = "This prospect does not wish to be contacted via social networks."),
+})
+----
+
+Envoi un email en fonction des données envoyées.
+
+'''
+
+*Paramètres* :
+
+*Requête* :
+
+[source,json]
+----
+{
+  "prospectId": 0,
+  "eventType": "PROJECT_DUE_DATE_APPROACHING"
+}
+----
+
+'''
+
 ==== Petite fonctionnalité : Avoir accès à l'avancement des biens
 
 ==== Petite fonctionnalité : Rendre les notifications interactives
@@ -372,6 +511,7 @@ Cette fonctionnalité permet donc d’accélérer le travail de l'agent immobili
 ----
 PATCH /api/v1/notifications/{notificationId}/status
 ----
+
 Retourne la notification modifiée.
 
 '''
@@ -381,6 +521,7 @@ Retourne la notification modifiée.
 * notificationId : int
 
 *Requête* :
+
 [source,json]
 ----
 {
@@ -389,6 +530,7 @@ Retourne la notification modifiée.
 ----
 
 *Réponse* :
+
 [source,json]
 ----
 {
@@ -404,12 +546,14 @@ Retourne la notification modifiée.
 
 *Affichage* :
 
-En cliquant sur le bouton "Cloche" présente dans la barre située en haut de la page, la fenêtre des notifications s'affichent. Pour savoir s'il a reçu des notifications, l'agent peut cliquer sur le bouton "Rafraîchir" en haut à gauche de la fenêtre de notifications.
+En cliquant sur le bouton "Cloche" présente dans la barre située en haut de la page, la fenêtre des notifications s'affichent.
+Pour savoir s'il a reçu des notifications, l'agent peut cliquer sur le bouton "Rafraîchir" en haut à gauche de la fenêtre de notifications.
 
 .Barre de notifications vide dans la page d'accueil
 image::v0.0.4/pf_interactive_notification/step_1.png[alt=Barre de notifications vide dans la page d'accueil]
 
-L'agent peut maintenant voir les notifications reçues. S'il veut consulter les détails de la personne ou de l'élément concerné par une notification, il peut cliquer sur le bouton "Consulter" de la notification.
+L'agent peut maintenant voir les notifications reçues.
+S'il veut consulter les détails de la personne ou de l'élément concerné par une notification, il peut cliquer sur le bouton "Consulter" de la notification.
 
 .Barre avec deux nouvelles notifications
 image::v0.0.4/pf_interactive_notification/step_2.png[alt=Barre avec deux nouvelles notifications]
