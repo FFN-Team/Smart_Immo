@@ -12,16 +12,20 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepo
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PotentialProjectRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class NotificationDataAdapter implements NotificationSpi {
     private final NotificationRepository notificationRepository;
     private final PotentialProjectRepository potentialProjectRepository;
     private final ProspectRepository prospectRepository;
 
+    @Autowired
     public NotificationDataAdapter(NotificationRepository notificationRepository,
                                    PotentialProjectRepository potentialProjectRepository,
                                    ProspectRepository prospectRepository) {
@@ -66,11 +70,13 @@ public class NotificationDataAdapter implements NotificationSpi {
     }
 
     @Override
-    public Optional<Event<Notify>> findNotificationById(Long id) {
+    public Optional<Event<? extends Notify>> findNotificationById(Long id) {
         return notificationRepository.findById(id).map(NotificationEntity::toModel);
     }
 
-    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId, List<NotificationStatus> notificationStatuses, EventType eventType) {
+    public List<Event<Notify>> findNotificationByElementIdAndStatusAndEventType(Long elementId,
+                                                                                List<NotificationStatus> notificationStatuses,
+                                                                                EventType eventType) {
         List<NotificationEntity> notificationEntities = new ArrayList<>();
         switch (eventType) {
             case PROJECT_DUE_DATE_APPROACHING -> {
@@ -98,7 +104,7 @@ public class NotificationDataAdapter implements NotificationSpi {
 
     @Override
     @Transactional
-    public Event<Notify> save(Event<Notify> event) {
+    public Event save(Event event) {
         NotificationEntity receivedNotification = new NotificationEntity(
                 event.getId(),
                 event.status(),
@@ -109,6 +115,15 @@ public class NotificationDataAdapter implements NotificationSpi {
         );
         NotificationEntity savedNotification = notificationRepository.save(receivedNotification);
         return savedNotification.toModel();
+    }
+
+    //mal fait
+    @Override
+    public Long saveNotification(Event<? extends Notify> event) {
+        if (event.getElement() instanceof PotentialProject)
+            return savePotentialProjectNotification((Event<PotentialProject>) event);
+        if (event.getElement() instanceof Prospect) return saveProspectNotification((Event<Prospect>) event);
+        throw new RuntimeException("to do");
     }
 
     @Override

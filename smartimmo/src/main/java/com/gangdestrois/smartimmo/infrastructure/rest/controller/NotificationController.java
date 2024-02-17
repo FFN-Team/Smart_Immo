@@ -21,13 +21,22 @@ public class NotificationController {
 
     @PatchMapping("/{notificationId}/status")
     @Operation(
-        summary = "Update the status of a notification by id.",
-        description = "Returns the updated notification.",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Update successfully."),
-            @ApiResponse(responseCode = "400", description = "Bad request."),
-            @ApiResponse(responseCode = "404", description = "Resource not found.")
-        }
+            summary = "Update the status of a notification by id.",
+            description = "Returns the updated notification.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update successfully."
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request."
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Resource not found."
+                    )
+            }
     )
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<EventResponse> changeStatus(

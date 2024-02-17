@@ -3,8 +3,6 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterApi;
-import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterSpi;
-import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,10 +33,8 @@ public class ProspectController {
                               ProspectFilterApi prospectFilterApi) {
         this.prospectApi = prospectApi;
         this.notificationAlertListener = notificationAlertListener;
-        this.prospectFilterApi=prospectFilterApi;
+        this.prospectFilterApi = prospectFilterApi;
     }
-
-
 
     @PostMapping("/notification")
     public ResponseEntity<Set<PotentialBuyerEventResponse>> notifyPotentialProjects() {
@@ -46,8 +42,6 @@ public class ProspectController {
                 .map(PotentialBuyerEventResponse::fromModel)
                 .collect(Collectors.toSet()));
     }
-
-
 
     @PostMapping("/subscription")
     @Operation(
@@ -58,23 +52,22 @@ public class ProspectController {
         prospectApi.subscription(notificationAlertListener);
     }
 
-
     @PutMapping("/filter")
     @Operation(
             summary = "Save prospects filter",
             description = "Saves the filter criteria for prospects.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request body containing the filter criteria.",
-                    required = true,content = @Content(mediaType = "application/json",
+                    required = true, content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ProspectFilterRequest.class))
             ),
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Prospects filter saved successfully."),
-                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request."),
-                    @ApiResponse(responseCode = "409",description = "Conflict - Integrity constraint violation.")
+                    @ApiResponse(responseCode = "200", description = "Prospects filter saved successfully."),
+                    @ApiResponse(responseCode = "400", description = "Invalid request body or bad request."),
+                    @ApiResponse(responseCode = "409", description = "Conflict - Integrity constraint violation.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> saveProspectsFilter(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
+    public ResponseEntity<String> saveProspectsFilter(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest) {
         try {
             prospectFilterApi.saveProspectFilter(prospectFilterRequest.toModel());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -87,7 +80,7 @@ public class ProspectController {
     @DeleteMapping("/filter")
     @ResponseStatus(HttpStatus.OK)
     public Integer deleteByProspectFilterName(@Valid @RequestBody @NotNull
-                                                                 ExistingProspectFilterRequest existingProspectFilterRequest) {
+                                              ExistingProspectFilterRequest existingProspectFilterRequest) {
         return prospectFilterApi.deleteByProspectFilterName(existingProspectFilterRequest.prospectFilterName());
     }
 
@@ -97,17 +90,17 @@ public class ProspectController {
             summary = "Filter prospects",
             description = "Filters prospects based on the provided filter criteria.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Request body containing the filter criteria.",required = true,
+                    description = "Request body containing the filter criteria.", required = true,
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProspectFilterRequest.class))
             ),
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Successfully filtered prospects."),
-                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request.")
+                    @ApiResponse(responseCode = "200", description = "Successfully filtered prospects."),
+                    @ApiResponse(responseCode = "400", description = "Invalid request body or bad request.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public List<ProspectResponse> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest){
+    public List<ProspectResponse> filterProspects(@Valid @RequestBody @NotNull ProspectFilterRequest prospectFilterRequest) {
         return prospectFilterApi.filterProspects(prospectFilterRequest.toModel()).stream()
                 .map(ProspectResponse::fromModel).toList();
     }
@@ -123,32 +116,30 @@ public class ProspectController {
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ProspectFilterResponse>> getProspectsFilters(){
-            return ResponseEntity.ok(prospectFilterApi.findAll().stream()
-                    .map(ProspectFilterResponse::fromModel)
-                    .toList());
+    public ResponseEntity<List<ProspectFilterResponse>> getProspectsFilters() {
+        return ResponseEntity.ok(prospectFilterApi.findAll().stream()
+                .map(ProspectFilterResponse::fromModel)
+                .toList());
     }
-
-
 
     @PostMapping("/existing-filter")
     @Operation(
             summary = "Filter prospects with existing filter",
             description = "Filters prospects based on an existing filter.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Request body containing the existing filter criteria.",required = true,
+                    description = "Request body containing the existing filter criteria.", required = true,
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ExistingProspectFilterRequest.class))
             ),
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Successfully filtered prospects based on the existing filter."),
-                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request."),
-                    @ApiResponse(responseCode = "404",description = "ProspectFilter not found.")
+                    @ApiResponse(responseCode = "200", description = "Successfully filtered prospects based on the existing filter."),
+                    @ApiResponse(responseCode = "400", description = "Invalid request body or bad request."),
+                    @ApiResponse(responseCode = "404", description = "ProspectFilter not found.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
     public List<ProspectResponse> filterProspectsWithExistingFilter(@Valid @RequestBody @NotNull
-                                              ExistingProspectFilterRequest existingProspectFilterRequest){
+                                                                    ExistingProspectFilterRequest existingProspectFilterRequest) {
         ProspectFilter existingProspectFilter;
         try {
             existingProspectFilter = prospectFilterApi.findByProspectFilterName(existingProspectFilterRequest.prospectFilterName());
@@ -157,5 +148,20 @@ public class ProspectController {
         }
         return prospectFilterApi.filterProspects(existingProspectFilter).stream()
                 .map(ProspectResponse::fromModel).toList();
+    }
+
+    @GetMapping()
+    public List<ProspectResponse> getAllProspects() {
+        return prospectApi.getProspects().stream()
+                .map(ProspectResponse::fromModel)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProspectResponse getProspects(@PathVariable Long id) {
+        return prospectApi.getProspect(id)
+                .map(ProspectResponse::fromModel)
+                .orElse(null);
     }
 }
