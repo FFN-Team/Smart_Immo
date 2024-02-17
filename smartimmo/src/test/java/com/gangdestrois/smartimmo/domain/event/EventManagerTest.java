@@ -10,6 +10,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class EventManagerUT {
+public class EventManagerTest {
 
     private EventManager eventService;
     private SubscriptionSpi subscriptionSpi;
@@ -31,6 +32,7 @@ public class EventManagerUT {
     }
 
     @Test
+    @DisplayName("test")
     public void unsubscribe_should_throw_bad_request_exception_when_eventType_subscribe_no_event_listener() {
         // Getters
         EventType eventType = EventType.PROJECT_DUE_DATE_APPROACHING;
