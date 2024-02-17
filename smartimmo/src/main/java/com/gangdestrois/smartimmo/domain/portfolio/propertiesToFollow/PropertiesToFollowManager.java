@@ -36,22 +36,34 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
     }
 
     @Override
-    public void resetAndSavePropertiesToFollowForBuyer(Long buyerId) {
+    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
+        propertyToFollowSpi.updateStatusByPropertyToFollowId(propertyToFollowId, status);
+    }
 
+    @Override
+    public void savePropertiesToFollowForBuyer(Long buyerId) {
         if (isNull(buyerSpi.findBuyerById(buyerId)))
             throw new BuyerNotFoundException("Buyer not found with ID: " + buyerId);
 
         this.buyer = buyerSpi.findBuyerById(buyerId);
-        propertyToFollowSpi.deletePropertiesToFollowForBuyer(buyerId);
 
         List<Property> filteredProperties = propertySpi.findAll().stream()
                 .filter(PropertyCriteriaPredicates.allCriteriaPredicate(this.buyer))
-                .peek(property -> propertyToFollowSpi.savePropertyToFollow(this.buyer, property))
                 .toList();
-    }
 
-    @Override
-    public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
-        propertyToFollowSpi.updateStatusByPropertyToFollowId(propertyToFollowId, status);
+        List<Property> existingProperties =  propertyToFollowSpi.findAllByBuyerId(buyerId)
+                .stream()
+                .map(x->x.getProperty())
+                .toList();
+
+        List<Property> notMatchingPropertiesForBuyer = existingProperties.stream()
+                .filter(property -> !filteredProperties.contains(property))
+                .peek(property -> propertyToFollowSpi.deletePropertyToFollowForBuyer(buyerId, property.id()))
+                .toList();
+
+        List<Property> newMatchingPropertiesForBuyer = filteredProperties.stream()
+                .filter(property -> !existingProperties.contains(property))
+                .peek(property -> propertyToFollowSpi.savePropertyToFollowForBuyer(this.buyer,property))
+                .toList();
     }
 }

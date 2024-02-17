@@ -38,7 +38,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
 
     @Override
     @Transactional
-    public void savePropertyToFollow(Buyer buyer, Property property) {
+    public void savePropertyToFollowForBuyer(Buyer buyer, Property property) {
         PropertyToFollowEntity propertyToFollowSaved = propertyToFollowRepository.save(
                 new PropertyToFollowEntity(
                         BuyerEntity.fromModelToEntity(buyer),
@@ -49,8 +49,8 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     }
 
     @Override
-    public void deletePropertiesToFollowForBuyer(Long buyerId) {
-        propertyToFollowRepository.deleteAllByBuyer_Id(buyerId);
+    public void deletePropertyToFollowForBuyer(Long buyerId, Long propertyId) {
+        propertyToFollowRepository.deleteByBuyerIdAndPropertyId(buyerId, propertyId);
     }
 
     @Override

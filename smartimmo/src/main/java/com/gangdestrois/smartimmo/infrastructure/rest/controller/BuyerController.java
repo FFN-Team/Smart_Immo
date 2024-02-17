@@ -99,8 +99,8 @@ public class BuyerController {
 
     @PutMapping("/{buyerId}/properties-to-follow")
     @Operation(
-            summary = "Reset properties to follow for a buyer",
-            description = "Resets and saves the properties to follow for a buyer based on the provided buyer ID.",
+            summary = "Save properties to follow for a buyer",
+            description = "Saves the properties to follow for a buyer based on the provided buyer ID.",
             parameters = {
                     @Parameter(
                             name = "buyerId", description = "ID of the buyer to reset properties for.",
@@ -112,9 +112,9 @@ public class BuyerController {
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> resetPropertiesToFollowForBuyer(@PathVariable Long buyerId)
+    public ResponseEntity<String> savePropertiesToFollowForBuyer(@PathVariable Long buyerId)
     {
-        propertyToFollowApi.resetAndSavePropertiesToFollowForBuyer(buyerId);
+        propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
