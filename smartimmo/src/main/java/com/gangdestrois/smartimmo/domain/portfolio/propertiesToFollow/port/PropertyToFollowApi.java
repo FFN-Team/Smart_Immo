@@ -8,6 +8,6 @@ import java.util.List;
 public interface PropertyToFollowApi {
     List<PropertyToFollow> findAll();
     List<PropertyToFollow> findAllByBuyerId(Long buyerId);
-    void resetAndSavePropertiesToFollowForBuyer(Long buyerId);
     void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status);
+    void savePropertiesToFollowForBuyer(Long buyerId);
 }
