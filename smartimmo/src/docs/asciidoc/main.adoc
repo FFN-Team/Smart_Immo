@@ -70,7 +70,7 @@ Stratégies :
 // La variable entraîne un problème de niveaux de titres, pour cette raison je l'ai commenté
 //include::{readmefile}[]
 
-<<<
+//<<<
 
 === Type d'application
 
