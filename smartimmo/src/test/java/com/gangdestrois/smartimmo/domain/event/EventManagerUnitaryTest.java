@@ -1,32 +1,40 @@
 package com.gangdestrois.smartimmo.domain.event;
 
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.EventTypeNotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest({NotificationDataAdapter.class, SubscriptionDataAdapter.class, ProspectResponse.class,
+//        Prospect.class, EventResponse.class})
+//@PowerMockIgnore("javax.management.*")
 public class EventManagerUnitaryTest {
-
     private EventManager eventService;
     private SubscriptionSpi subscriptionSpi;
+    private NotificationSpi notificationSpi;
 
     @BeforeEach
     public void setUp() {
         subscriptionSpi = mock(SubscriptionDataAdapter.class);
         EventTypeNotificationSpi eventTypeNotificationSpi = mock(EventTypeNotificationDataAdapter.class);
-        NotificationSpi notificationSpi = mock(NotificationDataAdapter.class);
+        notificationSpi = mock(NotificationDataAdapter.class);
         eventService = new EventManager(subscriptionSpi, eventTypeNotificationSpi, notificationSpi);
     }
 
@@ -71,5 +79,61 @@ public class EventManagerUnitaryTest {
 
         // Then
         verify(subscriptionSpi, never()).remove(eq(eventType), eq(listener));
+    }*/
+
+    @Test
+    public void save_should_throw_not_found_exception_when_notification_id_not_found() {
+        // Given
+        Long notificationId = -1L;
+        NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
+        when(notificationSpi.findNotificationById(notificationId)).thenReturn(Optional.empty());
+
+        // When and then
+        assertThrows(NotFoundException.class, () -> eventService.save(notificationId, notificationStatusRequest));
+    }
+
+    /*@Test
+    public void save_should_return_saved_notification_when_notification_id_found() {
+        // Given
+        Long notificationId = 1L;
+        NotificationStatusRequest notificationStatusRequest = new NotificationStatusRequest(NotificationStatus.OPEN);
+        ProspectResponse prospectResponse = PowerMockito.mock(ProspectResponse.class);
+        Event<Notify> event = new Event<Notify>(
+                notificationId,
+                notificationStatusRequest.status(),
+                "Message",
+                Priority.LOW,
+                mock(Prospect.class),
+                EventType.PROSPECT_MAY_BUY_BIGGER_HOUSE
+        );
+        EventResponse expected = new EventResponse(
+                notificationId,
+                notificationStatusRequest.status().name(),
+                "Message",
+                Priority.LOW.name(),
+                prospectResponse
+        );
+
+        when(notificationSpi.findNotificationById(anyLong())).thenReturn(Optional.of(event));
+        when(notificationSpi.save(any())).thenReturn(event);
+        PowerMockito.mockStatic(EventResponse.class);
+        PowerMockito.when(EventResponse.fromModel(any())).thenReturn(new EventResponse(
+                        event.getId(),
+                        event.status().name(),
+                        event.message(),
+                        event.priority().name(),
+                        prospectResponse
+                )
+        );
+
+        // When
+        EventResponse actual = eventService.save(notificationId, notificationStatusRequest);
+
+        // Then
+        assertEquals(expected, actual);
+        verify(notificationSpi).findNotificationById(notificationId);
+        verify(notificationSpi).save(any());
+        PowerMockito.verifyStatic(EventResponse.class);
+        EventResponse.fromModel(any());
     }*/
 }
