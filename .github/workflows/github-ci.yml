@@ -6,7 +6,6 @@ on:
     branches:
       - develop
       - main
-      - feature/TI-119-Add-unit-tests-for-interactive-notifications
 
 jobs:
   build:
