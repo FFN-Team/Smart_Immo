@@ -460,7 +460,7 @@ L'agent immobilier a la possibilité d'envoyer des mails depuis l'application.
 Les emails peuvent avoir des templates prédéfinis qui s'adaptent au contexte en fonction du type d'email que l'on souhaite envoyer et du prospect à contacter.
 
 Cette fonctionnalité est utilisée dans les notifications afin de permettre à l'agent immobilier de contacter par mail le client directement depuis une notification.
-S'il utilise cette fonctionnalité un mail personnalisé, adapté à la notification sera directement envoyé au prospect.
+S'il utilise cette fonctionnalité, un mail personnalisé et adapté à la notification sera directement envoyé au prospect.
 Cela facilitera la reprise de contact avec le client notamment lorsqu'il s'agit de le recontacter après une longue période, ce qui est souvent le cas le cas pour les notifications et rappels que nous envoyons.
 
 '''
