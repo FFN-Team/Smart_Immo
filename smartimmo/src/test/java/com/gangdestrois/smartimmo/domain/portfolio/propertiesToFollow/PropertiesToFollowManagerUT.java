@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow;
 
-import com.gangdestrois.smartimmo.DataForUT;
+import com.gangdestrois.smartimmo.DataForUnitaryTest;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerSpi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class PropertiesToFollowManagerUT {
-    private final DataForUT dataForUT = new DataForUT();
+    private final DataForUnitaryTest dataForUT = new DataForUnitaryTest();
     private PropertyToFollowSpi propertyToFollowSpi;
     private PropertySpi propertySpi;
     private Buyer buyer;
