@@ -4,10 +4,10 @@
 autonumber
 
 PotentialProjectManager -> PotentialProjectSpi: findPotentialProjectToNotify
-PotentialProjectManager <-- PotentialProjectSpi: PotentialProjectToNotify : List<PotentialProject>
-PotentialProjectManager -> PotentialProjectNotificationStrategy : makeNotification
-PotentialProjectNotificationStrategy -> EventManager
+PotentialProjectManager <-- PotentialProjectSpi: List<PotentialProject>
+PotentialProjectManager -> PotentialProjectNotificationStrategy : makeNotifications(List<PotentialProject>, PROJECT_DUE_DATE_APPROACHING)
+PotentialProjectNotificationStrategy -> EventManager : notify(PotentialProject)
 EventManager -> NotificationAlertListener : update
-PotentialProjectManager -> PotentialProjectNotificationStrategy : getNotification
+PotentialProjectManager -> PotentialProjectNotificationStrategy : getNotifications(PROJECT_DUE_DATE_APPROACHING)
 PotentialProjectManager <-- PotentialProjectNotificationStrategy : List<Event<PotentialProject>>
 @enduml

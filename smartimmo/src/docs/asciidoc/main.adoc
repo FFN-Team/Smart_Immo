@@ -155,6 +155,8 @@ Envoi des notifications du jour pour les projets anticipés.
 
 *Diagramme de classes* :
 
+NotificationSystem :
+
 plantuml::{modelsdir}/v0.0.2/gf_event/NotificationSystemClass.puml[svg,config="{pumlstylefile}"]
 
 '''
@@ -162,6 +164,8 @@ plantuml::{modelsdir}/v0.0.2/gf_event/NotificationSystemClass.puml[svg,config="{
 '''
 
 *Diagramme de séquences* :
+
+PotentialProject :
 
 plantuml::{modelsdir}/v0.0.2/gf_event/PotentialProjectNotificationSequence.puml[svg,config="{pumlstylefile}"]
 

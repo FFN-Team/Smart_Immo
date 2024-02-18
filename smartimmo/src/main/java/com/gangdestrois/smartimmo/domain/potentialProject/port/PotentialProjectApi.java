@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface PotentialProjectApi {
     List<Event<PotentialProject>> notifyPotentialProjects();
-
     void subscription(EventListener eventListener);
-
     Optional<Prospect> findProspectByPotentialProjectId(Long potentialProjectId);
 }
