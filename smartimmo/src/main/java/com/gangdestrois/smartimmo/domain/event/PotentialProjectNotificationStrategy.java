@@ -22,6 +22,7 @@ public class PotentialProjectNotificationStrategy extends AbstractNotificationSt
         return super.getNotificationSpi().findProjectNotificationById(notificationId);
     }
 
+    @Override
     public void notify(PotentialProject potentialProject) {
         var event = potentialProject.mapToEvent();
         if (getEventManager().nonSubscribe(event.getEventType())) return;
