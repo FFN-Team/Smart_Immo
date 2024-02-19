@@ -497,6 +497,48 @@ Envoi un email en fonction des données envoyées.
 '''
 
 ==== Petite fonctionnalité : Avoir accès à l'avancement des biens
+Pour les biens correspondants de l’acquéreur, il faut définir un état de traitement pour savoir si par exemple ce
+bien est “à proposer”, “en cours de négociation” ou si le bien “a été visité” etc.
+
+Cette fonctionnalité permet de changer le statut du bien à suivre (TO_STUDY, TO_VISIT, VISITED).
+
+'''
+
+*Endpoint* :
+
+[source,http]
+----
+PATCH /api/v1/properties-to-follow/{propertyToFollowId}/status
+----
+
+Met à jours le status du bien.
+
+'''
+
+*Paramètres* :
+
+* propertyToFollowId : int
+
+*Requête* :
+
+[source,json]
+----
+{
+    "propertyToFollowStatus": "enum[TO_STUDY, TO_VISIT, VISITED]"
+}
+----
+
+*Réponse* : HttpStatus.OK
+
+'''
+
+*Affichage* :
+
+En cliquant sur la liste déroulante de status je peux changer le status.
+
+.Status du bien à suivre
+image::v0.0.4/statusPTF.png[alt=Status du bien à suivre]
+
 
 ==== Petite fonctionnalité : Rendre les notifications interactives
 
