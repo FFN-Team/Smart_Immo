@@ -1,5 +1,7 @@
 package com.gangdestrois.smartimmo.domain.event;
 
+import com.gangdestrois.smartimmo.domain.error.BadRequestException;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
@@ -9,8 +11,6 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.EventTypeNotificationDataAd
 import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 //@RunWith(PowerMockRunner.class)
 //@PrepareForTest({NotificationDataAdapter.class, SubscriptionDataAdapter.class, ProspectResponse.class,

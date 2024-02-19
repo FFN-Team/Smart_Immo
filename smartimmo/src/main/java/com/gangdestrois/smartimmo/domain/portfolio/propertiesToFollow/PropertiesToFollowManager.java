@@ -2,13 +2,13 @@ package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerSpi;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 
 import java.util.List;
 
@@ -52,19 +52,19 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
                 .filter(PropertyCriteriaPredicates.allCriteriaPredicate(this.buyer))
                 .toList();
 
-        List<Property> existingProperties =  propertyToFollowSpi.findAllByBuyerId(buyerId)
+        List<Property> existingProperties = propertyToFollowSpi.findAllByBuyerId(buyerId)
                 .stream()
-                .map(x->x.getProperty())
+                .map(PropertyToFollow::getProperty)
                 .toList();
 
-        List<Property> notMatchingPropertiesForBuyer = existingProperties.stream()
+        existingProperties.stream()
                 .filter(property -> !filteredProperties.contains(property))
                 .peek(property -> propertyToFollowSpi.deletePropertyToFollowForBuyer(buyerId, property.id()))
                 .toList();
 
         List<Property> newMatchingPropertiesForBuyer = filteredProperties.stream()
                 .filter(property -> !existingProperties.contains(property))
-                .peek(property -> propertyToFollowSpi.savePropertyToFollowForBuyer(this.buyer,property))
+                .peek(property -> propertyToFollowSpi.savePropertyToFollowForBuyer(this.buyer, property))
                 .toList();
     }
 }

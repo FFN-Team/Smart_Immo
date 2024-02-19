@@ -1,5 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
@@ -8,8 +10,6 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventTypeNotificatio
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.EventTypeNotificationRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.NotificationRepository;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

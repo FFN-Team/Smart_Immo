@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -47,8 +47,9 @@ public class GoogleApi {
         try {
             secrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(secretKeyPath.getInputStream()));
         } catch (IOException e) {
-            throw new NotFoundException(ExceptionEnum.SECRETS_NOT_FOUND,
-                    String.format("Google API Secrets not found. for file %s.", secretKeyPath.getFilename()));
+            throw new RuntimeException(e);
+            /*throw new NotFoundException(ExceptionEnum.SECRETS_NOT_FOUND,
+                    String.format("Google API Secrets not found. for file %s.", secretKeyPath.getFilename()));*/
         }
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, JSON_FACTORY, secrets, scopes)
@@ -61,7 +62,7 @@ public class GoogleApi {
 
     public static Credential getCredentials(NetHttpTransport netHttpTransport) throws IOException {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        if(isNull(googleAuthorizationCodeFlow)) getCredentialsWithClientSecretFile(
+        if (isNull(googleAuthorizationCodeFlow)) getCredentialsWithClientSecretFile(
                 List.of(GMAIL_SEND, DRIVE_FILE, DRIVE), netHttpTransport);
         return new AuthorizationCodeInstalledApp(googleAuthorizationCodeFlow, receiver).authorize("user");
     }

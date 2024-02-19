@@ -1,9 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
-import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -14,6 +11,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -24,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
+import static com.gangdestrois.smartimmo.infrastructure.tool.ApplicationData.TECHNIMMO;
 import static java.util.Objects.nonNull;
 import static javax.mail.Message.RecipientType.TO;
 
@@ -33,9 +31,11 @@ public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
 
     @Autowired
-    public GmailApi() {}
+    public GmailApi() {
+    }
 
-    public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
+    public void sendEmail(String subject, String message, String senderEmail, String recipientEmail)
+            throws GoogleJsonResponseException {
         Gmail service = initialize();
 
         Session session = Session.getDefaultInstance(new Properties(), null);
@@ -56,7 +56,7 @@ public class GmailApi implements EmailSender {
             log.info(msg.toPrettyString());
         } catch (GoogleJsonResponseException e) {
             GoogleJsonError error = e.getDetails();
-            if (nonNull(error) && error.getCode() == HttpStatusCode.FORBIDDEN.getCode()) {
+            if (nonNull(error) && error.getCode() == HttpStatus.FORBIDDEN.value()) {
                 log.error("Unable to send message: " + error);
             } else {
                 throw e;
@@ -75,8 +75,9 @@ public class GmailApi implements EmailSender {
                     .setApplicationName(TECHNIMMO)
                     .build();
         } catch (IOException e) {
-            throw new InternalServerErrorException(ExceptionEnum.GOOGLE_CREDENTIALS_ERROR,
-                    "error during google api connexion for gmail service.");
+            throw new RuntimeException(e);
+            /*throw new InternalServerErrorException(ExceptionEnum.GOOGLE_CREDENTIALS_ERROR,
+                    "error during google api connexion for gmail service.");*/
         }
     }
 
@@ -87,9 +88,10 @@ public class GmailApi implements EmailSender {
             email.setSubject(subject);
             email.setContent(message, "text/html");
         } catch (MessagingException e) {
-            throw new InternalServerErrorException(ExceptionEnum.EMAIL_CONTENT_ERROR,
+            throw new RuntimeException(e);
+            /*throw new InternalServerErrorException(ExceptionEnum.EMAIL_CONTENT_ERROR,
                     String.format("Error during set email content for sender %s, recipient %s and message : \n'%s.'",
-                            senderEmail, recipientEmail, message));
+                            senderEmail, recipientEmail, message));*/
         }
     }
 }

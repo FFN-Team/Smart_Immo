@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.infrastructure.rest.error;
+package com.gangdestrois.smartimmo.domain.error;
 
 public enum ExceptionEnum {
     ALREADY_ASSIGNED_ADDRESS,

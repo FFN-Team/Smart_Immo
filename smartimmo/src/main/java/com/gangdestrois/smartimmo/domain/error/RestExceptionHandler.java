@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.infrastructure.rest.error;
+package com.gangdestrois.smartimmo.domain.error;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ApiErrorResponse;

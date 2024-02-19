@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
-import com.gangdestrois.smartimmo.domain.tool.ApplicationData;
+import com.gangdestrois.smartimmo.infrastructure.tool.ApplicationData;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;

@@ -1,6 +1,9 @@
 package com.gangdestrois.smartimmo.domain.event;
 
 import com.gangdestrois.smartimmo.common.DomainComponent;
+import com.gangdestrois.smartimmo.domain.error.BadRequestException;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
@@ -9,9 +12,6 @@ import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 
 import java.util.Arrays;
 import java.util.List;

@@ -3,20 +3,20 @@ package com.gangdestrois.smartimmo.domain.document;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.error.BadRequestException;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.InternalServerErrorException;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.CONVERT_DOCUMENT_ERROR;
-import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS;
+import static com.gangdestrois.smartimmo.domain.error.ExceptionEnum.CONVERT_DOCUMENT_ERROR;
+import static com.gangdestrois.smartimmo.domain.error.ExceptionEnum.DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 

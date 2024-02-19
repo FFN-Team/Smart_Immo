@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.infrastructure.rest.error;
+package com.gangdestrois.smartimmo.domain.error;
 
 public interface Exception {
     ExceptionEnum getError();

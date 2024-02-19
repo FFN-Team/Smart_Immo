@@ -1,14 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
+import com.gangdestrois.smartimmo.domain.error.BadRequestException;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -65,7 +65,7 @@ public class PropertyController {
     public PropertyResponse collectPropertyById(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
                 /*le throw dans le domain serait peut-être mieux ?*/
-                .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                .orElseThrow(() -> new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
                         String.format("Property not found for this id : %d", propertyId)));
         return PropertyResponse.fromModel(property);
     }
@@ -133,7 +133,7 @@ public class PropertyController {
             return updateProperties(propertyRequest, propertyId, address);
         } else {
             throw (!propertyExists) ?
-                    new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                    new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
                             String.format("Property not found for this id : %d.", propertyId)) :
                     new BadRequestException(ExceptionEnum.ALREADY_ASSIGNED_ADDRESS,
                             String.format("%s already assigned.", address.toString()));
@@ -159,7 +159,7 @@ public class PropertyController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PropertyResponse> delete(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
-                .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                .orElseThrow(() -> new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
                         String.format("Property ot found for this id : %d", propertyId)));
         PropertyResponse propertyResponse = PropertyResponse.fromModel(property);
 

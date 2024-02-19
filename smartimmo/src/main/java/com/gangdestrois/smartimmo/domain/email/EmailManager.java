@@ -3,12 +3,12 @@ package com.gangdestrois.smartimmo.domain.email;
 import com.gangdestrois.smartimmo.domain.email.port.EmailApi;
 import com.gangdestrois.smartimmo.domain.email.port.EmailConfigurer;
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
+import com.gangdestrois.smartimmo.domain.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.domain.error.NotFoundException;
+import com.gangdestrois.smartimmo.domain.error.UnauthorizedException;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.UnauthorizedException;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class EmailManager implements EmailApi {
     @Override
     public void configAndSendEmail(Long prospectId, EventType eventType) throws Exception {
         if (isNull(emailSender))
-            throw new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.EMAIL_SENDER_NOT_FOUND,
+            throw new NotFoundException(ExceptionEnum.EMAIL_SENDER_NOT_FOUND,
                     "No email sender found.");
         var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
                 String.format("Prospect with id %d not found.", prospectId)));

@@ -16,6 +16,4 @@ public class ExpandFamilyCriteria {
                     && prospect.getHome().children().size() == 0
                     && prospect.getOwners().stream()
                     .filter(Owner::isMain).anyMatch(owner -> owner.acquisitionDate().isBefore(LocalDate.now().minusYears(2)));
-
-    public Predicate<Prospect> TEST = (Prospect prospect) -> true;
 }

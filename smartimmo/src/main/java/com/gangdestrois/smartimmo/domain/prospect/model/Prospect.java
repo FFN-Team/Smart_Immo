@@ -26,7 +26,7 @@ public class Prospect implements Notify {
     private final Home home;
     private final List<Owner> owners;
 
-    private Prospect(Builder builder) {
+    public Prospect(Builder builder) {
         this.id = builder.id;
         this.contactOrigin = builder.contactOrigin;
         this.title = builder.title;

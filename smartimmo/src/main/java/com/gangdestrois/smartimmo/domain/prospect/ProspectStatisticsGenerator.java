@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProspectStatisticsGenerator implements ProspectStatisticsGeneratorApi {
-    ProspectSpi prospectSpi;
+    private final ProspectSpi prospectSpi;
 
     public ProspectStatisticsGenerator(ProspectSpi prospectSpi) {
         this.prospectSpi = prospectSpi;
@@ -52,7 +52,7 @@ public class ProspectStatisticsGenerator implements ProspectStatisticsGeneratorA
     private ProspectStatisticsResponse getProspectStatisticsResponse(List<ProspectDataResponse> dataResponses,
                                                                      String title,
                                                                      List<ProspectStatistic> data) {
-        for (ProspectStatistic prospectStatistic : data){
+        for (ProspectStatistic prospectStatistic : data) {
             dataResponses.add(new ProspectDataResponse(
                     prospectStatistic.dataProspect(),
                     prospectStatistic.count()));
