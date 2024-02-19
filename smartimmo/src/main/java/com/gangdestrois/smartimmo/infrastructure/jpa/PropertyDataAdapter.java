@@ -1,18 +1,22 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.AddressEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PropertyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class PropertyDataAdapter implements PropertySpi {
     private final PropertyRepository propertyRepository;
 
+    @Autowired
     public PropertyDataAdapter(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
     }

@@ -8,16 +8,20 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventListenerEnum;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.SubscriptionEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.SubscriptionRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class SubscriptionDataAdapter implements SubscriptionSpi {
     private final SubscriptionRepository subscriptionRepository;
     private final NotificationAlertListener notificationAlertListener;
 
+    @Autowired
     public SubscriptionDataAdapter(SubscriptionRepository subscriptionRepository,
                                    NotificationAlertListener notificationAlertListener) {
         this.subscriptionRepository = subscriptionRepository;

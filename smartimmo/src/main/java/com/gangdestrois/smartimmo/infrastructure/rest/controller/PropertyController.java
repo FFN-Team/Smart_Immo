@@ -6,8 +6,9 @@ import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.AlreadyAssignedAddressException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -44,7 +45,6 @@ public class PropertyController {
     }
 
 
-
     @GetMapping("/{propertyId}")
     @Operation(
             summary = "Get a property by id.",
@@ -65,10 +65,10 @@ public class PropertyController {
     public PropertyResponse collectPropertyById(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
                 /*le throw dans le domain serait peut-être mieux ?*/
-                .orElseThrow(() -> new NotFoundException(propertyId, "property"));
+                .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                        String.format("Property not found for this id : %d", propertyId)));
         return PropertyResponse.fromModel(property);
     }
-
 
 
     @PostMapping
@@ -98,10 +98,10 @@ public class PropertyController {
         if (addressNotAssigned) {
             return updateProperties(propertyRequest, null, address);
         } else {
-            throw new AlreadyAssignedAddressException();
+            throw new BadRequestException(ExceptionEnum.ALREADY_ASSIGNED_ADDRESS,
+                    String.format("%s already assigned.", address.toString()));
         }
     }
-
 
 
     @PutMapping("/{propertyId}")
@@ -133,11 +133,12 @@ public class PropertyController {
             return updateProperties(propertyRequest, propertyId, address);
         } else {
             throw (!propertyExists) ?
-                    new NotFoundException(propertyId, "property") :
-                    new AlreadyAssignedAddressException();
+                    new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                            String.format("Property not found for this id : %d.", propertyId)) :
+                    new BadRequestException(ExceptionEnum.ALREADY_ASSIGNED_ADDRESS,
+                            String.format("%s already assigned.", address.toString()));
         }
     }
-
 
 
     @DeleteMapping("/{propertyId}")
@@ -158,7 +159,8 @@ public class PropertyController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<PropertyResponse> delete(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
-                .orElseThrow(() -> new NotFoundException(propertyId, "property"));
+                .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                        String.format("Property ot found for this id : %d", propertyId)));
         PropertyResponse propertyResponse = PropertyResponse.fromModel(property);
 
         propertyApi.deleteById(propertyId);
@@ -167,13 +169,12 @@ public class PropertyController {
     }
 
 
-
     public Address getAddress(PropertyRequest propertyRequest) {
         Long idAddress = propertyRequest.getIdAddress();
         return addressApi.findById(idAddress)
-                .orElseThrow(() -> new NotFoundException(idAddress, "address"));
+                .orElseThrow(() -> new NotFoundException(ExceptionEnum.ADDRESS_NOT_FOUND,
+                        String.format("Address not found for this id : %d.", idAddress)));
     }
-
 
 
     public ResponseEntity<PropertyResponse> updateProperties(PropertyRequest propertyRequest,

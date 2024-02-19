@@ -24,8 +24,8 @@ public class PotentialProjectNotificationStrategy extends AbstractNotificationSt
 
     @Override
     public void notify(PotentialProject potentialProject) {
-        var elementNotification = potentialProject.mapToEvent();
-        elementNotification.setId(save(elementNotification));
-        getEventManager().notify(elementNotification);
+        var event = potentialProject.mapToEvent();
+        if (getEventManager().nonSubscribe(event.getEventType())) return;
+        getEventManager().notify(event);
     }
 }

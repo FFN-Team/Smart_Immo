@@ -1,5 +1,6 @@
-= ```TechnImmo``` Documentation
+= ```Smart_Immo``` Documentation
 FFN-Team
+2023-11-26
 :toc:
 //:revnumber: {project-version}
 //:example-caption!:

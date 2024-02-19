@@ -1,10 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -41,18 +39,11 @@ public class NotificationController {
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EventResponse> changeState(@PathVariable Long notificationId, @Valid @RequestBody NotificationStatusRequest notificationStatusRequest) {
-        Event originalEvent = notificationApi.findNotificationById(notificationId)
-                .orElseThrow(() -> new NotFoundException(notificationId, "notification"));
-        Event eventToSave = new Event<>(
-                notificationId,
-                notificationStatusRequest.notificationStatus(),
-                originalEvent.message(),
-                originalEvent.priority(),
-                originalEvent.getElement(),
-                originalEvent.getEventType());
-        Event savedEvent = notificationApi.save(eventToSave);
-        EventResponse response = EventResponse.fromModel(savedEvent);
+    public ResponseEntity<EventResponse> changeStatus(
+            @PathVariable Long notificationId,
+            @Valid @RequestBody NotificationStatusRequest notificationStatusRequest
+    ) {
+        EventResponse response = notificationApi.save(notificationId, notificationStatusRequest);
         return ResponseEntity.ok(response);
     }
 }

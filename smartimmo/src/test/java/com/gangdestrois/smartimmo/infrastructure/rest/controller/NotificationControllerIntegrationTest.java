@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = NotificationController.class)
-class NotificationControllerTest {
+class NotificationControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 

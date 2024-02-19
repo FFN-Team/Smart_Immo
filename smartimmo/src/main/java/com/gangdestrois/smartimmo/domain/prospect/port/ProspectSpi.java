@@ -1,7 +1,6 @@
 package com.gangdestrois.smartimmo.domain.prospect.port;
 
 import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
-import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.Profession;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatistic;

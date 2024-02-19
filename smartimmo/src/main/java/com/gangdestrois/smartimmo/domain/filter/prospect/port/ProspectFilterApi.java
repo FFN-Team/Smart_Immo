@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProspectFilterApi {
     List<Prospect> filterProspects(ProspectFilter prospectFilter);
     void saveProspectFilter(ProspectFilter prospectFilter);
-
     ProspectFilter findByProspectFilterName(String prospectFilterName);
+    Integer deleteByProspectFilterName(String prospectFilterName);
     List<ProspectFilter> findAll();
 }

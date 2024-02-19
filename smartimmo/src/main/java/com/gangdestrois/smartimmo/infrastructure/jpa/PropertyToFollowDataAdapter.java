@@ -10,12 +10,16 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyToFollowEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.PropertyToFollowRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     PropertyToFollowRepository propertyToFollowRepository;
 
+    @Autowired
     public PropertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
         this.propertyToFollowRepository = propertyToFollowRepository;
     }
@@ -38,7 +42,7 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
 
     @Override
     @Transactional
-    public void savePropertyToFollow(Buyer buyer, Property property) {
+    public void savePropertyToFollowForBuyer(Buyer buyer, Property property) {
         PropertyToFollowEntity propertyToFollowSaved = propertyToFollowRepository.save(
                 new PropertyToFollowEntity(
                         BuyerEntity.fromModelToEntity(buyer),
@@ -49,12 +53,12 @@ public class PropertyToFollowDataAdapter implements PropertyToFollowSpi {
     }
 
     @Override
-    public void deletePropertiesToFollowForBuyer(Long buyerId) {
-        propertyToFollowRepository.deleteAllByBuyer_Id(buyerId);
+    public void deletePropertyToFollowForBuyer(Long buyerId, Long propertyId) {
+        propertyToFollowRepository.deleteByBuyerIdAndPropertyId(buyerId, propertyId);
     }
 
     @Override
     public void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status) {
-        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId,status.name());
+        propertyToFollowRepository.updateStatusByPropertyToFollowId(propertyToFollowId, status.name());
     }
 }
