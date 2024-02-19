@@ -9,9 +9,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class ProspectFilterManager implements ProspectFilterApi {
     ProspectSpi prospectSpi;
@@ -19,34 +21,34 @@ public class ProspectFilterManager implements ProspectFilterApi {
 
     public ProspectFilterManager(ProspectSpi prospectSpi, ProspectFilterSpi prospectFilterSpi) {
         this.prospectSpi = prospectSpi;
-        this.prospectFilterSpi=prospectFilterSpi;
+        this.prospectFilterSpi = prospectFilterSpi;
     }
 
     @Override
     public List<Prospect> filterProspects(ProspectFilter prospectFilter) {
         List<Prospect> finalFilteredProspects = new ArrayList<>(prospectSpi.findAll());
 
-        if (!isNull(prospectFilter.getContactOrigin())) {
+        if (nonNull(prospectFilter.getContactOrigin())) {
             finalFilteredProspects = intersectionByProspectId(finalFilteredProspects,
                     new ArrayList<>(prospectSpi.findAllByContactOrigin(prospectFilter.getContactOrigin())));
         }
 
-        if (!isNull(prospectFilter.getTitle())) {
+        if (nonNull(prospectFilter.getTitle())) {
             finalFilteredProspects = intersectionByProspectId(finalFilteredProspects,
                     new ArrayList<>(prospectSpi.findAllByTitle(prospectFilter.getTitle())));
         }
 
-        if (!isNull(prospectFilter.getAgeComparator()) && !isNull(prospectFilter.getAge())) {
+        if (nonNull(prospectFilter.getAgeComparator()) && !isNull(prospectFilter.getAge())) {
             finalFilteredProspects = intersectionByProspectId(finalFilteredProspects,
                     new ArrayList<>(prospectSpi.findAllByAge(prospectFilter.getAge(), prospectFilter.getAgeComparator())));
         }
 
-        if (!isNull(prospectFilter.getProfession())) {
+        if (nonNull(prospectFilter.getProfession())) {
             finalFilteredProspects = intersectionByProspectId(finalFilteredProspects,
                     new ArrayList<>(prospectSpi.findAllByProfession(prospectFilter.getProfession())));
         }
 
-        if (!isNull(prospectFilter.isAuthorizeContactOnSocialMedia())) {
+        if (nonNull(prospectFilter.isAuthorizeContactOnSocialMedia())) {
             finalFilteredProspects = intersectionByProspectId(finalFilteredProspects,
                     new ArrayList<>(prospectSpi.findAllByAuthorizeContactOnSocialMedia(prospectFilter.isAuthorizeContactOnSocialMedia())));
         }
@@ -67,12 +69,22 @@ public class ProspectFilterManager implements ProspectFilterApi {
         return prospectFilterSpi.findByProspectFilterName(prospectFilterName);
     }
 
+    @Override
+    public Integer deleteByProspectFilterName(String prospectFilterName) {
+        return prospectFilterSpi.deleteByProspectFilterName(prospectFilterName);
+    }
+
+    @Override
+    public List<ProspectFilter> findAll() {
+        return prospectFilterSpi.findAll();
+    }
+
     public List<Prospect> intersectionByProspectId(List<Prospect> list1, List<Prospect> list2) {
         return list1.stream()
                 .map(Prospect::id)
                 .filter(id -> list2.stream().anyMatch(prospect -> id.equals(prospect.id())))
                 .map(id -> list2.stream().filter(prospect -> id.equals(prospect.id())).findFirst().orElse(null))
-                .filter(prospect -> prospect != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 }

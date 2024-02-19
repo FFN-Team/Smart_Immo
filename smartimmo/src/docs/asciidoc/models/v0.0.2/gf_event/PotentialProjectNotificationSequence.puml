@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+PotentialProjectManager -> PotentialProjectSpi: findPotentialProjectToNotify
+PotentialProjectManager <-- PotentialProjectSpi: List<PotentialProject>
+PotentialProjectManager -> PotentialProjectNotificationStrategy : makeNotifications(List<PotentialProject>, PROJECT_DUE_DATE_APPROACHING)
+PotentialProjectNotificationStrategy -> EventManager : notify(PotentialProject)
+EventManager -> NotificationAlertListener : update
+PotentialProjectManager -> PotentialProjectNotificationStrategy : getNotifications(PROJECT_DUE_DATE_APPROACHING)
+PotentialProjectManager <-- PotentialProjectNotificationStrategy : List<Event<PotentialProject>>
+@enduml

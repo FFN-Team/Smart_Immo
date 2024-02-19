@@ -46,31 +46,31 @@ INSERT INTO prospect (contact_origin, title, last_name, first_name, date_of_birt
 VALUES
     ('EMAIL', 'MR', 'Martin', 'Sophie', '1985-07-20', 'ENGINEER', 987654321, 'sophie.martin@email.com', false),
     ('EMAIL', 'MRS', 'Dupont', 'Jean', '1990-01-15', 'STUDENT', 123456789, 'jean.dupont@email.com', true),
-    ('EMAIL', 'DR', 'Smith', 'John', '1988-03-25', 'ENGINEER', 111222333, 'john.smith@email.com', true),
+    ('EMAIL', 'MRS', 'Smith', 'John', '1988-03-25', 'ENGINEER', 111222333, 'john.smith@email.com', true),
     ('EMAIL', 'MR', 'Johnson', 'Emily', '1982-08-10', 'TEACHER', 444555666, 'emily.johnson@email.com', false),
-    ('EMAIL', 'DR', 'Jones', 'David', '1992-07-18', 'DOCTOR', 222333444, 'david.jones@email.com', true),
+    ('EMAIL', 'MR', 'Jones', 'David', '1992-07-18', 'DOCTOR', 222333444, 'david.jones@email.com', true),
     ('EMAIL', 'MRS', 'Taylor', 'Sophie', '1984-06-28', 'TEACHER', 444555666, 'sophie.taylor@email.com', true),
     ('EMAIL', 'MR', 'Miller', 'Olivia', '1996-09-12', 'DOCTOR', 111222333, 'olivia.miller@email.com', false),
-    ('EMAIL', 'MISS', 'Baker', 'Emma', '1981-02-19', 'STUDENT', 888999000, 'emma.baker@email.com', true),
+    ('EMAIL', 'MR', 'Baker', 'Emma', '1981-02-19', 'STUDENT', 888999000, 'emma.baker@email.com', true),
 
     ('PHONE', 'MR', 'Dupont', 'Jean', '1990-01-15', 'ENGINEER', 123456789, 'jean.dupont@email.com', true),
     ('PHONE', 'MRS', 'Martin', 'Sophie', '1985-07-20', 'TEACHER', 987654321, 'sophie.martin@email.com', false),
-    ('PHONE', 'DR', 'Smith', 'John', '1988-03-25', 'STUDENT', 111222333, 'john.smith@email.com', true),
+    ('PHONE', 'MR', 'Smith', 'John', '1988-03-25', 'STUDENT', 111222333, 'john.smith@email.com', true),
     ('PHONE', 'MRS', 'Johnson', 'Emily', '1982-08-10', 'DOCTOR', 444555666, 'emily.johnson@email.com', false),
-    ('PHONE', 'MISS', 'Jones', 'David', '1992-07-18', 'DOCTOR', 222333444, 'david.jones@email.com', true),
+    ('PHONE', 'MRS', 'Jones', 'David', '1992-07-18', 'DOCTOR', 222333444, 'david.jones@email.com', true),
     ('PHONE', 'MR', 'Taylor', 'Sophie', '1984-06-28', 'TEACHER', 444555666, 'sophie.taylor@email.com', true),
     ('PHONE', 'MRS', 'Miller', 'Olivia', '1996-09-12', 'ENGINEER', 111222333, 'olivia.miller@email.com', false),
-    ('PHONE', 'MISS', 'Baker', 'Emma', '1981-02-19', 'STUDENT', 888999000, 'emma.baker@email.com', true),
-    ('SOCIAL_MEDIA', 'MISS', 'Lefevre', 'Philippe', '1982-05-10', 'DOCTOR', 555111222, 'philippe.lefevre@email.com', true),
-    ('SOCIAL_MEDIA', 'DR', 'Smith', 'John', '1988-03-25', 'STUDENT', 111222333, 'john.smith@email.com', true),
+    ('PHONE', 'MRS', 'Baker', 'Emma', '1981-02-19', 'STUDENT', 888999000, 'emma.baker@email.com', true),
+    ('SOCIAL_MEDIA', 'MRS', 'Lefevre', 'Philippe', '1982-05-10', 'DOCTOR', 555111222, 'philippe.lefevre@email.com', true),
+    ('SOCIAL_MEDIA', 'MR', 'Smith', 'John', '1988-03-25', 'STUDENT', 111222333, 'john.smith@email.com', true),
     ('SOCIAL_MEDIA', 'MRS', 'Brown', 'Michael', '1990-05-15', 'TEACHER', 777888999, 'michael.brown@email.com', true),
     ('SOCIAL_MEDIA', 'MR', 'Clark', 'Ryan', '1987-01-21', 'ENGINEER', 888999000, 'ryan.clark@email.com', true),
-    ('SOCIAL_MEDIA', 'MISS', 'Anderson', 'Liam', '1995-10-02', 'ENGINEER', 555666777, 'liam.anderson@email.com', false),
-    ('SOCIAL_MEDIA', 'DR', 'Hall', 'Eva', '1993-03-08', 'STUDENT', 222333444, 'eva.hall@email.com', true),
-    ('WEB_SITE', 'DR', 'Durand', 'Marie', '1995-12-03', 'ENGINEER', 777888999, 'marie.durand@email.com', false),
+    ('SOCIAL_MEDIA', 'MRS', 'Anderson', 'Liam', '1995-10-02', 'ENGINEER', 555666777, 'liam.anderson@email.com', false),
+    ('SOCIAL_MEDIA', 'MR', 'Hall', 'Eva', '1993-03-08', 'STUDENT', 222333444, 'eva.hall@email.com', true),
+    ('WEB_SITE', 'MRS', 'Durand', 'Marie', '1995-12-03', 'ENGINEER', 777888999, 'marie.durand@email.com', false),
     ('WEB_SITE', 'MRS', 'Durand', 'Marie', '1995-12-03', 'STUDENT', 777888999, 'marie.durand@email.com', false),
     ('WORD_OF_MOUTH', 'MR', 'Durand', 'Marie', '1995-12-03', 'TEACHER', 777888999, 'marie.durand@email.com', false),
-    ('WORD_OF_MOUTH', 'DR', 'Durand', 'Marie', '1995-12-03', 'DOCTOR', 777888999, 'marie.durand@email.com', false);
+    ('WORD_OF_MOUTH', 'MR', 'Durand', 'Marie', '1995-12-03', 'DOCTOR', 777888999, 'marie.durand@email.com', false);
 
 
 

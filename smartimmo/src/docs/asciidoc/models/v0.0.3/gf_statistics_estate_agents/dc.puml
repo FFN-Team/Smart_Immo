@@ -1,0 +1,39 @@
+@startuml dc
+package prospect {
+    class Prospect {
+        - id: Long
+        - lastName: String
+        - firstName: String
+        - dateOfBirth: LocalDate
+        - mobile: Long
+        - mail: String
+        - authorizeContactOnSocialMedia: Boolean
+    }
+    Prospect *--|> "- contactOrigin 1" ContactOrigin
+    Prospect *--|> "- profession 1" Profession
+
+    enum ContactOrigin {
+        EMAIL
+        PHONE
+        SOCIAL_MEDIA
+        WEB_SITE
+        WORD_OF_MOUTH
+    }
+
+    enum Profession {
+        DOCTOR
+        ENGINEER
+        TEACHER
+        STUDENT
+        COMMERCIAL
+    }
+
+    enum AgeCategory {
+        CHILD
+        YOUNG_ADULT
+        ADULT
+        SENIOR
+        ELDER
+    }
+}
+@enduml

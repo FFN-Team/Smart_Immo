@@ -9,7 +9,7 @@
 
 - install [Java 21](https://jdk.java.net/java-se-ri/21)
 - install [Docker](https://docs.docker.com/engine/install/)
-- install [Docker Compose](https://docs.docker.com/engine/install/) 
+- install [Docker Compose](https://docs.docker.com/engine/install/)
 - install your favorite IDE (IntelliJ, Eclipse, Visual Source Code, ...)
 
 # How to setup your local development environment
@@ -19,20 +19,30 @@
 - run [docker-compose.yml](docker-compose.yml)
 
 ## Setting up TechnImmo
+
 - run `mvn clean install`
 - run `mvn flyway:migrate` to migrate data
 
-# Run the application in local 
+# Run the application in local
 
-- use your IDE to create a run configuration from [SmartimmoApplication.java](smartimmo/src/main/java/com/gangdestrois/smartimmo/SmartimmoApplication.java)
+- use your IDE to create a run configuration
+  from [SmartimmoApplication.java](smartimmo/src/main/java/com/gangdestrois/smartimmo/SmartimmoApplication.java)
 - use profile `log-txt` to prevent from logging in json
 
-# Testing 
+# Testing
 
 ### Unit tests
 
 - run `mvn test`
 
-### All tests 
+### All tests
 
 - run `mvn clean verify`
+
+# Documentation
+
+## Swagger
+
+Once you have
+run [SmartimmoApplication.java](smartimmo/src/main/java/com/gangdestrois/smartimmo/SmartimmoApplication.java),
+you can find the Swagger API Documentation [here](http://localhost:9001/swagger-ui/index.html).

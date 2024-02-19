@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.event.Priority;
+import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -32,7 +32,8 @@ public class PotentialProjectEntity {
     }
 
     public String getMessage() {
-        var prospect = project.getProspect().orElseThrow(() -> new NotFoundException(project.id(), "no prospect found"));
+        var prospect = project.getProspect().orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROJECT_NOT_FOUND,
+                String.format("No prospect found for project %d.", project.id())));
         return String.format("Rappel : la date prévue pour le projet de %s approche. Vous pouvez consulter " +
                 "le projet ci-dessous pour reprendre connaissance avec le projet.", prospect.getCompleteName());
     }

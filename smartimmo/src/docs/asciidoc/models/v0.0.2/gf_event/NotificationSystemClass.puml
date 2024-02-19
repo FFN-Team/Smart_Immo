@@ -1,0 +1,68 @@
+@startuml dc
+package event {
+    interface NotificationStrategy<T extends Notify> {
+        save(event : Event<T>) : Long
+        findNotificationById(Long notificationId) : Optional<Event<T>>
+        makeNotification(element : List<T> , eventType : EventType )
+        getNotifications(eventType : EventType) : List<Event<T>>
+        notify(elementToNotify : T)
+    }
+
+    abstract class AbstractNotificationStrategy<T extends Notify> {
+        + makeNotification(elementToNotify : List<T> ,eventType : EventType)
+        + getNotifications(eventType : EventType) : List<Event<T>>
+    }
+
+    AbstractNotificationStrategy "<T>  "..|> NotificationStrategy
+
+    interface Notify {
+        mapToEvent() : Event<? extends Notify>
+        setId(id : Event<? extends Notify>)
+    }
+
+    NotificationStrategy --> Notify
+
+    class PotentialProject {
+        - id : Long
+        - dueDate : LocalDate
+        - message : String
+        - priority : Priority
+        - prospect : Prospect
+        + mapToEvent() : Event<PotentialProject>
+        + setId(id : Long)
+    }
+
+    class Prospect {
+            - id: Long
+            - lastName: String
+            - firstName: String
+            - dateOfBirth: LocalDate
+            - mobile: Long
+            - mail: String
+            - authorizeContactOnSocialMedia: Boolean
+            + mapToEvent() : Event<Prospect>
+            + setId(id : Long)
+    }
+
+    PotentialProject ..|> Notify
+    Prospect ..|> Notify
+
+    class PotentialProjectNotificationStrategy {
+        + save(event : Event<PotentialProject>) : Long
+        + findNotificationById(notificationId : Long) : Optional<Event<PotentialProject>>
+        + notify(potentialProject : PotentialProject)
+    }
+
+    class ProspectNotificationStrategy {
+            + save(event : Event<Prospect>) : Long
+            + findNotificationById(notificationId : Long) : Optional<Event<Prospect>>
+            + notify(prospect : Prospect)
+    }
+
+    PotentialProjectNotificationStrategy "<PotentialProject>" --|> AbstractNotificationStrategy
+    ProspectNotificationStrategy "<Prospect>" --|> AbstractNotificationStrategy
+    PotentialProjectNotificationStrategy --> PotentialProject
+    ProspectNotificationStrategy --> Prospect
+
+}
+@enduml

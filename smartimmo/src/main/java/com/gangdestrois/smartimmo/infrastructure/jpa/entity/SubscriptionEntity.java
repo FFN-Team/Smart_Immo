@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import jakarta.persistence.*;
 
 @Entity

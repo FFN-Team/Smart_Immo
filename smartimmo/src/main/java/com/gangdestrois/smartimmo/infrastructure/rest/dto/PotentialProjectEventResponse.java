@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 
 import static java.util.Objects.isNull;

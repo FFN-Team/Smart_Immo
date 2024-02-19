@@ -5,14 +5,19 @@ import com.gangdestrois.smartimmo.domain.filter.prospect.port.ProspectFilterSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectFilterEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectFilterRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static java.util.Objects.isNull;
 
+@Component
 public class ProspectFilterDataAdapter implements ProspectFilterSpi {
     private final ProspectFilterRepository prospectFilterRepository;
 
+    @Autowired
     public ProspectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository) {
         this.prospectFilterRepository = prospectFilterRepository;
     }
@@ -35,6 +40,20 @@ public class ProspectFilterDataAdapter implements ProspectFilterSpi {
             throw new NoSuchElementException("Aucun ProspectFilter avec le nom " + prospectFilterName + " n'a été trouvé.");
         }
         return prospectFilterEntity.toModel();
+    }
+
+    @Override
+    @Transactional
+    public Integer deleteByProspectFilterName(String prospectFilterName) {
+        return prospectFilterRepository.deleteByProspectFilterName(prospectFilterName);
+    }
+
+    @Override
+    public List<ProspectFilter> findAll() {
+        return prospectFilterRepository.findAll()
+                .stream()
+                .map(ProspectFilterEntity::toModel)
+                .toList();
     }
 
 

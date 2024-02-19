@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.EventListenerEnum;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.SubscriptionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

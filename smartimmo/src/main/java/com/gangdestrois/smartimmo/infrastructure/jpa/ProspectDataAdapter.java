@@ -9,13 +9,17 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.ProspectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ProspectDataAdapter implements ProspectSpi {
     private final ProspectRepository prospectRepository;
 
+    @Autowired
     public ProspectDataAdapter(ProspectRepository prospectRepository) {
         this.prospectRepository = prospectRepository;
     }
@@ -33,14 +37,14 @@ public class ProspectDataAdapter implements ProspectSpi {
     @Override
     public List<ProspectStatistic> countByProfession() {
         return prospectRepository.countByProfession().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic(((Profession) prospectStatistic[0]).getLabel(), (long) prospectStatistic[1]))
                 .toList();
     }
 
     @Override
     public List<ProspectStatistic> countByContactOrigin() {
         return prospectRepository.countByContactOrigin().stream()
-                .map(prospectStatistic -> new ProspectStatistic((String) prospectStatistic[0], (long) prospectStatistic[1]))
+                .map(prospectStatistic -> new ProspectStatistic(((ContactOrigin) prospectStatistic[0]).getLabel(), (long) prospectStatistic[1]))
                 .toList();
     }
 

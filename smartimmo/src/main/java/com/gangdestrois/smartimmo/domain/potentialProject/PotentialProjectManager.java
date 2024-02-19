@@ -1,10 +1,10 @@
 package com.gangdestrois.smartimmo.domain.potentialProject;
 
 import com.gangdestrois.smartimmo.common.DomainComponent;
-import com.gangdestrois.smartimmo.domain.event.Event;
 import com.gangdestrois.smartimmo.domain.event.EventListener;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
-import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.event.PotentialProjectNotificationStrategy;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
@@ -15,10 +15,8 @@ import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static com.gangdestrois.smartimmo.domain.event.EventType.PROJECT_DUE_DATE_APPROACHING;
-import static java.util.Objects.nonNull;
+import static com.gangdestrois.smartimmo.domain.event.enums.EventType.PROJECT_DUE_DATE_APPROACHING;
 
 @DomainComponent
 public class PotentialProjectManager implements PotentialProjectApi {
@@ -39,22 +37,10 @@ public class PotentialProjectManager implements PotentialProjectApi {
 
     @Override
     public List<Event<PotentialProject>> notifyPotentialProjects() {
-        potentialProjectSpi.findPotentialProjectToNotify()
-                .stream()
-                .filter(potentialProject -> notificationSpi.findNotificationByElementIdAndStatusAndEventType(
-                                potentialProject.id(), Status.TO_READ, PROJECT_DUE_DATE_APPROACHING)
-                        .size() == 0)
-                .forEach(potentialProject -> {
-                    var projectNotification = potentialProject.mapToEvent();
-                    projectNotification.setId(notificationSpi.savePotentialProjectNotification(projectNotification));
-                    eventManager.notify(projectNotification);
-                });
-        return eventManager.eventsFromEventType(PROJECT_DUE_DATE_APPROACHING).stream()
-                .filter(event -> nonNull(event.getId()))
-                .filter(event -> event.status().isNotAlreadyDealt())
-                .map(projectNotification -> notificationSpi.findProjectNotificationById(projectNotification.getId())
-                        .orElse(null))
-                .collect(Collectors.toList());
+        var potentialProjectsToNotify = potentialProjectSpi.findPotentialProjectToNotify();
+        var potentialProjectNotificationStrategy = new PotentialProjectNotificationStrategy(this.notificationSpi, eventManager);
+        potentialProjectNotificationStrategy.makeNotification(potentialProjectsToNotify, PROJECT_DUE_DATE_APPROACHING);
+        return potentialProjectNotificationStrategy.getNotifications(PROJECT_DUE_DATE_APPROACHING);
     }
 
     @Override

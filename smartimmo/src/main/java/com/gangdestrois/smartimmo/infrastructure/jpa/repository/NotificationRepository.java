@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
-import com.gangdestrois.smartimmo.domain.event.EventType;
-import com.gangdestrois.smartimmo.domain.event.Status;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.NotificationEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PotentialProjectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
@@ -14,15 +14,15 @@ public interface NotificationRepository extends JpaRepository<NotificationEntity
 
     @Query(value = """
             SELECT n FROM NotificationEntity n WHERE n.potentialProject = :potentialProject
-            AND n.status = :status AND n.type = :type
+            AND n.notificationStatus = :notificationStatus AND n.type = :type
             """, nativeQuery = false)
     List<NotificationEntity> findNotificationEntitiesByPotentialProjectAndStatusAndType(PotentialProjectEntity potentialProject,
-                                                                                        Status status,
+                                                                                        NotificationStatus notificationStatus,
                                                                                         EventType type);
 
-    List<NotificationEntity> findNotificationEntitiesByProspectAndStatusAndType(ProspectEntity prospect,
-                                                                                Status status,
-                                                                                EventType type);
+    List<NotificationEntity> findNotificationEntitiesByProspectAndNotificationStatusAndType(ProspectEntity prospect,
+                                                                                            NotificationStatus notificationStatus,
+                                                                                            EventType type);
 
     List<NotificationEntity> findNotificationEntitiesByType(EventType eventType);
 }

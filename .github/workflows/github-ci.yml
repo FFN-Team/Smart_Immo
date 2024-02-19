@@ -4,6 +4,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
+      - develop
       - main
 
 jobs:
@@ -54,3 +55,43 @@ jobs:
           JACOCO_SOURCE_PATH: "${{github.workspace}}/smartimmo/src/main/java"
         with:
           coverageLocations: ${{github.workspace}}/smartimmo/target/site/jacoco/jacoco.xml:jacoco
+
+  release:
+    needs: [ build ]
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Install Graphviz
+        run: sudo apt-get -y install graphviz
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+        working-directory: smartimmo
+
+      - name: Create a new release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd smartimmo
+          VERSION="v$(mvn -q help:evaluate -Dexpression=project.version -DforceStdout)"
+          DOCDIR="target/generated-docs"
+          DOCFILE="main"
+          DOCFILE_RENAMED="${DOCDIR}/doc-${VERSION}.pdf"
+          
+          mv "${DOCDIR}/${DOCFILE}.pdf" "${DOCFILE_RENAMED}"
+          
+          echo "documentation is ${DOCFILE_RENAMED}"
+          
+          gh release create $VERSION $DOCFILE_RENAMED -t $VERSION
