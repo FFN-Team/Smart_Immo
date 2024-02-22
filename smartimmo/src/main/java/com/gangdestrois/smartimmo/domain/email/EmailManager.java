@@ -1,33 +1,35 @@
 package com.gangdestrois.smartimmo.domain.email;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailApi;
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.email.port.EmailConfigurer;
+import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.ContactOnSocialMediaUnauthorizedException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.EmailSenderNotFoundExceptionException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring6.SpringTemplateEngine;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.UnauthorizedException;
+import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class EmailManager implements EmailApi {
-    private final SpringTemplateEngine thymeleafTemplateEngine;
+    private final EmailConfigurer emailConfigurer;
     private final EmailSender emailSender;
     private final ProspectSpi prospectSpi;
 
-    public EmailManager(SpringTemplateEngine thymeleafTemplateEngine, EmailSender emailSender, ProspectSpi prospectSpi) {
-        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
+    public EmailManager(EmailConfigurer emailConfigurer, EmailSender emailSender, ProspectSpi prospectSpi) {
+        this.emailConfigurer = emailConfigurer;
         this.emailSender = emailSender;
         this.prospectSpi = prospectSpi;
     }
 
-    public EmailManager(SpringTemplateEngine thymeleafTemplateEngine, ProspectSpi prospectSpi) {
-        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
+    public EmailManager(EmailConfigurer emailConfigurer, ProspectSpi prospectSpi) {
+        this.emailConfigurer = emailConfigurer;
         this.emailSender = null;
         this.prospectSpi = prospectSpi;
     }
@@ -35,11 +37,14 @@ public class EmailManager implements EmailApi {
     @Override
     public void configAndSendEmail(Long prospectId, EventType eventType) throws Exception {
         if (isNull(emailSender))
-            throw new EmailSenderNotFoundExceptionException("EmailSender", "No email sender found.");
-        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(prospectId, "prospect"));
+            throw new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.EMAIL_SENDER_NOT_FOUND,
+                    "No email sender found.");
+        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
+                String.format("Prospect with id %d not found.", prospectId)));
         if (!prospect.authorizeContactOnSocialMedia())
-            throw new ContactOnSocialMediaUnauthorizedException(prospectId, "contact",
-                    "this prospect does not wish to be contacted via social networks.");
+            throw new UnauthorizedException(ExceptionEnum.CONTACT_ON_SOCIAL_MEDIA_UNAUTHORIZED,
+                    String.format("this prospect %s with id %d does not wish to be contacted via social networks.", prospect.getCompleteName(),
+                            prospectId));
         String from = "plantefloni@gmail.com";
         String to = prospect.getMail();
         Map<String, Object> templateModel = switch (eventType) {
@@ -58,9 +63,8 @@ public class EmailManager implements EmailApi {
 
     public void sendEmail(String from, String to, String subject, Map<String, Object> templateModel, String templateFile)
             throws Exception {
-        Context thymeleafContext = new Context();
-        thymeleafContext.setVariables(templateModel);
-        String htmlBody = thymeleafTemplateEngine.process(templateFile, thymeleafContext);
-        emailSender.sendEmail(subject, htmlBody, from, to);
+        var htmlBody = emailConfigurer.getEmailHtmlBody(templateModel, templateFile);
+        if (nonNull(emailSender)) emailSender.sendEmail(subject, htmlBody, from, to);
+        else throw new UnableToSendNotificationException("emailSender is null");
     }
 }

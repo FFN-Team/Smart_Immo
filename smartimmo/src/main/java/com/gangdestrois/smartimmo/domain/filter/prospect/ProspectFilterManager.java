@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -20,7 +21,7 @@ public class ProspectFilterManager implements ProspectFilterApi {
 
     public ProspectFilterManager(ProspectSpi prospectSpi, ProspectFilterSpi prospectFilterSpi) {
         this.prospectSpi = prospectSpi;
-        this.prospectFilterSpi=prospectFilterSpi;
+        this.prospectFilterSpi = prospectFilterSpi;
     }
 
     @Override
@@ -69,6 +70,11 @@ public class ProspectFilterManager implements ProspectFilterApi {
     }
 
     @Override
+    public Integer deleteByProspectFilterName(String prospectFilterName) {
+        return prospectFilterSpi.deleteByProspectFilterName(prospectFilterName);
+    }
+
+    @Override
     public List<ProspectFilter> findAll() {
         return prospectFilterSpi.findAll();
     }
@@ -78,7 +84,7 @@ public class ProspectFilterManager implements ProspectFilterApi {
                 .map(Prospect::id)
                 .filter(id -> list2.stream().anyMatch(prospect -> id.equals(prospect.id())))
                 .map(id -> list2.stream().filter(prospect -> id.equals(prospect.id())).findFirst().orElse(null))
-                .filter(prospect -> prospect != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 }
