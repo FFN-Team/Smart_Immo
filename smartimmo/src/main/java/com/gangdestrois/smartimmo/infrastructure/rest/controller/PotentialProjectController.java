@@ -26,7 +26,6 @@ public class PotentialProjectController {
         this.notificationAlertListener = notificationAlertListener;
     }
 
-    @Deprecated(since = "v0.1.0")
     @PostMapping("/subscription")
     @Operation(
             description = "Authorize potential projects to send notifications when due date is approaching.",

@@ -1,17 +1,13 @@
 package com.gangdestrois.smartimmo.domain.document;
 
 public enum DocumentType {
-    VISITE_PHOTO("image/jpg", "Visite photo");
-    private final String fileType;
+    VISITE_PHOTO("Visite photo"),
+    PROSPECT_IDENTITY("Justificatif d'identité"),
+    CIVIL_STATUS("Etat civil");
     private final String name;
 
-    DocumentType(String fileType, String name) {
-        this.fileType = fileType;
+    DocumentType(String name) {
         this.name = name;
-    }
-
-    public String getFileType() {
-        return fileType;
     }
 
     public String getName() {

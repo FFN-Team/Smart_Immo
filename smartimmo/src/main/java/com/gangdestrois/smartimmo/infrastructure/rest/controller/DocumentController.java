@@ -25,8 +25,9 @@ public class DocumentController {
             @RequestPart("fileContent") byte[] fileContent,
             @RequestParam("fileName") String fileName,
             @RequestParam("documentType") DocumentType documentType,
-            @RequestParam("ownerId") Long ownerId) {
-        var file = documentApi.uploadFile(fileContent, fileName, documentType, ownerId);
+            @RequestParam("ownerId") Long ownerId,
+            @RequestParam("fileType") String fileType) {
+        var file = documentApi.uploadFile(fileContent, fileName, fileType,  documentType, ownerId);
         var documentResponse = new DocumentResponse(file.getName(), file.getDocumentId(),
                 file.getWebContentLink(), file.getWebLink());
         return ResponseEntity.ok(documentResponse);

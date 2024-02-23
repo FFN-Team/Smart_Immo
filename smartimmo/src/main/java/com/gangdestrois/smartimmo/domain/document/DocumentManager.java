@@ -33,13 +33,13 @@ public class DocumentManager implements DocumentApi {
     }
 
     @Override
-    public File uploadFile(byte[] file, String fileName, DocumentType documentType, Long ownerId) {
+    public File uploadFile(byte[] file, String fileName, String fileType, DocumentType documentType, Long ownerId) {
         var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
                 new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
                         String.format("Prospect with id %d doesn't exists.", ownerId)));
         Folder parentFolder = getParentFolder(documentType);
         var fileToUpload = convertBytesToFile(file, fileName);
-        return getFile(fileName, documentType, owner, parentFolder, fileToUpload);
+        return getFile(fileName, fileType, owner, parentFolder, fileToUpload);
     }
 
     public Folder getParentFolder(DocumentType documentType) {
@@ -53,8 +53,8 @@ public class DocumentManager implements DocumentApi {
         return parentFolder;
     }
 
-    private File getFile(String fileName, DocumentType documentType, Prospect owner, Folder parentFolder, java.io.File fileToUpload) {
-        var fileId = documentService.uploadFileIntoFolder(fileToUpload, fileName, documentType.getFileType(),
+    private File getFile(String fileName, String fileType, Prospect owner, Folder parentFolder, java.io.File fileToUpload) {
+        var fileId = documentService.uploadFileIntoFolder(fileToUpload, fileName, fileType,
                 parentFolder.getDocumentId());
         var fileUploaded = documentService.generatePublicUrl(fileId);
         fileUploaded.setOwner(owner);

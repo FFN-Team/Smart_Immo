@@ -33,7 +33,7 @@ public class GoogleApi {
     private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow;
+    private static GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow = null;
 
     public GoogleApi() {
     }
