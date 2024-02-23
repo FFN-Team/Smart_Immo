@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
+import com.gangdestrois.smartimmo.domain.document.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.File;
 import jakarta.persistence.*;
 
@@ -31,15 +32,21 @@ public class FileEntity {
 
     @ManyToOne(targetEntity = ProspectEntity.class)
     @JoinColumn(name = "fk_owner", referencedColumnName = "id_prospect")
-    private ProspectEntity prospect;
+    private ProspectEntity owner;
 
-    public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity owner) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "document_type")
+    private DocumentType documentType;
+
+    public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity owner,
+                      DocumentType documentType) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
         this.webLink = webLink;
         this.folder = parent;
-        this.prospect = owner;
+        this.owner = owner;
+        this.documentType = documentType;
     }
 
     public FileEntity(String documentId, String name, String webContentLink, String webLink, ProspectEntity owner) {
@@ -47,7 +54,7 @@ public class FileEntity {
         this.name = name;
         this.webContentLink = webContentLink;
         this.webLink = webLink;
-        this.prospect = owner;
+        this.owner = owner;
     }
 
     public FileEntity() {
@@ -62,11 +69,12 @@ public class FileEntity {
                 file.getWebContentLink(), file.getWebLink(), prospectEntity);
         return new FileEntity(file.getDocumentId(), file.getName(), file.getWebContentLink(), file.getWebLink(),
                 parentEntity,
-                prospectEntity);
+                prospectEntity,
+                file.getDocumentType());
     }
 
     public static File toModel(FileEntity fileEntity) {
         return new File(fileEntity.getId(), fileEntity.documentId, fileEntity.name, fileEntity.webContentLink,
-                fileEntity.webLink);
+                fileEntity.webLink, fileEntity.documentType);
     }
 }

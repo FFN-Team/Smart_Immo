@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 import com.gangdestrois.smartimmo.domain.document.File;
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FileEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FolderEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
@@ -43,6 +44,13 @@ public class DocumentDataAdapter implements DocumentSpi {
         var fileSaved = fileRepository.save(fileEntity);
         file.setId(fileSaved.getId());
         return file;
+    }
+
+    @Override
+    public List<File> getFileByOwner(Prospect owner) {
+        return fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity(owner))
+                .stream().map(FileEntity::toModel)
+                .toList();
     }
 
     @Override

@@ -13,7 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.CONVERT_DOCUMENT_ERROR;
 import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS;
@@ -39,7 +42,7 @@ public class DocumentManager implements DocumentApi {
                         String.format("Prospect with id %d doesn't exists.", ownerId)));
         Folder parentFolder = getParentFolder(documentType);
         var fileToUpload = convertBytesToFile(file, fileName);
-        return getFile(fileName, fileType, owner, parentFolder, fileToUpload);
+        return saveFile(fileName, fileType, owner, parentFolder, fileToUpload, documentType);
     }
 
     public Folder getParentFolder(DocumentType documentType) {
@@ -53,11 +56,12 @@ public class DocumentManager implements DocumentApi {
         return parentFolder;
     }
 
-    private File getFile(String fileName, String fileType, Prospect owner, Folder parentFolder, java.io.File fileToUpload) {
-        var fileId = documentService.uploadFileIntoFolder(fileToUpload, fileName, fileType,
-                parentFolder.getDocumentId());
+    private File saveFile(String fileName, String fileType, Prospect owner, Folder parentFolder, java.io.File fileToUpload,
+                          DocumentType documentType) {
+        var fileId = documentService.uploadFileIntoFolder(fileToUpload, fileName, fileType, parentFolder.getDocumentId());
         var fileUploaded = documentService.generatePublicUrl(fileId);
         fileUploaded.setOwner(owner);
+        fileUploaded.setDocumentType(documentType);
         parentFolder.addChild(fileUploaded);
         documentSpi.saveFile(fileUploaded, parentFolder);
         return fileUploaded;
@@ -76,15 +80,23 @@ public class DocumentManager implements DocumentApi {
         return folder;
     }
 
+    @Override
+    public Map<DocumentType, List<File>> getFile(Long ownerId) {
+        var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
+                new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
+                        String.format("Prospect with id %d doesn't exists.", ownerId)));
+        return documentSpi.getFileByOwner(owner).stream()
+                .collect(Collectors.groupingBy(File::getDocumentType));
+
+    }
+
     public java.io.File convertBytesToFile(byte[] fileToConvert, String fileName) {
         java.io.File file = new java.io.File(fileName);
-
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(fileToConvert);
         } catch (IOException e) {
             throw new InternalServerErrorException(CONVERT_DOCUMENT_ERROR, e.getMessage());
         }
-
         return file;
     }
 
