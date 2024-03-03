@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.domain.salesHistory;
 
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 
 import java.time.LocalDate;
 
@@ -27,15 +28,18 @@ public class Period {
         LocalDate dateMax = getLocalDateMax(startDate);
         boolean endBeforeDateMax = endDateBeforeDateMax(endDate, dateMax);
 
-        if (!startBeforeEnd) {
-            throw new BadRequestException("The start date must be before the end date.");
-        } else if (!startAfterDateMin) {
-            throw new BadRequestException(String.format("The start date must be after %s.", LOCAL_DATE_MIN));
-        } else if (!periodInYearsValid) {
-            throw new BadRequestException(String.format("The period must be less than %d years.", PERIOD_MAX_IN_YEARS));
-        } else if (!endBeforeDateMax) {
-            throw new BadRequestException(String.format("The end date must be before %s.", dateMax));
-        }
+        if (!startBeforeEnd) throw new BadRequestException(ExceptionEnum.BAD_REQUEST,
+                "The start date must be before the end date.");
+
+        if (!startAfterDateMin) throw new BadRequestException(ExceptionEnum.BAD_REQUEST,
+                String.format("The start date must be after %s.", LOCAL_DATE_MIN));
+
+        if (!periodInYearsValid) throw new BadRequestException(ExceptionEnum.BAD_REQUEST,
+                String.format("The period must be less than %d years.", PERIOD_MAX_IN_YEARS));
+
+        if (!endBeforeDateMax) throw new BadRequestException(ExceptionEnum.BAD_REQUEST,
+                String.format("The end date must be before %s.", dateMax));
+
         return true;
     }
 }

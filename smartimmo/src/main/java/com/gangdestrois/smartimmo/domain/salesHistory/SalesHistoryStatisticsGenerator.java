@@ -4,7 +4,8 @@ import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 import com.gangdestrois.smartimmo.domain.salesHistory.port.SalesHistorySpi;
 import com.gangdestrois.smartimmo.domain.salesHistory.port.SalesHistoryStatisticsGeneratorApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.explicitException.NotFoundException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,14 +30,14 @@ public class SalesHistoryStatisticsGenerator implements SalesHistoryStatisticsGe
         boolean periodIsValid = Period.isValid(startDate, endDate);
 
         if (propertyExists && periodIsValid) {
-            return new ArrayList<>(Arrays.asList(
-                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySBuilding(propertyId, startDate, endDate),
-                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySStreet(propertyId, startDate, endDate),
-                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySArea(propertyId, startDate, endDate),
-                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySCity(propertyId, startDate, endDate)
+            return new ArrayList<SalesHistoryComparisonStatistic>(Arrays.asList(
+                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySBuilding(propertyId, startDate, endDate),
+                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySStreet(propertyId, startDate, endDate),
+                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySArea(propertyId, startDate, endDate),
+                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySCity(propertyId, startDate, endDate)
             ));
-        } else {
-            throw new NotFoundException(propertyId, "property");
         }
+        throw new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                String.format("Property not found for this id : %d", propertyId));
     }
 }
