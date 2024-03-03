@@ -7,10 +7,7 @@ import java.util.function.Predicate;
 
 public class PropertyCriteriaPredicates {
     public static Predicate<Property> allCriteriaPredicate(Buyer buyer) {
-        Predicate<Property> surfacePredicate = surfaceCriteriaPredicate(buyer);
-        Predicate<Property> roomsNumberPredicate = roomsNumberCriteriaPredicate(buyer);
-
-        return surfacePredicate.and(roomsNumberPredicate);
+        return surfaceCriteriaPredicate(buyer).and(roomsNumberCriteriaPredicate(buyer));
     }
 
     public static Predicate<Property> surfaceCriteriaPredicate(Buyer buyer) {

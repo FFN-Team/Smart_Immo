@@ -1,11 +1,11 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
+import com.gangdestrois.smartimmo.domain.document.DocumentManager;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
-import com.gangdestrois.smartimmo.domain.email.GmailSender;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
-import com.gangdestrois.smartimmo.domain.event.NotificationManager;
+import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
 import com.gangdestrois.smartimmo.domain.potentialProject.PotentialProjectManager;
@@ -16,12 +16,13 @@ import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.domain.salesHistory.SalesHistoryStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
-import com.gangdestrois.smartimmo.infrastructure.jpa.repository.*;
+import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
+import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
+import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import static java.util.Objects.nonNull;
 
@@ -29,24 +30,10 @@ import static java.util.Objects.nonNull;
 @EnableJpaRepositories(basePackages = "com.gangdestrois.smartimmo.infrastructure.jpa.repository")
 @EnableConfigurationProperties
 public class BeanConfiguration {
-    @Bean
-    public PropertyDataAdapter propertyDataAdapter(PropertyRepository propertyRepository) {
-        return new PropertyDataAdapter(propertyRepository);
-    }
 
     @Bean
     public PropertyManager propertyManager(PropertyDataAdapter propertyDataAdapter) {
         return new PropertyManager(propertyDataAdapter);
-    }
-
-    @Bean
-    public BuyerDataAdapter buyerDataAdapter(PropertyCriteriaRepository propertyCriteriaRepository) {
-        return new BuyerDataAdapter(propertyCriteriaRepository);
-    }
-
-    @Bean
-    public PropertyToFollowDataAdapter propertyToFollowDataAdapter(PropertyToFollowRepository propertyToFollowRepository) {
-        return new PropertyToFollowDataAdapter(propertyToFollowRepository);
     }
 
     @Bean
@@ -61,47 +48,16 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public PotentialProjectDataAdapter potentialProjectDataAdapter(PotentialProjectRepository potentialProjectRepository) {
-        return new PotentialProjectDataAdapter(potentialProjectRepository);
+    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter,
+                                                               NotificationDataAdapter notificationSpi) {
+        return new NotificationAlertListener(eventTypeNotificationDataAdapter, notificationSpi);
     }
 
     @Bean
-    public EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter(EventTypeNotificationRepository eventTypeNotificationRepository,
-                                                                             NotificationRepository notificationRepository) {
-        return new EventTypeNotificationDataAdapter(eventTypeNotificationRepository, notificationRepository);
-    }
-
-    @Bean
-    public NotificationAlertListener notificationAlertListener(EventTypeNotificationDataAdapter eventTypeNotificationDataAdapter) {
-        return new NotificationAlertListener(eventTypeNotificationDataAdapter);
-    }
-
-    @Bean
-    public SubscriptionDataAdapter subscriptionDataAdapter(SubscriptionRepository subscriptionRepository,
-                                                           NotificationAlertListener notificationAlertListener) {
-        return new SubscriptionDataAdapter(subscriptionRepository, notificationAlertListener);
-    }
-
-    @Bean
-    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter, NotificationDataAdapter notificationDataAdapter) {
-        return new EventManager(subscriptionDataAdapter, notificationDataAdapter);
-    }
-
-    @Bean
-    public NotificationDataAdapter notificationDataAdapter(NotificationRepository notificationRepository,
-                                                           PotentialProjectRepository potentialProjectRepository,
-                                                           ProspectRepository prospectRepository) {
-        return new NotificationDataAdapter(notificationRepository, potentialProjectRepository, prospectRepository);
-    }
-
-    @Bean
-    public NotificationManager notificationManager(NotificationDataAdapter notificationDataAdapter) {
-        return new NotificationManager(notificationDataAdapter);
-    }
-
-    @Bean
-    public ProjectDataAdapter projectDataAdapter(ProjectRepository projectRepository) {
-        return new ProjectDataAdapter(projectRepository);
+    public EventManager eventManager(SubscriptionDataAdapter subscriptionDataAdapter,
+                                     NotificationSpi notificationSpi,
+                                     EventTypeNotificationDataAdapter eventTypeNotificationSpi) {
+        return new EventManager(subscriptionDataAdapter, eventTypeNotificationSpi, notificationSpi);
     }
 
     @Bean
@@ -111,11 +67,6 @@ public class BeanConfiguration {
                                                            ProjectDataAdapter projectDataAdapter
     ) {
         return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
-    }
-
-    @Bean
-    public ProspectDataAdapter prospectDataAdapter(ProspectRepository prospectRepository) {
-        return new ProspectDataAdapter(prospectRepository);
     }
 
     @Bean
@@ -135,29 +86,14 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public AddressDataAdapter addressDataAdapter(AddressRepository addressRepository) {
-        return new AddressDataAdapter(addressRepository);
-    }
-
-    @Bean
     public AddressManager addressManager(AddressDataAdapter addressDataAdapter) {
         return new AddressManager(addressDataAdapter);
     }
 
     @Bean
-    public GmailSender gmailSender() {
-        return new GmailSender();
-    }
-
-    @Bean
-    public EmailManager emailManager(SpringTemplateEngine thymeleafTemplateEngine, GmailSender gmailSender, ProspectDataAdapter prospectDataAdapter) {
-        if (nonNull(gmailSender)) return new EmailManager(thymeleafTemplateEngine, gmailSender, prospectDataAdapter);
+    public EmailManager emailManager(ThymeleafConfigurer thymeleafTemplateEngine, GmailApi gmailApi, ProspectDataAdapter prospectDataAdapter) {
+        if (nonNull(gmailApi)) return new EmailManager(thymeleafTemplateEngine, gmailApi, prospectDataAdapter);
         else return new EmailManager(thymeleafTemplateEngine, prospectDataAdapter);
-    }
-
-    @Bean
-    ProspectFilterDataAdapter prospectFilterDataAdapter(ProspectFilterRepository prospectFilterRepository) {
-        return new ProspectFilterDataAdapter(prospectFilterRepository);
     }
 
     @Bean
@@ -167,8 +103,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public SalesHistoryDataAdapter salesHistoryDataAdapter(SalesHistoryRepository salesHistoryRepository) {
-        return new SalesHistoryDataAdapter(salesHistoryRepository);
+    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter) {
+        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter);
     }
 
     @Bean

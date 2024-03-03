@@ -23,4 +23,9 @@ public interface PropertyToFollowRepository extends JpaRepository<PropertyToFoll
     @Transactional
     @Query(value = "update property_to_follow set status = :status where  id_property_to_follow= :propertyToFollowId", nativeQuery = true)
     void updateStatusByPropertyToFollowId(Long propertyToFollowId, String status);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from property_to_follow where fk_buyer = :buyerId and fk_property= :propertyId", nativeQuery = true)
+    void deleteByBuyerIdAndPropertyId(@Param("buyerId") Long buyerId, @Param("propertyId") Long propertyId);
 }

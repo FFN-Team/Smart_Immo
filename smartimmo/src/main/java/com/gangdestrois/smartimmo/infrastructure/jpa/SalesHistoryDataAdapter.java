@@ -3,13 +3,17 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 import com.gangdestrois.smartimmo.domain.salesHistory.SalesHistoryComparisonStatistic;
 import com.gangdestrois.smartimmo.domain.salesHistory.port.SalesHistorySpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.SalesHistoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Component
 public class SalesHistoryDataAdapter implements SalesHistorySpi {
     private final SalesHistoryRepository salesHistoryRepository;
 
+    @Autowired
     public SalesHistoryDataAdapter(SalesHistoryRepository salesHistoryRepository) {
         this.salesHistoryRepository = salesHistoryRepository;
     }

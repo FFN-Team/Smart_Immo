@@ -1,7 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.event.Event;
-import com.gangdestrois.smartimmo.domain.event.EventType;
+import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.enums.EventType;
+import com.gangdestrois.smartimmo.domain.event.model.Event;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -30,10 +31,10 @@ public class EventTypeNotificationEntity {
         this.notification = notificationEntity;
     }
 
-    public Map<EventType, Set<Event>> toModel(Map<EventType, Set<Event>> map) {
+    public Map<EventType, Set<Event<? extends Notify>>> toModel(Map<EventType, Set<Event<? extends Notify>>> map) {
         if (map.containsKey(eventType)) map.get(eventType).add(notification.toModel());
         else {
-            var events = new HashSet<Event>();
+            var events = new HashSet<Event<? extends Notify>>();
             events.add(notification.toModel());
             map.put(eventType, events);
         }

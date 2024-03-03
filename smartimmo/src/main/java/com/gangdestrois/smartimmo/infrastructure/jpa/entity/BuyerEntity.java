@@ -4,6 +4,7 @@ import com.gangdestrois.smartimmo.domain.buyer.enums.BuyerStatus;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,9 +21,9 @@ public class BuyerEntity {
     @Enumerated(EnumType.STRING)
     private BuyerStatus status;
     @Column(name = "search_start_date")
-    private Date searchStartDate; /*LocalDate*/
+    private LocalDate searchStartDate;
     @Column(name = "search_end_date")
-    private Date searchEndDate; /*LocalDate*/
+    private LocalDate searchEndDate;
 
     public BuyerEntity(Long id, ProspectEntity prospect, BuyerStatus status) {
         this.id = id;
@@ -51,10 +52,10 @@ public class BuyerEntity {
     public BuyerStatus getStatus() {
         return status;
     }
-    public Date getSearchStartDate() {
+    public LocalDate getSearchStartDate() {
         return searchStartDate;
     }
-    public Date getSearchEndDate() {
+    public LocalDate getSearchEndDate() {
         return searchEndDate;
     }
     public ProspectEntity getProspect() {

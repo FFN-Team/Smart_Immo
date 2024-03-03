@@ -1,0 +1,69 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Notify {
+mapToEvent() : Event<T>
+setId(id : Long)
+}
+interface NotificationStrategy<T extends Notify> {
+save(event : Event<T>) : Long
+findNotificationById(notificationId : Long ) : Optional<Event<T>>
+makeNotification(element : List<T>, eventType : EventType)
+getNotifications(eventType : EventType) : List<Event<T>>
+saveNotification(elementToNotify : T) : Event<T>
+}
+abstract class AbstractNotificationStrategy<T extends Notify> {
+- notificationSpi : NotificationSpi
+- eventManager : EventManager
++ makeNotification(elementToNotify : List<T>, eventType : EventType)
++ getNotifications(eventType : EventType) : List<Event<T>>
+}
+class PotentialProjectNotificationStrategy {
++ findNotificationById(notificationId : Long) : Optional<Event<PotentialProject>>
++ saveNotification(potentialProject : PotentialProject) : Event<PotentialProject>
+}
+class ProspectNotificationStrategy {
++ findNotificationById(notificationId : Long) : Optional<Event<Prospect>>
++ saveNotification(potentialProject : Prospect) : Event<Prospect>
+}
+interface EventListener {
+update(event : Event<Notify>)
+}
+class NotificationAlertListener {
++ update(event : Event<Notify>)
+}
+class EventManager {
++ eventsFromEventType(eventTypes : EventType...) : List<Event<Notify>>
++ subscribe(type : EventType, listener : EventListener)
++ unSubscribe(type : EventType, listener : EventListener)
++ notify(event : Event)
+}
+class Event<T extends Notify> {
+- id : Long
+- notificationStatus : NotificationStatus
+- message : String
+- priority : Priority
+- element : T
++ id() : Long
+}
+enum EventType{
+PROJECT_DUE_DATE_APPROACHING
+PROSPECT_MAY_BUY_BIGGER_HOUSE
+}
+
+NotificationStrategy <|.. AbstractNotificationStrategy
+PotentialProjectNotificationStrategy --|> "<PotentialProject>" AbstractNotificationStrategy
+ProspectNotificationStrategy --|> "<Prospect>" AbstractNotificationStrategy
+EventListener <|.. NotificationAlertListener
+Event --> "eventType" EventType
+NotificationAlertListener <-- EventManager
+
+
+/'EventListener <|.. NotificationAlertListener
+EventType <-- Event
+NotificationStrategy "<PotentialProject>" <|.. PotentialProjectNotificationStrategy
+NotificationStrategy "<Prospect>" <|.. ProspectNotificationStrategy
+Notify <|.. Prospect
+Notify <|.. PotentialProject'/
+
+@enduml
