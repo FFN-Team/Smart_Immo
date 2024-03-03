@@ -19,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,11 +35,12 @@ public class ProspectController {
         this.prospectFilterApi = prospectFilterApi;
     }
 
-    @PostMapping("/notification")
-    public ResponseEntity<Set<PotentialBuyerEventResponse>> notifyPotentialProjects() {
-        return ResponseEntity.ok(prospectApi.notifyForProspectsThatMayBuyBiggerHouse().stream()
-                .map(PotentialBuyerEventResponse::fromModel)
-                .collect(Collectors.toSet()));
+    @PostMapping("/notifications")
+    public ResponseEntity<NotificationsResponse> notifyPotentialProjects() {
+        var prospects = prospectApi.notifyForProspectsThatMayBuyBiggerHouse().stream()
+                .map(EventResponse::fromModel)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new NotificationsResponse(prospects));
     }
 
     @PostMapping("/subscription")
@@ -50,6 +50,15 @@ public class ProspectController {
     @ResponseStatus(HttpStatus.OK)
     public void subscription() {
         prospectApi.subscription(notificationAlertListener);
+    }
+
+    @PostMapping("/unsubscription")
+    @Operation(
+            description = "unauthorized to send notifications when a prospect may want to buy a new house.",
+            responses = @ApiResponse(responseCode = "200", description = "Unsubscribe successfully."))
+    @ResponseStatus(HttpStatus.OK)
+    public void unsubscription() {
+        prospectApi.unsubscription(notificationAlertListener);
     }
 
     @PutMapping("/filter")

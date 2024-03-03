@@ -49,6 +49,11 @@ public class PotentialProjectManager implements PotentialProjectApi {
     }
 
     @Override
+    public void unsubscription(EventListener eventListener) {
+        eventManager.unSubscribe(PROJECT_DUE_DATE_APPROACHING, eventListener);
+    }
+
+    @Override
     public Optional<Prospect> findProspectByPotentialProjectId(Long potentialProjectId) {
         return projectSpi.findProjectByPotentialProjectId(potentialProjectId).map(Project::prospect);
     }

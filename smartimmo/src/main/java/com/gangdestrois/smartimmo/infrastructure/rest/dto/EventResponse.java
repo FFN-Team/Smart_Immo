@@ -12,7 +12,7 @@ public record EventResponse(Long id,
                             String message,
                             String priority,
                             Object subResponse) {
-    public static EventResponse fromModel(Event<Notify> event) {
+    public static EventResponse fromModel(Event<? extends Notify> event) {
         return new EventResponse(
                 event.getId(),
                 event.status().name(),
@@ -20,7 +20,6 @@ public record EventResponse(Long id,
                 event.priority().name(),
                 (event.getElement() instanceof Prospect) ?
                         ProspectResponse.fromModel((Prospect) event.getElement()) :
-                        PotentialProjectResponse.fromModel((PotentialProject) event.getElement())
-        );
+                        PotentialProjectResponse.fromModel((PotentialProject) event.getElement()));
     }
 }

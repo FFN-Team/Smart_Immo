@@ -49,6 +49,11 @@ public class ProspectAnalyzer implements ProspectApi {
     }
 
     @Override
+    public void unsubscription(EventListener eventListener) {
+        eventManager.unSubscribe(PROSPECT_MAY_BUY_BIGGER_HOUSE, eventListener);
+    }
+
+    @Override
     public List<Prospect> getProspects() {
         return prospectSpi.findAll();
     }

@@ -78,8 +78,7 @@ public class EventManager implements NotificationApi {
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement(),
-                originalEvent.getEventType()
-        );
+                originalEvent.getEventType());
         Event<Notify> savedEvent = notificationSpi.save(eventToSave);
         return EventResponse.fromModel(savedEvent);
     }

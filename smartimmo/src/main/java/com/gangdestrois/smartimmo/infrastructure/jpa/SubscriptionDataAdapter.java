@@ -66,6 +66,11 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
         return removedSubscriptionIds;
     }
 
+    @Override
+    public List<EventListenerEnum> findEventListenersByEventType(EventType eventType) {
+        return subscriptionRepository.findAllEventListenerByEventType(eventType);
+    }
+
     //WARNING : SWITCH STATEMENT, TO REVIEW
     private EventListener mapEventListenerFromDBData(EventListenerEnum eventListener) {
         if (eventListener.equals(EventListenerEnum.NOTIFICATION_ALERT_LISTENER)) {
