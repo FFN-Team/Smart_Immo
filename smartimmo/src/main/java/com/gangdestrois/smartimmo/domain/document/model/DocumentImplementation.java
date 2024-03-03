@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.document;
+package com.gangdestrois.smartimmo.domain.document.model;
 
 import com.gangdestrois.smartimmo.domain.tool.Model;
 

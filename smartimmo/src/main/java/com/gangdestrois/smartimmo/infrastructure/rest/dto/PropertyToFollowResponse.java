@@ -6,7 +6,7 @@ import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.Prop
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 
 public record PropertyToFollowResponse(Long id, Buyer buyer, Property property, PropertyToFollowStatus status) {
-    public static PropertyToFollowResponse fromModel(PropertyToFollow propertyToFollow){
+    public static PropertyToFollowResponse fromModel(PropertyToFollow propertyToFollow) {
         return new PropertyToFollowResponse(propertyToFollow.getId(), propertyToFollow.getBuyer(),
                 propertyToFollow.getProperty(), propertyToFollow.getStatus());
     }

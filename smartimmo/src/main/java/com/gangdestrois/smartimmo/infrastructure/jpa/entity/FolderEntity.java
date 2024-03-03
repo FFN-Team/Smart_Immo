@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.document.Document;
-import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.model.Document;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

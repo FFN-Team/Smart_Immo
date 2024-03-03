@@ -9,7 +9,7 @@ import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.potentialProject.model.PotentialProject;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectSpi;
-import com.gangdestrois.smartimmo.domain.project.Project;
+import com.gangdestrois.smartimmo.domain.project.model.Project;
 import com.gangdestrois.smartimmo.domain.project.port.ProjectSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 

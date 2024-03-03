@@ -1,11 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
-import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
-import com.gangdestrois.smartimmo.domain.prospect.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,18 +50,18 @@ public interface ProspectRepository extends JpaRepository<ProspectEntity, Long> 
     List<ProspectEntity> findAllByAuthorizeContactOnSocialMedia(boolean authorizeContactOnSocialMedia);
 
     @Query("""
-        SELECT p
-        FROM ProspectEntity p
-        WHERE CASE 
-            WHEN :operator = 'EQUALS' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) = :age
-            WHEN :operator = 'NOT_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) <> :age
-            WHEN :operator = 'GREATER_THAN' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) > :age
-            WHEN :operator = 'LESS_THAN' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) < :age
-            WHEN :operator = 'GREATER_THAN_OR_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) >= :age
-            WHEN :operator = 'LESS_THAN_OR_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) <= :age
-            ELSE false
-        END
-    """)
+                SELECT p
+                FROM ProspectEntity p
+                WHERE CASE 
+                    WHEN :operator = 'EQUALS' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) = :age
+                    WHEN :operator = 'NOT_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) <> :age
+                    WHEN :operator = 'GREATER_THAN' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) > :age
+                    WHEN :operator = 'LESS_THAN' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) < :age
+                    WHEN :operator = 'GREATER_THAN_OR_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) >= :age
+                    WHEN :operator = 'LESS_THAN_OR_EQUAL_TO' THEN EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM p.dateOfBirth) <= :age
+                    ELSE false
+                END
+            """)
     List<ProspectEntity> findAllByAge(@Param("age") Integer age, @Param("operator") String operator);
 
 }

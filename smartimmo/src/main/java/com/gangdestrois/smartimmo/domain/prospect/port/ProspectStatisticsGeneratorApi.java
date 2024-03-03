@@ -4,6 +4,8 @@ import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectStatisticsResp
 
 public interface ProspectStatisticsGeneratorApi {
     ProspectStatisticsResponse countByAgeGroup();
+
     ProspectStatisticsResponse countByProfession();
+
     ProspectStatisticsResponse countByContactOrigin();
 }

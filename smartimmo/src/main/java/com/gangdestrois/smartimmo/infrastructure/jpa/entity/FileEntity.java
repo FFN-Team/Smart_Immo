@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.document.File;
+import com.gangdestrois.smartimmo.domain.document.model.File;
 import jakarta.persistence.*;
 
 import static java.util.Objects.isNull;

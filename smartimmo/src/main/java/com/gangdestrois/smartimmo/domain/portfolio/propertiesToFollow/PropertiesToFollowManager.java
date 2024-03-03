@@ -52,9 +52,9 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
                 .filter(PropertyCriteriaPredicates.allCriteriaPredicate(this.buyer))
                 .toList();
 
-        List<Property> existingProperties =  propertyToFollowSpi.findAllByBuyerId(buyerId)
+        List<Property> existingProperties = propertyToFollowSpi.findAllByBuyerId(buyerId)
                 .stream()
-                .map(x->x.getProperty())
+                .map(x -> x.getProperty())
                 .toList();
 
         List<Property> notMatchingPropertiesForBuyer = existingProperties.stream()
@@ -64,7 +64,7 @@ public class PropertiesToFollowManager implements PropertyToFollowApi {
 
         List<Property> newMatchingPropertiesForBuyer = filteredProperties.stream()
                 .filter(property -> !existingProperties.contains(property))
-                .peek(property -> propertyToFollowSpi.savePropertyToFollowForBuyer(this.buyer,property))
+                .peek(property -> propertyToFollowSpi.savePropertyToFollowForBuyer(this.buyer, property))
                 .toList();
     }
 }

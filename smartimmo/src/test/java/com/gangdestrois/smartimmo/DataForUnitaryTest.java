@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo;
 
-import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.model.City;
 import com.gangdestrois.smartimmo.domain.property.model.Property;

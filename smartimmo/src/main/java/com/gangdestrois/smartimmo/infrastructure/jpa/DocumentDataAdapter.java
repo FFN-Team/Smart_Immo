@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.document.File;
-import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FileEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FolderEntity;

@@ -7,6 +7,7 @@ import com.gangdestrois.smartimmo.domain.event.ProspectNotificationStrategy;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+import com.gangdestrois.smartimmo.domain.prospect.model.ProspectMayBuyBiggerHouseCriteria;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectApi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 

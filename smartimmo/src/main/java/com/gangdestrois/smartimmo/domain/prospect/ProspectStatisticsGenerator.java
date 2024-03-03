@@ -1,5 +1,7 @@
 package com.gangdestrois.smartimmo.domain.prospect;
 
+import com.gangdestrois.smartimmo.domain.prospect.enums.AgeCategory;
+import com.gangdestrois.smartimmo.domain.prospect.model.ProspectStatistic;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectStatisticsGeneratorApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectDataResponse;
@@ -22,8 +24,8 @@ public class ProspectStatisticsGenerator implements ProspectStatisticsGeneratorA
         long value;
 
         for (AgeCategory ageCategory : AgeCategory.values()) {
-            category = String.format("%d - %d", ageCategory.ageMin, ageCategory.ageMax);
-            value = prospectSpi.countByAgeBetween(ageCategory.ageMin, ageCategory.ageMax);
+            category = String.format("%d - %d", ageCategory.ageMin(), ageCategory.ageMax());
+            value = prospectSpi.countByAgeBetween(ageCategory.ageMin(), ageCategory.ageMax());
             dataResponses.add(new ProspectDataResponse(category, value));
         }
 
@@ -52,7 +54,7 @@ public class ProspectStatisticsGenerator implements ProspectStatisticsGeneratorA
     private ProspectStatisticsResponse getProspectStatisticsResponse(List<ProspectDataResponse> dataResponses,
                                                                      String title,
                                                                      List<ProspectStatistic> data) {
-        for (ProspectStatistic prospectStatistic : data){
+        for (ProspectStatistic prospectStatistic : data) {
             dataResponses.add(new ProspectDataResponse(
                     prospectStatistic.dataProspect(),
                     prospectStatistic.count()));

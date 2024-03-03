@@ -39,7 +39,7 @@ public class CityEntity {
         );
     }
 
-    public static CityEntity toEntity(City city){
+    public static CityEntity toEntity(City city) {
         return new CityEntity(
                 city.id(),
                 city.cityName(),

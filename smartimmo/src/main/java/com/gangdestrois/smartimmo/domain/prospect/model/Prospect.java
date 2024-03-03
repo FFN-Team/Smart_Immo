@@ -1,13 +1,13 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
-import com.gangdestrois.smartimmo.domain.event.Notify;
+import com.gangdestrois.smartimmo.domain.event.model.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
-import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
-import com.gangdestrois.smartimmo.domain.prospect.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 
 import java.time.LocalDate;
 import java.util.List;

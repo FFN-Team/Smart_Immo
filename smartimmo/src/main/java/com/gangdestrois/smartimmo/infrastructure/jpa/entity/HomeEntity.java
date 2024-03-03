@@ -30,7 +30,8 @@ public class HomeEntity {
         this.children = children;
     }
 
-    public HomeEntity() {}
+    public HomeEntity() {
+    }
 
     public static HomeEntity fromModelToEntity(Home home) {
         return (home != null) ?

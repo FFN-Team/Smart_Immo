@@ -1,5 +1,8 @@
 package com.gangdestrois.smartimmo.domain.document;
 
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
