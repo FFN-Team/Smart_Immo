@@ -73,8 +73,14 @@ public class FolderEntity {
         List<Document> documents = new ArrayList<>();
         folderEntity.fileChildren.stream().map(FileEntity::toModel).forEach(documents::add);
         folderEntity.folderChildren.stream().map(FolderEntity::toModel).forEach(documents::add);
-        return new Folder(folderEntity.id, folderEntity.documentId, folderEntity.name, folderEntity.getWebContentLink(),
-                folderEntity.getWebLink(), documents);
+        return (Folder) new Folder.FolderBuilder()
+                .documents(documents)
+                .id(folderEntity.id)
+                .documentId(folderEntity.documentId)
+                .name(folderEntity.name)
+                .webContentLink(folderEntity.webContentLink)
+                .webLink(folderEntity.webLink)
+                .build();
     }
 
     public String getDocumentId() {

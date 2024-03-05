@@ -2,20 +2,14 @@ package com.gangdestrois.smartimmo.domain.document.model;
 
 import com.gangdestrois.smartimmo.domain.tool.Composite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Folder extends DocumentImplementation implements Composite<Document> {
     private final List<Document> documents;
 
-    public Folder(String fileId, String name, String webContentLink, String webLink) {
-        super(fileId, name, webContentLink, webLink);
-        this.documents = new ArrayList<>();
-    }
-
-    public Folder(Long id, String fileId, String name, String webContentLink, String webLink, List<Document> documents) {
-        super(id, fileId, name, webContentLink, webLink);
-        this.documents = new ArrayList<>(documents);
+    protected Folder(FolderBuilder builder) {
+        super(builder);
+        this.documents = builder.documents;
     }
 
     @Override
@@ -36,5 +30,24 @@ public class Folder extends DocumentImplementation implements Composite<Document
     @Override
     public Boolean removeChildren(List<Document> t) {
         return this.documents.removeAll(t);
+    }
+
+    public static class FolderBuilder extends DocumentImplementation.DocumentImplementationBuilder {
+        private List<Document> documents;
+
+        public FolderBuilder documents(List<Document> documents) {
+            this.documents = documents;
+            return self();
+        }
+
+        @Override
+        public Folder build() {
+            return new Folder(this);
+        }
+
+        @Override
+        protected FolderBuilder self() {
+            return this;
+        }
     }
 }
