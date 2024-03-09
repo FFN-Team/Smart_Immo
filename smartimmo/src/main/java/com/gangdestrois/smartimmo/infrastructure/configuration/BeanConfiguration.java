@@ -19,6 +19,7 @@ import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
 import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -107,10 +108,9 @@ public class BeanConfiguration {
         return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter);
     }
 
-    @Bean
-    public void dataSource(ProspectDataAdapter prospectDataAdapter, PropertyDataAdapter propertyDataAdapter) {
+    @Autowired
+    public void ownerTypeDataSource(ProspectDataAdapter prospectDataAdapter, PropertyDataAdapter propertyDataAdapter) {
         OwnerType.DataSource.setPropertySpi(propertyDataAdapter);
         OwnerType.DataSource.setProspectSpi(prospectDataAdapter);
-
     }
 }

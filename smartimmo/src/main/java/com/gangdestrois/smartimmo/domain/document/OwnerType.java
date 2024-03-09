@@ -11,7 +11,6 @@ import java.util.function.Function;
 public enum OwnerType {
     PROPERTY((Long reference) -> findById(reference, DataSource.propertySpi)),
     PROSPECT((Long reference) -> findById(reference, DataSource.prospectSpi));
-
     private final Function<Long, ? extends Optional<? extends Model>> getOwner;
 
     public static class DataSource {

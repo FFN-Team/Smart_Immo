@@ -3,9 +3,12 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 import com.gangdestrois.smartimmo.domain.document.File;
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
+import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.utils.Model;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FileEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FolderEntity;
+import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.FileRepository;
 import com.gangdestrois.smartimmo.infrastructure.jpa.repository.FolderRepository;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +52,15 @@ public class DocumentDataAdapter implements DocumentSpi {
         return file;
     }
 
+    // TODO : voir comment faire pour enlever les if et gérer la généricité, idée : mettre le patron Visitor ?
     @Override
-    public List<File> getFileByOwner(Model owner) {
-        return fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity(owner))
+    public <T extends Model> List<File> getFileByOwner(T owner) {
+        List<FileEntity> fileEntities = new ArrayList<>();
+        if (owner instanceof Property)
+            fileRepository.findAllByOwner(PropertyEntity.fromModelToEntity((Property) owner));
+        if (owner instanceof Prospect)
+            fileEntities = fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity((Prospect) owner));
+        return fileEntities
                 .stream().map(FileEntity::toModel)
                 .toList();
     }

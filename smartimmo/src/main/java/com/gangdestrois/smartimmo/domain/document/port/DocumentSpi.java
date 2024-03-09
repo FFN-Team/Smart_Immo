@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface DocumentSpi {
     File saveFile(LocalDate created, File file, Folder folder);
 
-    List<File> getFileByOwner(Model owner);
+    <T extends Model> List<File> getFileByOwner(T owner);
 
     Folder saveFolder(Folder folder, Folder parent);
 

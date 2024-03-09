@@ -34,7 +34,11 @@ public class FileEntity {
 
     @ManyToOne(targetEntity = ProspectEntity.class)
     @JoinColumn(name = "fk_owner", referencedColumnName = "id_prospect")
-    private ProspectEntity owner;
+    private ProspectEntity prospect;
+
+    @ManyToOne(targetEntity = PropertyEntity.class)
+    @JoinColumn(name = "fk_property", referencedColumnName = "id_property")
+    private PropertyEntity property;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "document_type")
@@ -43,25 +47,25 @@ public class FileEntity {
     @Column(name = "created")
     private LocalDate created;
 
-    public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity owner,
+    public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity prospect,
                       DocumentType documentType, LocalDate created) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
         this.webLink = webLink;
         this.folder = parent;
-        this.owner = owner;
+        this.prospect = prospect;
         this.documentType = documentType;
         this.created = created;
     }
 
-    public FileEntity(String documentId, String name, String webContentLink, String webLink, ProspectEntity owner,
+    public FileEntity(String documentId, String name, String webContentLink, String webLink, ProspectEntity prospect,
                       LocalDate created) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
         this.webLink = webLink;
-        this.owner = owner;
+        this.prospect = prospect;
         this.created = created;
     }
 

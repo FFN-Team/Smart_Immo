@@ -24,6 +24,8 @@ import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
+// TODO : je pense qu'on ne devrait pas avoir d'exception de l'infrastructure dans le domaine,
+//  se renseigner sur la façon de renvoyer des exceptions dans le domaine
 public class DocumentManager implements DocumentApi {
     private final DocumentSpi documentSpi;
     private final ProspectSpi prospectSpi;
@@ -84,16 +86,7 @@ public class DocumentManager implements DocumentApi {
     @Override
     public Map<DocumentType, List<File>> getFile(OwnerType ownerType, Long ownerId) {
         var owner = ownerType.getOwner(ownerId).orElseThrow(() ->
-                new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND,
-                        String.format("Prospect with id %d doesn't exists.", ownerId)));
-        return documentSpi.getFileByOwner(owner).stream()
-                .collect(Collectors.groupingBy(File::getDocumentType));
-    }
-
-    private Map<DocumentType, List<File>> test(Long ownerId) {
-        var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
-                new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
-                        String.format("Prospect with id %d doesn't exists.", ownerId)));
+                new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", ownerId)));
         return documentSpi.getFileByOwner(owner).stream()
                 .collect(Collectors.groupingBy(File::getDocumentType));
     }
