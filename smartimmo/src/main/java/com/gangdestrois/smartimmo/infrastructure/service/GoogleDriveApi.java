@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -130,7 +131,7 @@ public class GoogleDriveApi implements DocumentService {
 
     public com.gangdestrois.smartimmo.domain.document.File toFileModel(File file) {
         return new com.gangdestrois.smartimmo.domain.document.File(file.getId(), file.getName(),
-                file.getWebContentLink(), file.getWebViewLink());
+                file.getWebContentLink(), file.getWebViewLink(), LocalDate.now());
     }
 
     public Folder toFolderModel(File file) {

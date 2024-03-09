@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class DocumentManagerUnitaryTest {
@@ -43,11 +43,12 @@ public class DocumentManagerUnitaryTest {
         Long ownerId = 1L;
         byte[] file = dataForUT.file;
         var fileName = "test";
-        var documentType = DocumentType.VISITE_PHOTO;
+        var documentType = DocumentType.VISIT_PHOTOS;
         when(prospectSpi.findById(ownerId)).thenReturn(Optional.empty());
 
         // When and then
-        var result = assertThrows(NotFoundException.class, () -> documentManager.uploadFile(file, fileName, documentType,
+        var result = assertThrows(NotFoundException.class, () -> documentManager.uploadFile(file, fileName, "application/pdf",
+                documentType,
                 ownerId));
         assertEquals(ExceptionEnum.PROSPECT_NOT_FOUND, result.getError());
     }
@@ -55,12 +56,12 @@ public class DocumentManagerUnitaryTest {
     @Test
     public void getParentFolder_should_throw_internal_server_error_exception_when_document_to_upload_have_more_than_one_parent() {
         // Getters
-        var documentType = DocumentType.VISITE_PHOTO;
+        var documentType = DocumentType.VISIT_PHOTOS;
         List<Folder> list = new ArrayList<>();
         var folder = dataForUT.folder1;
         list.add(folder);
         list.add(folder);
-        when(documentSpi.getFolderByName(documentType.getName())).thenReturn(list);
+        when(documentSpi.getFolderByName(documentType.description())).thenReturn(list);
 
         // When and then
         var result = assertThrows(BadRequestException.class, () -> documentManager.getParentFolder(documentType));
@@ -70,8 +71,8 @@ public class DocumentManagerUnitaryTest {
     @Test
     public void getParentFolder_should_return_a_new_folder_when_document_type_is_conform() {
         // Getters
-        var documentType = DocumentType.VISITE_PHOTO;
-        var folderName = documentType.getName();
+        var documentType = DocumentType.VISIT_PHOTOS;
+        var folderName = documentType.description();
         var parentFolder = dataForUT.folder1;
         List<Folder> parentFolders = new ArrayList<>();
         parentFolders.add(parentFolder);

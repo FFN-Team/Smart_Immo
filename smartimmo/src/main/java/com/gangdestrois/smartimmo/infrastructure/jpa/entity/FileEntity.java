@@ -4,6 +4,8 @@ import com.gangdestrois.smartimmo.domain.document.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.File;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 import static java.util.Objects.isNull;
 
 @Entity
@@ -38,8 +40,11 @@ public class FileEntity {
     @Column(name = "document_type")
     private DocumentType documentType;
 
+    @Column(name = "created")
+    private LocalDate created;
+
     public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity owner,
-                      DocumentType documentType) {
+                      DocumentType documentType, LocalDate created) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
@@ -47,14 +52,17 @@ public class FileEntity {
         this.folder = parent;
         this.owner = owner;
         this.documentType = documentType;
+        this.created = created;
     }
 
-    public FileEntity(String documentId, String name, String webContentLink, String webLink, ProspectEntity owner) {
+    public FileEntity(String documentId, String name, String webContentLink, String webLink, ProspectEntity owner,
+                      LocalDate created) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
         this.webLink = webLink;
         this.owner = owner;
+        this.created = created;
     }
 
     public FileEntity() {
@@ -64,17 +72,16 @@ public class FileEntity {
         return id;
     }
 
-    public static FileEntity fromModel(File file, ProspectEntity prospectEntity, FolderEntity parentEntity) {
+    public static FileEntity fromModel(File file, ProspectEntity prospectEntity, FolderEntity parentEntity,
+                                       LocalDate created) {
         if (isNull(parentEntity)) return new FileEntity(file.getDocumentId(), file.getName(),
-                file.getWebContentLink(), file.getWebLink(), prospectEntity);
+                file.getWebContentLink(), file.getWebLink(), prospectEntity, created);
         return new FileEntity(file.getDocumentId(), file.getName(), file.getWebContentLink(), file.getWebLink(),
-                parentEntity,
-                prospectEntity,
-                file.getDocumentType());
+                parentEntity, prospectEntity, file.getDocumentType(), created);
     }
 
     public static File toModel(FileEntity fileEntity) {
         return new File(fileEntity.getId(), fileEntity.documentId, fileEntity.name, fileEntity.webContentLink,
-                fileEntity.webLink, fileEntity.documentType);
+                fileEntity.webLink, fileEntity.documentType, fileEntity.created);
     }
 }

@@ -48,7 +48,7 @@ public class ProspectEntity {
     private Set<OwnerEntity> owners;
     @OneToMany(mappedBy = "prospect")
     private Set<ProjectEntity> projects;
-    @OneToMany(mappedBy = "prospect")
+    @OneToMany(mappedBy = "owner")
     private List<FileEntity> files;
 
     //private Adresse adresseTravail;

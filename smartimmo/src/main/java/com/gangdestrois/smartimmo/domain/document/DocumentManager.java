@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,12 +47,12 @@ public class DocumentManager implements DocumentApi {
     }
 
     public Folder getParentFolder(DocumentType documentType) {
-        var parentFolders = documentSpi.getFolderByName(documentType.getName());
+        var parentFolders = documentSpi.getFolderByName(documentType.description());
         Folder parentFolder;
         if (parentFolders.size() > 1)
             throw new BadRequestException(ExceptionEnum.DOCUMENT_ERROR, "More than one parent folder.");
-        if (parentFolders.size() == 0 && nonNull(documentType.getName())) {
-            parentFolder = createFolder(documentType.getName(), null);
+        if (parentFolders.size() == 0 && nonNull(documentType.description())) {
+            parentFolder = createFolder(documentType.description(), null);
         } else parentFolder = parentFolders.getFirst();
         return parentFolder;
     }
@@ -63,7 +64,7 @@ public class DocumentManager implements DocumentApi {
         fileUploaded.setOwner(owner);
         fileUploaded.setDocumentType(documentType);
         parentFolder.addChild(fileUploaded);
-        documentSpi.saveFile(fileUploaded, parentFolder);
+        documentSpi.saveFile(LocalDate.now(), fileUploaded, parentFolder);
         return fileUploaded;
     }
 

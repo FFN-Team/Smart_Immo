@@ -4,11 +4,12 @@ import com.gangdestrois.smartimmo.domain.document.File;
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface DocumentSpi {
-    File saveFile(File file, Folder folder);
+    File saveFile(LocalDate created, File file, Folder folder);
 
     List<File> getFileByOwner(Prospect owner);
 

@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.document.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.OwnerType;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.FileByDocumentTypeResponse;
@@ -60,8 +61,9 @@ public class DocumentController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping()
-    public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("ownerId") Long ownerId) {
+    @GetMapping("{ownerType}/{ownerId}")
+    public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("ownerType") OwnerType ownerType,
+                                                                     @PathVariable("ownerId") Long ownerId) {
         return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(ownerId)));
     }
 

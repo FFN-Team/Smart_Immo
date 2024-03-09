@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,13 +35,14 @@ public class DocumentDataAdapter implements DocumentSpi {
 
     @Override
     @Transactional
-    public File saveFile(File file, Folder folder) {
+    public File saveFile(LocalDate created, File file, Folder folder) {
         Optional<FolderEntity> parentEntity = folderRepository.findById(folder.id());
         Optional<ProspectEntity> prospectEntity = Optional.empty();
         if (file.getOwner().isPresent()) prospectEntity = prospectRepository.findById(file.getOwner().get().id());
         var fileEntity = FileEntity.fromModel(file,
                 prospectEntity.orElse(null),
-                parentEntity.orElseGet(() -> folderRepository.findAllByName("My Drive").getFirst()));
+                parentEntity.orElseGet(() -> folderRepository.findAllByName("My Drive").getFirst()),
+                created);
         var fileSaved = fileRepository.save(fileEntity);
         file.setId(fileSaved.getId());
         return file;

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS file
     web_link         VARCHAR(255),
     fk_parent        INT,
     fk_owner         INT,
+    created          DATE,
     FOREIGN KEY (fk_parent) REFERENCES folder (id_folder),
     FOREIGN KEY (fk_owner) REFERENCES prospect (id_prospect)
 );
