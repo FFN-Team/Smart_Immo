@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.document;
 
-import com.gangdestrois.smartimmo.domain.tool.Composite;
+import com.gangdestrois.smartimmo.domain.utils.Composite;
 
 import java.util.ArrayList;
 import java.util.List;

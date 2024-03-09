@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.document.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
-import com.gangdestrois.smartimmo.domain.tool.ApplicationData;
+import com.gangdestrois.smartimmo.domain.utils.ApplicationData;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -10,7 +10,6 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,10 +22,6 @@ import static java.util.Objects.nonNull;
 @Component
 public class GoogleDriveApi implements DocumentService {
     private static Drive drive;
-
-    @Autowired
-    public GoogleDriveApi() {
-    }
 
     private static void initializeDrive() {
         if (nonNull(drive)) return;

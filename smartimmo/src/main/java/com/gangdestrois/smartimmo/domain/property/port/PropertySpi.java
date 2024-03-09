@@ -1,15 +1,13 @@
 package com.gangdestrois.smartimmo.domain.property.port;
 
-import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
+import com.gangdestrois.smartimmo.domain.utils.ModelSpi;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface PropertySpi {
+public interface PropertySpi extends ModelSpi<Property> {
     List<Property> findAll();
-
-    Optional<Property> findById(Long id);
 
     Property save(Property property);
 

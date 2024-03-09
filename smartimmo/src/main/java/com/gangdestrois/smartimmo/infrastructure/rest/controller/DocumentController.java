@@ -64,7 +64,7 @@ public class DocumentController {
     @GetMapping("{ownerType}/{ownerId}")
     public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("ownerType") OwnerType ownerType,
                                                                      @PathVariable("ownerId") Long ownerId) {
-        return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(ownerId)));
+        return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(ownerType, ownerId)));
     }
 
 }

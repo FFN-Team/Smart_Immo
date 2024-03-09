@@ -4,7 +4,7 @@ import com.gangdestrois.smartimmo.domain.event.Notify;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
-import com.gangdestrois.smartimmo.domain.tool.Model;
+import com.gangdestrois.smartimmo.domain.utils.Model;
 
 public class Event<T extends Notify> implements Model {
     private Long id;

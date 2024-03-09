@@ -51,7 +51,7 @@ public class DocumentManager implements DocumentApi {
         Folder parentFolder;
         if (parentFolders.size() > 1)
             throw new BadRequestException(ExceptionEnum.DOCUMENT_ERROR, "More than one parent folder.");
-        if (parentFolders.size() == 0 && nonNull(documentType.description())) {
+        if (parentFolders.isEmpty() && nonNull(documentType.description())) {
             parentFolder = createFolder(documentType.description(), null);
         } else parentFolder = parentFolders.getFirst();
         return parentFolder;
@@ -73,7 +73,7 @@ public class DocumentManager implements DocumentApi {
         if (isNull(folderName)) throw new BadRequestException(ExceptionEnum.DOCUMENT_NAME_NOT_SPECIFIED,
                 "Unable to create folder because no name is specified.");
         var sameNameDocuments = documentSpi.getFolderByName(folderName);
-        if (nonNull(sameNameDocuments) && sameNameDocuments.size() > 0)
+        if (nonNull(sameNameDocuments) && !sameNameDocuments.isEmpty())
             throw new BadRequestException(DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS,
                     "Unable to create folder because a folder with same name already exists.");
         var folder = documentService.createFolder(folderName);
@@ -82,23 +82,30 @@ public class DocumentManager implements DocumentApi {
     }
 
     @Override
-    public Map<DocumentType, List<File>> getFile(Long ownerId) {
+    public Map<DocumentType, List<File>> getFile(OwnerType ownerType, Long ownerId) {
+        var owner = ownerType.getOwner(ownerId).orElseThrow(() ->
+                new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND,
+                        String.format("Prospect with id %d doesn't exists.", ownerId)));
+        return documentSpi.getFileByOwner(owner).stream()
+                .collect(Collectors.groupingBy(File::getDocumentType));
+    }
+
+    private Map<DocumentType, List<File>> test(Long ownerId) {
         var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
                 new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
                         String.format("Prospect with id %d doesn't exists.", ownerId)));
         return documentSpi.getFileByOwner(owner).stream()
                 .collect(Collectors.groupingBy(File::getDocumentType));
-
     }
 
     public java.io.File convertBytesToFile(byte[] fileToConvert, String fileName) {
         java.io.File file = new java.io.File(fileName);
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(fileToConvert);
+            return file;
         } catch (IOException e) {
             throw new InternalServerErrorException(CONVERT_DOCUMENT_ERROR, e.getMessage());
         }
-        return file;
     }
 
     public java.io.File convertMultiPartToFile(MultipartFile multipartFile) {
