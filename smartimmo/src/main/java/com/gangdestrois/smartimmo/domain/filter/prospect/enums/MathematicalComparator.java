@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.filter.prospect;
+package com.gangdestrois.smartimmo.domain.filter.prospect.enums;
 
 public enum MathematicalComparator {
     EQUALS("="),
@@ -6,11 +6,11 @@ public enum MathematicalComparator {
     GREATER_THAN(">"),
     LESS_THAN("<"),
     GREATER_THAN_OR_EQUAL_TO(">="),
-    LESS_THAN_OR_EQUAL_TO("<=")
-    ;
+    LESS_THAN_OR_EQUAL_TO("<=");
 
     String mathematical_sign;
+
     MathematicalComparator(String mathematical_sign) {
-        this.mathematical_sign=mathematical_sign;
+        this.mathematical_sign = mathematical_sign;
     }
 }

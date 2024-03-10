@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
-import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
+import com.gangdestrois.smartimmo.infrastructure.service.statusCode.HttpStatusCode;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.gangdestrois.smartimmo.domain.utils.ApplicationData.TECHNIMMO;
+import static com.gangdestrois.smartimmo.infrastructure.service.ApplicationData.TECHNIMMO;
 import static java.util.Objects.nonNull;
 import static javax.mail.Message.RecipientType.TO;
 

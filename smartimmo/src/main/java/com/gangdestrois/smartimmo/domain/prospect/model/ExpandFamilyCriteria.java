@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.prospect;
+package com.gangdestrois.smartimmo.domain.prospect.model;
 
 import com.gangdestrois.smartimmo.domain.prospect.model.MaritalStatus;
 import com.gangdestrois.smartimmo.domain.prospect.model.Owner;

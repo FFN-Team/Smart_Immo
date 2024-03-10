@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/v1/properties-to-follow")
 public class PropertiesToFollowController {
     private final PropertyToFollowApi propertyToFollowApi;
+
     public PropertiesToFollowController(PropertyToFollowApi propertyToFollowApi) {
         this.propertyToFollowApi = propertyToFollowApi;
     }
@@ -42,25 +43,24 @@ public class PropertiesToFollowController {
     }
 
 
-
     @PatchMapping("/{propertyToFollowId}/status")
     @Operation(
             summary = "Update status by PropertyToFollow ID",
             description = "Updates the status of a property to follow based on the provided PropertyToFollow ID.",
             parameters = {
                     @Parameter(name = "propertyToFollowId",
-                            description = "ID of the PropertyToFollow to update the status for.",in = ParameterIn.PATH,
+                            description = "ID of the PropertyToFollow to update the status for.", in = ParameterIn.PATH,
                             required = true)
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Request body containing the updated status for the PropertyToFollow.",
-                    required = true, content = @Content(mediaType = "application/json",schema = @Schema(implementation = PropertyToFollowStatusRequest.class)
-                    )
+                    required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = PropertyToFollowStatusRequest.class)
+            )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Status updated successfully."),
-                    @ApiResponse(responseCode = "400",description = "Invalid request body or bad request."),
-                    @ApiResponse(responseCode = "404",description = "PropertyToFollow not found.")
+                    @ApiResponse(responseCode = "200", description = "Status updated successfully."),
+                    @ApiResponse(responseCode = "400", description = "Invalid request body or bad request."),
+                    @ApiResponse(responseCode = "404", description = "PropertyToFollow not found.")
             }
     )
     @ResponseStatus(HttpStatus.OK)

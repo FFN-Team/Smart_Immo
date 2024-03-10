@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.domain.document.port;
 
-import com.gangdestrois.smartimmo.domain.document.DocumentType;
-import com.gangdestrois.smartimmo.domain.document.File;
-import com.gangdestrois.smartimmo.domain.document.Folder;
-import com.gangdestrois.smartimmo.domain.document.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 
 import java.util.List;
 import java.util.Map;

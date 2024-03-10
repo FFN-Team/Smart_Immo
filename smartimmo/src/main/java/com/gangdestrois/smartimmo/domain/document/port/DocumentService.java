@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.document.port;
 
-import com.gangdestrois.smartimmo.domain.document.File;
-import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 
 public interface DocumentService {
     File generatePublicUrl(String fileId);

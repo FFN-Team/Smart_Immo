@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import jakarta.persistence.*;
 
@@ -30,7 +30,8 @@ public class PropertyToFollowEntity {
         this.status = status;
     }
 
-    public PropertyToFollowEntity() { }
+    public PropertyToFollowEntity() {
+    }
 
     public PropertyToFollow toModel() {
         return new PropertyToFollow(

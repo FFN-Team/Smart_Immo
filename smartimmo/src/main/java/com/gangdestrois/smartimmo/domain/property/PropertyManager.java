@@ -26,7 +26,7 @@ public class PropertyManager implements PropertyApi {
     }
 
     @Override
-    public Property save(Property property){
+    public Property save(Property property) {
         return propertySpi.save(property);
     }
 

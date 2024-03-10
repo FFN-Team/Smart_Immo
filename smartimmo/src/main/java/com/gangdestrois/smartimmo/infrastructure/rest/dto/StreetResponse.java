@@ -7,9 +7,9 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 public record StreetResponse(Long id, String name, Double surface_area) {
     public static StreetResponse fromModel(Street street) {
         return new StreetResponse(
-            street.id(),
-            street.streetName(),
-            street.streetSurfaceArea()
+                street.id(),
+                street.streetName(),
+                street.streetSurfaceArea()
         );
     }
 }

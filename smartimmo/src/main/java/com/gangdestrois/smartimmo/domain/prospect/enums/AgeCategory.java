@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.prospect;
+package com.gangdestrois.smartimmo.domain.prospect.enums;
 
 public enum AgeCategory {
     CHILD(0, 20),
@@ -13,5 +13,13 @@ public enum AgeCategory {
     AgeCategory(int ageMin, int ageMax) {
         this.ageMin = ageMin;
         this.ageMax = ageMax;
+    }
+
+    public int ageMin() {
+        return ageMin;
+    }
+
+    public int ageMax() {
+        return ageMax;
     }
 }

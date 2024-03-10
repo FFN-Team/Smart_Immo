@@ -46,7 +46,7 @@ public class AddressEntity {
         );
     }
 
-    public static AddressEntity toEntity(Address address){
+    public static AddressEntity toEntity(Address address) {
         return new AddressEntity(
                 address.id(),
                 address.streetNumber(),

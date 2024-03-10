@@ -1,5 +1,9 @@
 package com.gangdestrois.smartimmo.domain.document;
 
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
@@ -85,9 +89,7 @@ public class DocumentManager implements DocumentApi {
 
     @Override
     public Map<DocumentType, List<File>> getFile(OwnerType ownerType, Long ownerId) {
-        var owner = ownerType.getOwner(ownerId).orElseThrow(() ->
-                new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", ownerId)));
-        return documentSpi.getFileByOwner(owner).stream()
+        return ownerType.getDocuments(ownerId).stream()
                 .collect(Collectors.groupingBy(File::getDocumentType));
     }
 

@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
-import com.gangdestrois.smartimmo.domain.document.File;
-import com.gangdestrois.smartimmo.domain.document.Folder;
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
@@ -52,15 +52,16 @@ public class DocumentDataAdapter implements DocumentSpi {
         return file;
     }
 
-    // TODO : voir comment faire pour enlever les if et gérer la généricité, idée : mettre le patron Visitor ?
     @Override
-    public <T extends Model> List<File> getFileByOwner(T owner) {
-        List<FileEntity> fileEntities = new ArrayList<>();
-        if (owner instanceof Property)
-            fileRepository.findAllByOwner(PropertyEntity.fromModelToEntity((Property) owner));
-        if (owner instanceof Prospect)
-            fileEntities = fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity((Prospect) owner));
-        return fileEntities
+    public List<File> getFileByOwner(Property owner) {
+        return fileRepository.findAllByOwner(PropertyEntity.fromModelToEntity(owner))
+                .stream().map(FileEntity::toModel)
+                .toList();
+    }
+
+    @Override
+    public List<File> getFileByOwner(Prospect owner) {
+        return fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity(owner))
                 .stream().map(FileEntity::toModel)
                 .toList();
     }

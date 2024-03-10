@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.actor;
+package com.gangdestrois.smartimmo.domain.actor.enums;
 
 public enum Actor {
     OWNER,

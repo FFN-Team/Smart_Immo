@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.document.DocumentType;
-import com.gangdestrois.smartimmo.domain.document.File;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.File;
 
 import java.util.List;
 import java.util.Map;

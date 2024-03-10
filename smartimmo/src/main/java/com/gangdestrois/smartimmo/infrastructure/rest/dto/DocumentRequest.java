@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.gangdestrois.smartimmo.domain.document.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import org.springframework.web.multipart.MultipartFile;
 

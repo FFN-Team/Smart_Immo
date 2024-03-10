@@ -1,12 +1,12 @@
-package com.gangdestrois.smartimmo.domain.document;
+package com.gangdestrois.smartimmo.domain.document.enums;
 
-import com.gangdestrois.smartimmo.domain.actor.Actor;
+import com.gangdestrois.smartimmo.domain.actor.enums.Actor;
 
 import java.util.List;
 
-import static com.gangdestrois.smartimmo.domain.actor.Actor.*;
-import static com.gangdestrois.smartimmo.domain.document.OwnerType.PROPERTY;
-import static com.gangdestrois.smartimmo.domain.document.OwnerType.PROSPECT;
+import static com.gangdestrois.smartimmo.domain.actor.enums.Actor.*;
+import static com.gangdestrois.smartimmo.domain.document.enums.OwnerType.PROPERTY;
+import static com.gangdestrois.smartimmo.domain.document.enums.OwnerType.PROSPECT;
 
 public enum DocumentType {
     TITLE_DEED("Titre de propriété", List.of(OWNER, NOTARY), PROPERTY),

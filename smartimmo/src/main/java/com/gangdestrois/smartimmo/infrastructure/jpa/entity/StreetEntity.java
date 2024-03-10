@@ -39,7 +39,7 @@ public class StreetEntity {
         );
     }
 
-    public static StreetEntity toEntity(Street street){
+    public static StreetEntity toEntity(Street street) {
         return new StreetEntity(
                 street.id(),
                 street.streetName(),

@@ -61,7 +61,7 @@ public class GoogleApi {
 
     public static Credential getCredentials(NetHttpTransport netHttpTransport) throws IOException {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        if(isNull(googleAuthorizationCodeFlow)) getCredentialsWithClientSecretFile(
+        if (isNull(googleAuthorizationCodeFlow)) getCredentialsWithClientSecretFile(
                 List.of(GMAIL_SEND, DRIVE_FILE, DRIVE), netHttpTransport);
         return new AuthorizationCodeInstalledApp(googleAuthorizationCodeFlow, receiver).authorize("user");
     }
