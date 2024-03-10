@@ -5,7 +5,6 @@ import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "buyer")

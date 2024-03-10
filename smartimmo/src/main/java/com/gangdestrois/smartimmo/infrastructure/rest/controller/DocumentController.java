@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
-import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
@@ -61,10 +61,10 @@ public class DocumentController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("{ownerType}/{ownerId}")
-    public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("ownerType") OwnerType ownerType,
-                                                                     @PathVariable("ownerId") Long ownerId) {
-        return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(ownerType, ownerId)));
+    @GetMapping("{documentHolderType}/{documentHolderId}")
+    public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("documentHolderType") DocumentHolderType documentHolderType,
+                                                                     @PathVariable("documentHolderId") Long documentHolderId) {
+        return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(documentHolderType, documentHolderId)));
     }
 
 }

@@ -14,10 +14,10 @@ public interface FileRepository extends JpaRepository<FileEntity, Long> {
     @Query(value = """
             select f from FileEntity f where f.prospect = :prospect
             """)
-    List<FileEntity> findAllByOwner(ProspectEntity prospect);
+    List<FileEntity> findAllByDocumentHolder(ProspectEntity prospect);
 
     @Query(value = """
             select f from FileEntity f where f.property = :property
             """)
-    List<FileEntity> findAllByOwner(PropertyEntity property);
+    List<FileEntity> findAllByDocumentHolder(PropertyEntity property);
 }

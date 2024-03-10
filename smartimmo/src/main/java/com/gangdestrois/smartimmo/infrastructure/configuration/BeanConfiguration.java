@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.configuration;
 
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.document.DocumentManager;
-import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
@@ -117,8 +117,8 @@ public class BeanConfiguration {
     @Autowired
     public void ownerTypeDataSource(ProspectDataAdapter prospectDataAdapter, PropertyDataAdapter propertyDataAdapter,
                                     DocumentDataAdapter documentDataAdapter) {
-        OwnerType.DataSource.setPropertySpi(propertyDataAdapter);
-        OwnerType.DataSource.setProspectSpi(prospectDataAdapter);
-        OwnerType.DataSource.setDocumentSpi(documentDataAdapter);
+        DocumentHolderType.DataSource.setPropertySpi(propertyDataAdapter);
+        DocumentHolderType.DataSource.setProspectSpi(prospectDataAdapter);
+        DocumentHolderType.DataSource.setDocumentSpi(documentDataAdapter);
     }
 }

@@ -10,7 +10,7 @@ import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import java.util.List;
 import java.util.function.Function;
 
-public enum OwnerType {
+public enum DocumentHolderType {
     PROPERTY((Long reference) -> findPropertyDocumentHolder(reference, DataSource.propertySpi)),
     PROSPECT((Long reference) -> findProspectDocumentHolder(reference, DataSource.prospectSpi));
     private final Function<Long, List<File>> getDocuments;
@@ -33,7 +33,7 @@ public enum OwnerType {
         }
     }
 
-    OwnerType(Function<Long, List<File>> getDocuments) {
+    DocumentHolderType(Function<Long, List<File>> getDocuments) {
         this.getDocuments = getDocuments;
     }
 
@@ -41,15 +41,16 @@ public enum OwnerType {
         return this.getDocuments.apply(reference);
     }
 
+    // TODO : peut-être que le patron Visitor pourrait éviter d'avoir à faire appel à deux méthodes
     private static List<File> findPropertyDocumentHolder(Long reference, PropertySpi modelSpi) {
         var owner = modelSpi.findById(reference).orElseThrow(() ->
                 new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", reference)));
-        return DataSource.documentSpi.getFileByOwner(owner);
+        return DataSource.documentSpi.getFileByDocumentHolder(owner);
     }
 
     private static List<File> findProspectDocumentHolder(Long reference, ProspectSpi modelSpi) {
         var owner = modelSpi.findById(reference).orElseThrow(() ->
                 new NotFoundException(ExceptionEnum.OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", reference)));
-        return DataSource.documentSpi.getFileByOwner(owner);
+        return DataSource.documentSpi.getFileByDocumentHolder(owner);
     }
 }

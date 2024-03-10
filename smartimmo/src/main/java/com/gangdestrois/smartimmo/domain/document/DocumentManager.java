@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.document;
 
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
-import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
@@ -88,8 +88,8 @@ public class DocumentManager implements DocumentApi {
     }
 
     @Override
-    public Map<DocumentType, List<File>> getFile(OwnerType ownerType, Long ownerId) {
-        return ownerType.getDocuments(ownerId).stream()
+    public Map<DocumentType, List<File>> getFile(DocumentHolderType documentHolderType, Long documentHolderId) {
+        return documentHolderType.getDocuments(documentHolderId).stream()
                 .collect(Collectors.groupingBy(File::getDocumentType));
     }
 

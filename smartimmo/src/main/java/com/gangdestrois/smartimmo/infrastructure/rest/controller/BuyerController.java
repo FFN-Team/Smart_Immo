@@ -3,9 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
-import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.BuyerResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 @RestController
 @RequestMapping("/api/v1/buyers")

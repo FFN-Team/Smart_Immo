@@ -5,8 +5,8 @@ import com.gangdestrois.smartimmo.domain.actor.enums.Actor;
 import java.util.List;
 
 import static com.gangdestrois.smartimmo.domain.actor.enums.Actor.*;
-import static com.gangdestrois.smartimmo.domain.document.enums.OwnerType.PROPERTY;
-import static com.gangdestrois.smartimmo.domain.document.enums.OwnerType.PROSPECT;
+import static com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType.PROPERTY;
+import static com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType.PROSPECT;
 
 public enum DocumentType {
     TITLE_DEED("Titre de propriété", List.of(OWNER, NOTARY), PROPERTY),
@@ -52,12 +52,12 @@ public enum DocumentType {
     ;
     private final String description;
     private final List<Actor> holders;
-    private final OwnerType ownerType;
+    private final DocumentHolderType documentHolderType;
 
-    DocumentType(String description, List<Actor> holders, OwnerType ownerType) {
+    DocumentType(String description, List<Actor> holders, DocumentHolderType documentHolderType) {
         this.description = description;
         this.holders = holders;
-        this.ownerType = ownerType;
+        this.documentHolderType = documentHolderType;
     }
 
     public String description() {
@@ -68,7 +68,7 @@ public enum DocumentType {
         return this.holders;
     }
 
-    public OwnerType ownerType() {
-        return this.ownerType;
+    public DocumentHolderType ownerType() {
+        return this.documentHolderType;
     }
 }

@@ -5,7 +5,6 @@ import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
-import com.gangdestrois.smartimmo.domain.utils.Model;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FileEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FolderEntity;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.PropertyEntity;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,15 +51,15 @@ public class DocumentDataAdapter implements DocumentSpi {
     }
 
     @Override
-    public List<File> getFileByOwner(Property owner) {
-        return fileRepository.findAllByOwner(PropertyEntity.fromModelToEntity(owner))
+    public List<File> getFileByDocumentHolder(Property documentHolder) {
+        return fileRepository.findAllByDocumentHolder(PropertyEntity.fromModelToEntity(documentHolder))
                 .stream().map(FileEntity::toModel)
                 .toList();
     }
 
     @Override
-    public List<File> getFileByOwner(Prospect owner) {
-        return fileRepository.findAllByOwner(ProspectEntity.fromModelToEntity(owner))
+    public List<File> getFileByDocumentHolder(Prospect documentHolder) {
+        return fileRepository.findAllByDocumentHolder(ProspectEntity.fromModelToEntity(documentHolder))
                 .stream().map(FileEntity::toModel)
                 .toList();
     }

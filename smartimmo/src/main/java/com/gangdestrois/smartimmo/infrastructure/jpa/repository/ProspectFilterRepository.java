@@ -1,6 +1,5 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.repository;
 
-import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.ProspectFilterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,9 +1,5 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
-import com.gangdestrois.smartimmo.domain.prospect.model.MaritalStatus;
-import com.gangdestrois.smartimmo.domain.prospect.model.Owner;
-import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
-
 import java.time.LocalDate;
 import java.util.function.Predicate;
 

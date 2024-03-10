@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.document.port;
 
-import com.gangdestrois.smartimmo.domain.document.enums.OwnerType;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
@@ -13,5 +13,5 @@ public interface DocumentApi {
 
     Folder createFolder(String folderName, Folder parent);
 
-    Map<DocumentType, List<File>> getFile(OwnerType ownerType, Long ownerId);
+    Map<DocumentType, List<File>> getFile(DocumentHolderType documentHolderType, Long documentHolderId);
 }
