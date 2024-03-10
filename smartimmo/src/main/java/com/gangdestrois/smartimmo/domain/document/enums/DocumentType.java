@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.document;
+package com.gangdestrois.smartimmo.domain.document.enums;
 
 public enum DocumentType {
     VISITE_PHOTO("image/jpg", "Visite photo");

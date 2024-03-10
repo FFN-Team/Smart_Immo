@@ -1,15 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
-import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
-import com.gangdestrois.smartimmo.domain.prospect.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Home;
 import com.gangdestrois.smartimmo.domain.prospect.model.Owner;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.validation.constraints.Email;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public record ProspectResponse(Long id, String firstName, String lastName, String completeName, @Email String email,

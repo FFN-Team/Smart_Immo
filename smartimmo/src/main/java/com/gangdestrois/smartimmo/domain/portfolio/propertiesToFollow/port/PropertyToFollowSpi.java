@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface PropertyToFollowSpi {
     List<PropertyToFollow> findAll();
+
     List<PropertyToFollow> findAllByBuyerId(Long buyerId);
+
     void savePropertyToFollowForBuyer(Buyer buyer, Property property);
-    void deletePropertyToFollowForBuyer(Long buyerId,Long propertyId);
+
+    void deletePropertyToFollowForBuyer(Long buyerId, Long propertyId);
+
     void updateStatusByPropertyToFollowId(Long propertyToFollowId, PropertyToFollowStatus status);
 }

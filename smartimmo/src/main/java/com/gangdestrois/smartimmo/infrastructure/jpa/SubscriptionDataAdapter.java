@@ -62,8 +62,12 @@ public class SubscriptionDataAdapter implements SubscriptionSpi {
         var subscriptionEntityToRemove = subscriptionRepository
                 .findAllByEventListenerAndAndEventType(mapEventListenerToDBData(listener), eventType);
         subscriptionRepository.deleteAll(subscriptionEntityToRemove);
-        var removedSubscriptionIds = subscriptionEntityToRemove.stream().map(SubscriptionEntity::getId).toList();
-        return removedSubscriptionIds;
+        return subscriptionEntityToRemove.stream().map(SubscriptionEntity::getId).toList();
+    }
+
+    @Override
+    public List<EventListenerEnum> findEventListenersByEventType(EventType eventType) {
+        return subscriptionRepository.findAllEventListenerByEventType(eventType);
     }
 
     //WARNING : SWITCH STATEMENT, TO REVIEW

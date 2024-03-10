@@ -5,6 +5,7 @@ import com.gangdestrois.smartimmo.domain.document.DocumentManager;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
+import com.gangdestrois.smartimmo.domain.event.SubscriptionManager;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
 import com.gangdestrois.smartimmo.domain.filter.prospect.ProspectFilterManager;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertiesToFollowManager;
@@ -64,9 +65,9 @@ public class BeanConfiguration {
     public PotentialProjectManager potentialProjectManager(PotentialProjectDataAdapter potentialProjectDataAdapter,
                                                            EventManager eventManager,
                                                            NotificationDataAdapter notificationDataAdapter,
-                                                           ProjectDataAdapter projectDataAdapter
-    ) {
-        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter, projectDataAdapter);
+                                                           ProjectDataAdapter projectDataAdapter) {
+        return new PotentialProjectManager(potentialProjectDataAdapter, eventManager, notificationDataAdapter,
+                projectDataAdapter);
     }
 
     @Bean
@@ -111,5 +112,10 @@ public class BeanConfiguration {
     public SalesHistoryStatisticsGenerator salesHistoryStatisticsGenerator
             (SalesHistoryDataAdapter salesHistoryDataAdapter, PropertyDataAdapter propertyDataAdapter) {
         return new SalesHistoryStatisticsGenerator(salesHistoryDataAdapter, propertyDataAdapter);
+    }
+
+    @Bean
+    public SubscriptionManager subscriptionManager(SubscriptionDataAdapter subscriptionDataAdapter) {
+        return new SubscriptionManager(subscriptionDataAdapter);
     }
 }

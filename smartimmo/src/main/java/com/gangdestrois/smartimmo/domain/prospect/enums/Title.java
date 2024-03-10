@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.prospect;
+package com.gangdestrois.smartimmo.domain.prospect.enums;
 
 public enum Title {
     MR("Mr."),

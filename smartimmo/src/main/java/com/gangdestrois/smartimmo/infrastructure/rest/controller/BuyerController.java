@@ -37,7 +37,7 @@ public class BuyerController {
             summary = "Get all buyers",
             description = "Retrieves a list of all buyers.",
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Successfully retrieved the list of buyers.")
+                    @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of buyers.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
@@ -47,18 +47,17 @@ public class BuyerController {
     }
 
 
-
     @GetMapping("/{buyerId}")
     @Operation(
             summary = "Get buyer by ID",
             description = "Retrieves the details of a buyer based on the provided ID.",
             parameters = {
-                    @Parameter(name = "buyerId",description = "ID of the buyer to retrieve.",in = ParameterIn.PATH,
+                    @Parameter(name = "buyerId", description = "ID of the buyer to retrieve.", in = ParameterIn.PATH,
                             required = true)
             },
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Successfully retrieved the buyer details."),
-                    @ApiResponse(responseCode = "404",description = "Buyer not found.")
+                    @ApiResponse(responseCode = "200", description = "Successfully retrieved the buyer details."),
+                    @ApiResponse(responseCode = "404", description = "Buyer not found.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
@@ -73,14 +72,13 @@ public class BuyerController {
     }
 
 
-
     @GetMapping("/{buyerId}/properties-to-follow")
     @Operation(
             summary = "Get properties to follow for a buyer",
             description = "Retrieves a list of properties that correspond for a buyer on the provided buyer ID.",
             parameters = {
-                    @Parameter(name = "buyerId",description = "ID of the buyer to retrieve properties for.",
-                            in = ParameterIn.PATH,required = true)
+                    @Parameter(name = "buyerId", description = "ID of the buyer to retrieve properties for.",
+                            in = ParameterIn.PATH, required = true)
             },
             responses = {
                     @ApiResponse(responseCode = "200",
@@ -90,11 +88,10 @@ public class BuyerController {
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable Long buyerId){
+    public List<PropertyToFollowResponse> findPropertiesToFollowForBuyer(@PathVariable Long buyerId) {
         return propertyToFollowApi.findAllByBuyerId(buyerId).stream()
                 .map(PropertyToFollowResponse::fromModel).toList();
     }
-
 
 
     @PutMapping("/{buyerId}/properties-to-follow")
@@ -107,13 +104,12 @@ public class BuyerController {
                             in = ParameterIn.PATH, required = true)
             },
             responses = {
-                    @ApiResponse(responseCode = "200",description = "Properties reset and saved successfully."),
-                    @ApiResponse(responseCode = "404",description = "Buyer not found.")
+                    @ApiResponse(responseCode = "200", description = "Properties reset and saved successfully."),
+                    @ApiResponse(responseCode = "404", description = "Buyer not found.")
             }
     )
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> savePropertiesToFollowForBuyer(@PathVariable Long buyerId)
-    {
+    public ResponseEntity<String> savePropertiesToFollowForBuyer(@PathVariable Long buyerId) {
         propertyToFollowApi.savePropertiesToFollowForBuyer(buyerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.domain.event;
 import com.gangdestrois.smartimmo.common.DomainComponent;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.model.Event;
+import com.gangdestrois.smartimmo.domain.event.model.Notify;
 import com.gangdestrois.smartimmo.domain.event.port.EventTypeNotificationSpi;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationSpi;
@@ -78,8 +79,7 @@ public class EventManager implements NotificationApi {
                 originalEvent.message(),
                 originalEvent.priority(),
                 originalEvent.getElement(),
-                originalEvent.getEventType()
-        );
+                originalEvent.getEventType());
         Event<Notify> savedEvent = notificationSpi.save(eventToSave);
         return EventResponse.fromModel(savedEvent);
     }

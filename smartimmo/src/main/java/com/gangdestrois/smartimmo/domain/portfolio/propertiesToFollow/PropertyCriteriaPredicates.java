@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
+
 import java.util.Objects;
 import java.util.function.Predicate;
 

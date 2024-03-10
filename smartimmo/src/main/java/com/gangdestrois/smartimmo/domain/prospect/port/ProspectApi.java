@@ -12,6 +12,8 @@ public interface ProspectApi {
 
     void subscription(EventListener eventListener);
 
+    void unsubscription(EventListener eventListener);
+
     List<Prospect> getProspects();
 
     Optional<Prospect> getProspect(Long id);

@@ -1,6 +1,4 @@
-package com.gangdestrois.smartimmo.domain.prospect;
-
-import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+package com.gangdestrois.smartimmo.domain.prospect.model;
 
 import java.util.function.Predicate;
 

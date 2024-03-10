@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.domain.prospect;
 
+import com.gangdestrois.smartimmo.domain.prospect.model.ProspectStatistic;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.ProspectDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectDataResponse;
