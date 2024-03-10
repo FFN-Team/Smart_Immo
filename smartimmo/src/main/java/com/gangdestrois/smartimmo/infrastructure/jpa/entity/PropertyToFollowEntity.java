@@ -30,7 +30,8 @@ public class PropertyToFollowEntity {
         this.status = status;
     }
 
-    public PropertyToFollowEntity() { }
+    public PropertyToFollowEntity() {
+    }
 
     public PropertyToFollow toModel() {
         return new PropertyToFollow(

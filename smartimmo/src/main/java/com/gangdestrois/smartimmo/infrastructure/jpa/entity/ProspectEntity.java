@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
-import com.gangdestrois.smartimmo.domain.prospect.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import jakarta.persistence.*;
 

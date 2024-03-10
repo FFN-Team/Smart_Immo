@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
-import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
+import com.gangdestrois.smartimmo.infrastructure.service.statusCode.HttpStatusCode;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -24,7 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
+import static com.gangdestrois.smartimmo.infrastructure.service.ApplicationData.TECHNIMMO;
 import static java.util.Objects.nonNull;
 import static javax.mail.Message.RecipientType.TO;
 
@@ -33,7 +33,8 @@ public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
 
     @Autowired
-    public GmailApi() {}
+    public GmailApi() {
+    }
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
         Gmail service = initialize();

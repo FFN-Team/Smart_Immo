@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.document.File;
+import com.gangdestrois.smartimmo.domain.document.model.File;
 import jakarta.persistence.*;
 
 import static java.util.Objects.isNull;
@@ -66,7 +66,12 @@ public class FileEntity {
     }
 
     public static File toModel(FileEntity fileEntity) {
-        return new File(fileEntity.getId(), fileEntity.documentId, fileEntity.name, fileEntity.webContentLink,
-                fileEntity.webLink);
+        return (File) new File.FileBuilder()
+                .id(fileEntity.getId())
+                .documentId(fileEntity.documentId)
+                .name(fileEntity.name)
+                .webContentLink(fileEntity.webContentLink)
+                .webLink(fileEntity.webLink)
+                .build();
     }
 }

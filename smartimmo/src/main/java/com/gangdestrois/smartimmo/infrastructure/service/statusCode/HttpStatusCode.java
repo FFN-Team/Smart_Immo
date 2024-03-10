@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.statusCode;
+package com.gangdestrois.smartimmo.infrastructure.service.statusCode;
 
 public enum HttpStatusCode {
     FORBIDDEN(403, "Forbidden"),

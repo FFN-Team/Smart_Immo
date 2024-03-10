@@ -1,6 +1,8 @@
 package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.DataForUnitaryTest;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
