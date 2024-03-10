@@ -539,7 +539,6 @@ En cliquant sur la liste déroulante de status je peux changer le status.
 .Status du bien à suivre
 image::v0.0.4/statusPTF.png[alt=Status du bien à suivre]
 
-
 ==== Petite fonctionnalité : Rendre les notifications interactives
 
 Cette fonctionnalité permet, lorsque l'on clique sur une notification, de :
@@ -618,3 +617,76 @@ Si l'agent clique sur le bouton "Rafraîchir" en haut à gauche de la fenêtre d
 
 .Nouveau statut de la notification (_OPEN_)
 image::v0.0.4/pf_interactive_notification/step_5.png[alt=Nouveau statut de la notification (OPEN)]
+
+<<<
+
+=== v0.1.0
+
+==== Grande fonctionnalité : Générer le tableau comparatif des prix pour un bien
+
+Cette fonctionnalité permet à l'agent immobilier d'obtenir un tableau comparatif du prix moyen dans les zones géographiques d'un bien afin d'avoir une estimation de ce bien.
+
+Les zones géographiques d'un bien sont :
+
+* La rue
+* Le secteur
+* La ville
+
+'''
+
+*Endpoint* :
+
+[source,http]
+----
+GET api/v1/statistics/sales-history/properties/{propertyId}?start-date={startDate}&end-date={endDate}
+----
+
+Retourne les statistiques qui comparent le prix moyen dans les zones géographiques du bien avec l'ID {propertyId} entre les dates {startDate} et {endDate}.
+
+'''
+
+*Paramètres* :
+
+* propertyId :
+** Type : long
+** Obligatoire
+** Valeur :
+*** Doit exister
+
+* startDate :
+** Type : date
+** Obligatoire
+** Format : dd-MM-yyyy
+** Valeur :
+*** >= 01-01-1900
+
+* endDate :
+** Type : date
+** Obligatoire
+** Format : dd-MM-yyyy
+** Valeur :
+*** >= startDate
+*** Si startDate + 100 ans \<= aujourd’hui :
+**** \<= startDate + 100 ans
+*** \<= aujourd’hui
+
+*Réponse* :
+
+[source,json]
+----
+[
+  {
+    "zone": "string",
+    "price": 0.0,
+    "difference": 0.0
+  }
+]
+----
+"price" et "difference" peuvent être null.
+
+'''
+
+*Affichage* :
+
+.Page affichant le tableau comparatif du prix d'un bien
+image::v0.1.0/gf_price_comparison_table.png[alt=Page affichant le tableau comparatif du prix d'un bien]
