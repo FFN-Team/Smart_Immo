@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.PERIOD_NOT_VALID;
+
 public class SalesHistoryStatisticsGenerator implements SalesHistoryStatisticsGeneratorApi {
     private final SalesHistorySpi salesHistorySpi;
     private final PropertySpi propertySpi;
@@ -24,20 +26,19 @@ public class SalesHistoryStatisticsGenerator implements SalesHistoryStatisticsGe
     public List<SalesHistoryComparisonStatistic> getSalesHistoryComparisonStatistics(
             Long propertyId,
             LocalDate startDate,
-            LocalDate endDate
-    ) throws BadRequestException {
-        boolean propertyExists = propertySpi.existsById(propertyId);
-        boolean periodIsValid = Period.isValid(startDate, endDate);
-
-        if (propertyExists && periodIsValid) {
-            return new ArrayList<SalesHistoryComparisonStatistic>(Arrays.asList(
-                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySBuilding(propertyId, startDate, endDate),
-                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySStreet(propertyId, startDate, endDate),
-                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySArea(propertyId, startDate, endDate),
-                salesHistorySpi.findAveragePricePerSquareMeterOfPropertySCity(propertyId, startDate, endDate)
+            LocalDate endDate) throws BadRequestException {
+        propertySpi.findById(propertyId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
+                String.format("Property not found for this id : %d", propertyId)));
+        var periodErrors = SalesHistoryPeriodUtils.findValidationsErrors(startDate, endDate);
+        if (periodErrors.isEmpty()) {
+            return new ArrayList<>(Arrays.asList(
+                    // envoyer le property plutôt que le propertyId
+                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySBuilding(propertyId, startDate, endDate),
+                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySStreet(propertyId, startDate, endDate),
+                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySArea(propertyId, startDate, endDate),
+                    salesHistorySpi.findAveragePricePerSquareMeterOfPropertySCity(propertyId, startDate, endDate)
             ));
         }
-        throw new NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
-                String.format("Property not found for this id : %d", propertyId));
+        throw new BadRequestException(PERIOD_NOT_VALID, String.join(" ; ", periodErrors));
     }
 }

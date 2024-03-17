@@ -258,7 +258,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <argLine>${failsafeArgLine}</argLine>
+                            <argLine>@{failsafeArgLine}</argLine>
                         </configuration>
                     </execution>
                 </executions>
