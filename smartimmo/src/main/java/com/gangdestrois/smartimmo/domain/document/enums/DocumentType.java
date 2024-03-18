@@ -48,8 +48,7 @@ public enum DocumentType {
     FLOOR_PLAN_OF_APARTMENT("Plan de l'appartement", List.of(OWNER), PROPERTY),
     FLOOR_PLAN_OF_HOUSE("Plan de l'appartement", List.of(OWNER), PROPERTY),
     GROUND_PLAN("Plan du terrain", List.of(OWNER), PROPERTY),
-    VISIT_PHOTOS("Visite photo", List.of(OWNER), PROPERTY),
-    ;
+    VISIT_PHOTOS("Visite photo", List.of(OWNER), PROPERTY);
     private final String description;
     private final List<Actor> holders;
     private final DocumentHolderType documentHolderType;
