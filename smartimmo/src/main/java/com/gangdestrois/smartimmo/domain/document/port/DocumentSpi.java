@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.domain.document.port;
 
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
+import com.gangdestrois.smartimmo.domain.document.util.Holder;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
@@ -13,6 +14,8 @@ public interface DocumentSpi {
     File saveFile(LocalDate created, File file, Folder folder);
 
     List<File> getFileByDocumentHolder(Property property);
+
+    List<File> getFileByDocumentHolder(Holder holder);
 
     List<File> getFileByDocumentHolder(Prospect prospect);
 

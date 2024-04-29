@@ -1,6 +1,5 @@
 package com.gangdestrois.smartimmo.domain.document.model;
 
-import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.time.LocalDate;
@@ -9,7 +8,7 @@ import java.util.Optional;
 public class File extends DocumentImplementation {
     private Prospect owner;
     private DocumentType documentType;
-    private LocalDate created;
+    private final LocalDate created;
 
     protected File(FileBuilder builder) {
         super(builder);

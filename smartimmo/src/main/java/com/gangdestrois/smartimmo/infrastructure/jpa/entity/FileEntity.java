@@ -1,6 +1,5 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import jakarta.persistence.*;
 
@@ -40,15 +39,15 @@ public class FileEntity {
     @JoinColumn(name = "fk_property", referencedColumnName = "id_property")
     private PropertyEntity property;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(targetEntity = DocumentTypeEntity.class)
     @Column(name = "document_type")
-    private DocumentType documentType;
+    private DocumentTypeEntity documentType;
 
     @Column(name = "created")
     private LocalDate created;
 
     public FileEntity(String documentId, String name, String webContentLink, String webLink, FolderEntity parent, ProspectEntity prospect,
-                      DocumentType documentType, LocalDate created) {
+                      DocumentTypeEntity documentType, LocalDate created) {
         this.documentId = documentId;
         this.name = name;
         this.webContentLink = webContentLink;
@@ -81,7 +80,7 @@ public class FileEntity {
         if (isNull(parentEntity)) return new FileEntity(file.getDocumentId(), file.getName(),
                 file.getWebContentLink(), file.getWebLink(), prospectEntity, created);
         return new FileEntity(file.getDocumentId(), file.getName(), file.getWebContentLink(), file.getWebLink(),
-                parentEntity, prospectEntity, file.getDocumentType(), created);
+                parentEntity, prospectEntity, DocumentTypeEntity.fromModel(file.getDocumentType()), created);
     }
 
     public static File toModel(FileEntity fileEntity) {

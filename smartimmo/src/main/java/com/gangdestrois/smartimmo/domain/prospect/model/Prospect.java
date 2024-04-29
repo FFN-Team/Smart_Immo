@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
+import com.gangdestrois.smartimmo.domain.document.util.Holder;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
@@ -12,7 +13,7 @@ import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Prospect implements Notify {
+public class Prospect implements Notify, Holder {
     private Long id;
     private final ContactOrigin contactOrigin;
     private final Title title;

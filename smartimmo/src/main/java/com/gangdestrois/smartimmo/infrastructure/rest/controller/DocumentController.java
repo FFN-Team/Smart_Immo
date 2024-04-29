@@ -1,20 +1,19 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
-import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.FileByDocumentTypeResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.FileByOwnerResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.FilesByHolderResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
+import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+import static java.util.Objects.isNull;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
@@ -40,10 +39,10 @@ public class DocumentController {
     public ResponseEntity<DocumentResponse> saveDocument(
             @RequestPart("fileContent") byte[] fileContent,
             @RequestParam("fileName") String fileName,
-            @RequestParam("documentType") DocumentType documentType,
+            @RequestParam("documentTypeCode") String documentTypeCode,
             @RequestParam("ownerId") Long ownerId,
             @RequestParam("fileType") String fileType) {
-        var file = documentApi.uploadFile(fileContent, fileName, fileType, documentType, ownerId);
+        var file = documentApi.uploadFile(fileContent, fileName, fileType, documentTypeCode, ownerId);
         var documentResponse = new DocumentResponse(file.getName(), file.getDocumentId(),
                 file.getWebContentLink(), file.getWebLink());
         return ResponseEntity.ok(documentResponse);
@@ -57,14 +56,20 @@ public class DocumentController {
             })
     @PostMapping("/create-folder")
     public ResponseEntity<Folder> createFolder(@RequestBody String name) {
+        if (isNull(name)) throw new BadRequestException(ExceptionEnum.DOCUMENT_NAME_NOT_SPECIFIED,
+                "Unable to create folder because no name is specified.");
         return ResponseEntity.ok(documentApi.createFolder(name, null));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("{documentHolderType}/{documentHolderId}")
-    public ResponseEntity<List<FileByDocumentTypeResponse>> getFiles(@PathVariable("documentHolderType") DocumentHolderType documentHolderType,
-                                                                     @PathVariable("documentHolderId") Long documentHolderId) {
-        return ResponseEntity.ok(FileByOwnerResponse.fromModel(documentApi.getFile(documentHolderType, documentHolderId)));
+    @Operation(description = """
+            Get files of a holder by a holder reference and the document holder type (the document can belongs
+            to a prospect, a property, ...)""")
+    public ResponseEntity<FilesByHolderResponse> getFiles(
+            @PathVariable("documentHolderType") DocumentHolderType documentHolderType,
+            @PathVariable("documentHolderId") Long documentHolderId) {
+        return ResponseEntity.ok(FilesByHolderResponse.toDto(documentApi.getFile(documentHolderType, documentHolderId)));
     }
 
 }

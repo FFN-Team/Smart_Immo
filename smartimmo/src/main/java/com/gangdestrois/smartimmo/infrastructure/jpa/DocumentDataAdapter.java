@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.jpa;
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.document.util.Holder;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.infrastructure.jpa.entity.FileEntity;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +50,14 @@ public class DocumentDataAdapter implements DocumentSpi {
         var fileSaved = fileRepository.save(fileEntity);
         file.setId(fileSaved.getId());
         return file;
+    }
+
+    // TODO : remove switch statement
+    @Override
+    public List<File> getFileByDocumentHolder(Holder holder) {
+        if (holder instanceof Property) return getFileByDocumentHolder((Property) holder);
+        if (holder instanceof Prospect) return getFileByDocumentHolder((Prospect) holder);
+        else return Collections.emptyList();
     }
 
     @Override

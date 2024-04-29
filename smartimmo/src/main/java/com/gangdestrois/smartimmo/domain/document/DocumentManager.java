@@ -1,18 +1,20 @@
 package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
-import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.document.port.DocumentTypeSpi;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
+import com.google.common.base.Strings;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileOutputStream;
@@ -23,8 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.CONVERT_DOCUMENT_ERROR;
-import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -34,33 +35,35 @@ public class DocumentManager implements DocumentApi {
     private final DocumentSpi documentSpi;
     private final ProspectSpi prospectSpi;
     private final DocumentService documentService;
+    private final DocumentTypeSpi documentTypeSpi;
 
-    public DocumentManager(DocumentService documentService, DocumentSpi documentSpi, ProspectSpi prospectSpi) {
+    public DocumentManager(DocumentService documentService, DocumentSpi documentSpi, ProspectSpi prospectSpi,
+                           DocumentTypeSpi documentTypeSpi) {
         this.documentService = documentService;
         this.documentSpi = documentSpi;
         this.prospectSpi = prospectSpi;
-
+        this.documentTypeSpi = documentTypeSpi;
     }
 
     @Override
-    public File uploadFile(byte[] file, String fileName, String fileType, DocumentType documentType, Long ownerId) {
+    public File uploadFile(byte[] file, String fileName, String fileType, String documentTypeCode, Long ownerId) {
         var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
                 new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
                         String.format("Prospect with id %d doesn't exists.", ownerId)));
-        Folder parentFolder = getParentFolder(documentType);
+        var documentType = documentTypeSpi.findDocumentTypeFromCode(documentTypeCode)
+                .orElseThrow(() -> new BadRequestException(DOCUMENT_ERROR,
+                        String.format("Document of type %s does not exists.", documentTypeCode)));
+        var parentFolder = getParentFolder(documentType.description());
         var fileToUpload = convertBytesToFile(file, fileName);
         return saveFile(fileName, fileType, owner, parentFolder, fileToUpload, documentType);
     }
 
-    public Folder getParentFolder(DocumentType documentType) {
-        var parentFolders = documentSpi.getFolderByName(documentType.description());
-        Folder parentFolder;
-        if (parentFolders.size() > 1)
-            throw new BadRequestException(ExceptionEnum.DOCUMENT_ERROR, "More than one parent folder.");
-        if (parentFolders.isEmpty() && nonNull(documentType.description())) {
-            parentFolder = createFolder(documentType.description(), null);
-        } else parentFolder = parentFolders.getFirst();
-        return parentFolder;
+    public Folder getParentFolder(String description) {
+        if (Strings.isNullOrEmpty(description))
+            throw new BadRequestException(DOCUMENT_ERROR, "Description of folder is empty.");
+        var parentFolders = documentSpi.getFolderByName(description);
+        if (parentFolders.size() > 1) throw new BadRequestException(DOCUMENT_ERROR, "More than one parent folder.");
+        return parentFolders.isEmpty() ? createFolder(description, null) : parentFolders.getFirst();
     }
 
     private File saveFile(String fileName, String fileType, Prospect owner, Folder parentFolder, java.io.File fileToUpload,
@@ -76,15 +79,19 @@ public class DocumentManager implements DocumentApi {
 
     @Override
     public Folder createFolder(String folderName, Folder parent) {
-        if (isNull(folderName)) throw new BadRequestException(ExceptionEnum.DOCUMENT_NAME_NOT_SPECIFIED,
-                "Unable to create folder because no name is specified.");
+        verifyFolderName(folderName);
+        var folder = documentService.createFolder(folderName);
+        documentSpi.saveFolder(folder, parent);
+        return folder;
+    }
+
+    private void verifyFolderName(String folderName) {
+        if (isNull(folderName))
+            throw new BadRequestException(DOCUMENT_NAME_NOT_SPECIFIED, "Document name should be present.");
         var sameNameDocuments = documentSpi.getFolderByName(folderName);
         if (nonNull(sameNameDocuments) && !sameNameDocuments.isEmpty())
             throw new BadRequestException(DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS,
                     "Unable to create folder because a folder with same name already exists.");
-        var folder = documentService.createFolder(folderName);
-        documentSpi.saveFolder(folder, parent);
-        return folder;
     }
 
     @Override

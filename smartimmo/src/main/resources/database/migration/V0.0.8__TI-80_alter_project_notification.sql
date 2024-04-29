@@ -20,7 +20,8 @@ VALUES ('COHABITATION');
 -- Mise à jour du prospect pour ajouter la clé étrangère vers le domicile
 UPDATE prospect
 SET fk_home = currval('home_id_home_seq')
-WHERE last_name = 'Dupont' AND first_name = 'Jean';
+WHERE last_name = 'Dupont'
+  AND first_name = 'Jean';
 
 -- Insertion du propriétaire
 INSERT INTO owner (active, fk_prospect)

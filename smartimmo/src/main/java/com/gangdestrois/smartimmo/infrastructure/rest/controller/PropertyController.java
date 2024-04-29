@@ -160,7 +160,7 @@ public class PropertyController {
     public ResponseEntity<PropertyResponse> delete(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
                 .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
-                        String.format("Property ot found for this id : %d", propertyId)));
+                        String.format("Property not found for this id : %d", propertyId)));
         PropertyResponse propertyResponse = PropertyResponse.fromModel(property);
 
         propertyApi.deleteById(propertyId);
