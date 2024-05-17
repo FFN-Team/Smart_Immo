@@ -8,13 +8,19 @@ import java.util.List;
 public class DocumentType {
     private final String name;
     private final String description;
-    private final List<Actor> holders;
+    private List<Actor> holders;
     private final DocumentHolderType documentHolderType;
 
     public DocumentType(String name, String description, List<Actor> holders, DocumentHolderType documentHolderType) {
         this.name = name;
         this.description = description;
         this.holders = holders;
+        this.documentHolderType = documentHolderType;
+    }
+
+    public DocumentType(String name, String description, DocumentHolderType documentHolderType) {
+        this.name = name;
+        this.description = description;
         this.documentHolderType = documentHolderType;
     }
 

@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS buyer
     FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect)
 );
 
-CREATE TABLE property_criteria
+CREATE TABLE IF NOT EXISTS property_criteria
 (
     id_property_criteria SERIAL PRIMARY KEY,
     fk_buyer             INT,

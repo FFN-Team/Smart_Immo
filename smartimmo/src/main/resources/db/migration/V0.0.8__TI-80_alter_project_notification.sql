@@ -1,6 +1,15 @@
-ALTER TABLE project
-    ADD COLUMN fk_prospect INT,
-    ADD CONSTRAINT fk_project_prospect FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect);
+DO
+$$
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM information_schema.columns
+                       WHERE table_name = 'project' AND column_name = 'fk_prospect') THEN
+            ALTER TABLE project
+                ADD COLUMN fk_prospect INT,
+                ADD CONSTRAINT fk_project_prospect FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect);
+        END IF;
+    END
+$$;
 
 ALTER TABLE notification
     ADD COLUMN type VARCHAR(255);

@@ -40,7 +40,7 @@ public class FileEntity {
     private PropertyEntity property;
 
     @ManyToOne(targetEntity = DocumentTypeEntity.class)
-    @Column(name = "document_type")
+    @JoinColumn(name = "fk_document_type", referencedColumnName = "id_document_type")
     private DocumentTypeEntity documentType;
 
     @Column(name = "created")

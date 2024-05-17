@@ -29,7 +29,7 @@ public enum DocumentHolderType {
     private static List<File> findDocuments(Long reference, HolderSpi<? extends Holder> modelSpi) {
         var owner = modelSpi.findById(reference).orElseThrow(
                 () -> new NotFoundException(OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", reference)));
-        return DataSource.documentSpi.getFileByDocumentHolder(owner);
+        return owner.getFiles(DataSource.documentSpi);
     }
 
     public static class DataSource {

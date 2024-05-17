@@ -1,5 +1,7 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
+import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.document.util.Holder;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
@@ -13,7 +15,7 @@ import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Prospect implements Notify, Holder {
+public class Prospect extends Holder implements Notify {
     private Long id;
     private final ContactOrigin contactOrigin;
     private final Title title;
@@ -108,6 +110,11 @@ public class Prospect implements Notify, Holder {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public List<File> getFiles(DocumentSpi documentSpi) {
+        return documentSpi.getFileByDocumentHolder(this);
     }
 
     public static class Builder {

@@ -1,11 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.actor.enums.Actor;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.model.DocumentType;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 import static java.util.Objects.nonNull;
 
@@ -26,9 +23,9 @@ public class DocumentTypeEntity {
     @Column(name = "document_holder_type")
     private String documentHolderType;
 
-    // TODO : rajouter holders dans le docker
-    @OneToMany(mappedBy = "document_holder")
-    private List<DocumentHolderEntity> holders;
+    // TODO : rajouter holders dans le docker + rajouter une table de jonction
+/*    @OneToMany(mappedBy = "document_type")
+    private List<DocumentHolderEntity> holders;*/
 
     public DocumentTypeEntity(String name, String description, String documentHolderType) {
         this.name = name;
@@ -36,11 +33,15 @@ public class DocumentTypeEntity {
         this.documentHolderType = documentHolderType;
     }
 
+    public DocumentTypeEntity() {
+
+    }
+
     public static DocumentType toModel(DocumentTypeEntity documentType) {
-        return new DocumentType(documentType.name, documentType.description,
+        return new DocumentType(documentType.name, documentType.description,/*
                 documentType.holders.stream()
                         .map(holder -> nonNull(holder.name()) ? Actor.valueOf(holder.name()) : null)
-                        .toList(),
+                        .toList(),*/
                 nonNull(documentType.documentHolderType) ?
                         DocumentHolderType.valueOf(documentType.documentHolderType) : null);
     }

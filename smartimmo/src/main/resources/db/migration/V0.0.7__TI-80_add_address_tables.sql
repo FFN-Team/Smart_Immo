@@ -22,9 +22,19 @@ CREATE TABLE IF NOT EXISTS address
     FOREIGN KEY (fk_city) REFERENCES city (id_city)
 );
 
-ALTER TABLE property
-    ADD COLUMN fk_address INT,
-    ADD CONSTRAINT fk_address_property FOREIGN KEY (fk_address) REFERENCES address (id_address);
+
+DO
+$$
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM information_schema.columns
+                       WHERE table_name = 'property' AND column_name = 'fk_address') THEN
+            ALTER TABLE property
+                ADD COLUMN fk_address INT,
+                ADD CONSTRAINT fk_address_property FOREIGN KEY (fk_address) REFERENCES address (id_address);
+        END IF;
+    END
+$$;
 
 
 INSERT INTO street (street_name, street_surface_area)
@@ -47,4 +57,6 @@ VALUES (1, 1, 1),
        (15, 6, 1);
 
 UPDATE property
-SET fk_address = id_property;
+SET fk_address = id_property
+WHERE fk_address IS NULL
+   OR fk_address <> id_property;
