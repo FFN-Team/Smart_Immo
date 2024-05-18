@@ -11,8 +11,17 @@ $$
     END
 $$;
 
-ALTER TABLE notification
-    ADD COLUMN type VARCHAR(255);
+DO
+$$
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM information_schema.columns
+                       WHERE table_name = 'notification' AND column_name = 'type') THEN
+            ALTER TABLE notification
+                ADD COLUMN type VARCHAR(255);
+           END IF;
+    END
+$$;
 
 -- Insertion du prospect
 INSERT INTO project (fk_prospect)

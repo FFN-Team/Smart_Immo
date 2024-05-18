@@ -26,4 +26,7 @@ CREATE TABLE IF NOT EXISTS file
 );
 
 INSERT INTO folder (id_folder, name)
-values (0, 'My Drive');
+SELECT 0, 'My Drive'
+WHERE NOT EXISTS (
+    SELECT 1 FROM folder WHERE id_folder = 0 AND name = 'My Drive'
+);
