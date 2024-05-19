@@ -32,7 +32,7 @@ public class FileEntity {
     private FolderEntity folder;
 
     @ManyToOne(targetEntity = ProspectEntity.class)
-    @JoinColumn(name = "fk_owner", referencedColumnName = "id_prospect")
+    @JoinColumn(name = "fk_prospect", referencedColumnName = "id_prospect")
     private ProspectEntity prospect;
 
     @ManyToOne(targetEntity = PropertyEntity.class)

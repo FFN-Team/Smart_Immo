@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -75,7 +78,6 @@ public class GoogleApi {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
         googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(netHttpTransport, JSON_FACTORY,
                 clientSecrets, scopes)
-                .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
     }
