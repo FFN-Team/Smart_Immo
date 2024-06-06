@@ -39,8 +39,8 @@ public class FileEntity {
     @JoinColumn(name = "fk_property", referencedColumnName = "id_property")
     private PropertyEntity property;
 
-    @ManyToOne(targetEntity = DocumentTypeEntity.class)
     @JoinColumn(name = "fk_document_type", referencedColumnName = "id_document_type")
+    @ManyToOne(targetEntity = DocumentTypeEntity.class, cascade = CascadeType.ALL)
     private DocumentTypeEntity documentType;
 
     @Column(name = "created")
@@ -85,6 +85,7 @@ public class FileEntity {
 
     public static File toModel(FileEntity fileEntity) {
         return (File) new File.FileBuilder()
+                .documentType(DocumentTypeEntity.toModel(fileEntity.documentType))
                 .id(fileEntity.getId())
                 .documentId(fileEntity.documentId)
                 .name(fileEntity.name)

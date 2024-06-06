@@ -4,6 +4,8 @@ import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.model.DocumentType;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 import static java.util.Objects.nonNull;
 
 @Entity
@@ -22,6 +24,9 @@ public class DocumentTypeEntity {
 
     @Column(name = "document_holder_type")
     private String documentHolderType;
+
+    @OneToMany(mappedBy = "documentType")
+    private List<FileEntity> files;
 
     // TODO : rajouter holders dans le docker + rajouter une table de jonction
 /*    @OneToMany(mappedBy = "document_type")
