@@ -1,16 +1,17 @@
 package com.gangdestrois.smartimmo.domain.prospect.port;
 
-import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
+import com.gangdestrois.smartimmo.domain.document.util.HolderSpi;
+import com.gangdestrois.smartimmo.domain.filter.prospect.enums.MathematicalComparator;
 import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.model.ProspectStatistic;
 import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
+import com.gangdestrois.smartimmo.domain.prospect.model.ProspectStatistic;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ProspectSpi {
+public interface ProspectSpi extends HolderSpi<Prospect> {
     // List<Prospect> findProspectsThatMayExpandTheirFamily(MaritalStatus maritalStatus,Integer yearsSinceBuy,Integer roomNumberOfProperty);
     List<Prospect> findAll();
 

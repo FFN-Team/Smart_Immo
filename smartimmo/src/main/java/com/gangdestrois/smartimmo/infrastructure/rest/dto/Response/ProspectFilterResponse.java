@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto.Response;
 
-import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
+import com.gangdestrois.smartimmo.domain.filter.prospect.enums.MathematicalComparator;
 import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
 import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;

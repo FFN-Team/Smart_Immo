@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
-import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Property;

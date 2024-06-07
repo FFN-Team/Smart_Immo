@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.filter.prospect;
+package com.gangdestrois.smartimmo.domain.filter.prospect.enums;
 
 public enum MathematicalComparator {
     EQUALS("="),

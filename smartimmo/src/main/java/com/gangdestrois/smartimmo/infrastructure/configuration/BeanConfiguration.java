@@ -3,6 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.configuration;
 import com.gangdestrois.smartimmo.domain.agenda.AgendaManager;
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.document.DocumentManager;
+import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.email.EmailManager;
 import com.gangdestrois.smartimmo.domain.event.EventManager;
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
@@ -22,6 +23,7 @@ import com.gangdestrois.smartimmo.infrastructure.service.GAgendaApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
 import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -112,8 +114,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter) {
-        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter);
+    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter,
+                                           DocumentTypeDataAdapter documentTypeDataAdapter) {
+        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter, documentTypeDataAdapter);
     }
 
     @Bean
@@ -125,5 +128,13 @@ public class BeanConfiguration {
     @Bean
     public SubscriptionManager subscriptionManager(SubscriptionDataAdapter subscriptionDataAdapter) {
         return new SubscriptionManager(subscriptionDataAdapter);
+    }
+
+    @Autowired
+    public void ownerTypeDataSource(ProspectDataAdapter prospectDataAdapter, PropertyDataAdapter propertyDataAdapter,
+                                    DocumentDataAdapter documentDataAdapter) {
+        DocumentHolderType.DataSource.setPropertySpi(propertyDataAdapter);
+        DocumentHolderType.DataSource.setProspectSpi(prospectDataAdapter);
+        DocumentHolderType.DataSource.setDocumentSpi(documentDataAdapter);
     }
 }

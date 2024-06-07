@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package OuterEnum {
+enum DocumentHolderType {
+    PROPERTY
+    PROSPECT
+    - getDocument : Function<Long, List<File>>
+    + getDocuments (reference : Long) : List<File>
+    {static} - findPropertyDocumentHolder (reference : Long, modelSpi : ProspectSpi)
+    {static} - findProspectDocumentHolder (reference : Long, modelSpi : PropertySpi)
+
+}
+
+note right of DocumentHolderType::PROPERTY
+     ((Long reference) -> findPropertyDocumentHolder(reference, DataSource.propertySpi))
+end note
+
+note right of DocumentHolderType::PROSPECT
+     (Long reference) -> findProspectDocumentHolder(reference, DataSource.prospectSpi)
+end note
+
+note left of DocumentHolderType::getDocuments
+     return this.getDocuments.apply(reference);
+end note
+
+    package InnerClass {
+        class DataSource {
+            {static} - propertySpi : PropertySpi
+            {static} - prospectSpi : ProspectSpi
+            {static} - documentSpi : DocumentSpi
+        }
+  }
+
+  OuterEnum.DocumentHolderType --> OuterEnum.InnerClass : contains
+}
+
+class DocumentManager {
+    + getFile(reference : Long, documentHolderType : DocumentHolderType) : Map<DocumentType, List<File>>
+}
+
+DocumentManager --> OuterEnum.DocumentHolderType
+
+interface ProspectSpi {
+ findById(reference : Long) : Optional<Prospect>
+}
+
+interface PropertySpi {
+ findById(reference : Long) : Optional<Property>
+}
+
+interface DocumentSpi {
+getFileByDocumentHolder(prospect : Prospect)
+getFileByDocumentHolder(property : Property)
+}
+
+DocumentHolderType ---> ProspectSpi
+DocumentHolderType ---> PropertySpi
+DocumentHolderType ---> DocumentSpi
+
+
+@enduml

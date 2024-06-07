@@ -2,6 +2,7 @@ package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import com.gangdestrois.smartimmo.domain.buyer.port.BuyerSpi;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowSpi;

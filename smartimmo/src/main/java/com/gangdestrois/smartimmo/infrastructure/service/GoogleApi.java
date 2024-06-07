@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class GoogleApi {
     private static final String CREDENTIALS_FILE_PATH = "/client_secret.json";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow;
+    private static GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow = null;
 
     public GoogleApi() {
     }

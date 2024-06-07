@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.document.model;
 
-import com.gangdestrois.smartimmo.domain.tool.Model;
+import com.gangdestrois.smartimmo.domain.utils.Model;
 
 public abstract class DocumentImplementation implements Document, Model {
     private Long id;

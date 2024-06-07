@@ -55,13 +55,7 @@ class PropertyControllerIntegrationTest {
     @Test
     void update() throws Exception {
         PropertyRequest propertyRequest = new PropertyRequest(
-                "Property name",
-                "Description",
-                4,
-                80.0,
-                1L
-        );
-
+                "Property name", "Description", 4, 80.0, 1L);
         mockMvc.perform(put("/api/v1/properties/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(propertyRequest.toString())

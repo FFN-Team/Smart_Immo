@@ -17,10 +17,16 @@ CREATE TABLE IF NOT EXISTS file
     web_content_link VARCHAR(255),
     web_link         VARCHAR(255),
     fk_parent        INT,
-    fk_owner         INT,
+    fk_prospect      INT,
+    fk_property      INT,
+    created          DATE,
     FOREIGN KEY (fk_parent) REFERENCES folder (id_folder),
-    FOREIGN KEY (fk_owner) REFERENCES prospect (id_prospect)
+    FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect),
+    FOREIGN KEY (fk_property) REFERENCES property (id_property)
 );
 
 INSERT INTO folder (id_folder, name)
-values (0, 'My Drive');
+SELECT 0, 'My Drive'
+WHERE NOT EXISTS (
+    SELECT 1 FROM folder WHERE id_folder = 0 AND name = 'My Drive'
+);

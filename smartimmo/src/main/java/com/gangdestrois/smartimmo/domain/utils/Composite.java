@@ -1,4 +1,4 @@
-package com.gangdestrois.smartimmo.domain.tool;
+package com.gangdestrois.smartimmo.domain.utils;
 
 import java.util.List;
 

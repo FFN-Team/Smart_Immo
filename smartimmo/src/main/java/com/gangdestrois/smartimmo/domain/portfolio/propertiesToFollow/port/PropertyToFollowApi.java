@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port;
 
-import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model.PropertyToFollow;
 
 import java.util.List;

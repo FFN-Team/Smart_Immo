@@ -1,15 +1,18 @@
 package com.gangdestrois.smartimmo.domain.document.model;
 
-import com.gangdestrois.smartimmo.domain.tool.Composite;
+import com.gangdestrois.smartimmo.domain.utils.Composite;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 public class Folder extends DocumentImplementation implements Composite<Document> {
     private final List<Document> documents;
 
     protected Folder(FolderBuilder builder) {
         super(builder);
-        this.documents = builder.documents;
+        this.documents = nonNull(builder.documents) ? builder.documents : new ArrayList<Document>();
     }
 
     @Override

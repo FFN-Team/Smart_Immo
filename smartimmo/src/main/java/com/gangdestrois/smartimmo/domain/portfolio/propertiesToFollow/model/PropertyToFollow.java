@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
-import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 
 public class PropertyToFollow {

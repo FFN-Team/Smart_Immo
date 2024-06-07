@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.property.port;
 
-import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 
 import java.util.List;
 import java.util.Optional;
