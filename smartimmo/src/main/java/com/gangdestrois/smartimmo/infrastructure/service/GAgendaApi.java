@@ -41,7 +41,6 @@ public class GAgendaApi implements VisitSaver {
                 .setDateTime(visit.getEndDateTime());
         event.setEnd(end);
 
-
         EventAttendee[] attendees = new EventAttendee[] {
                 new EventAttendee().setEmail("niraiksannr@gmail.com"),
                 new EventAttendee().setEmail("plantefloni@gmail.com"),
@@ -60,36 +59,6 @@ public class GAgendaApi implements VisitSaver {
         String calendarId = "primary";
         event = service.events().insert(calendarId, event).execute();
         System.out.printf("Event created: %s\n", event.getHtmlLink());
-
-    }
-
-    public void getEvents() throws IOException {
-        Calendar service = initialize();
-
-        // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
-
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-
-        List<Event> items = events.getItems();
-
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
-            }
-        }
     }
 
     public Calendar initialize(){
