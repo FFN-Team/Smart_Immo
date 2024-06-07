@@ -26,3 +26,7 @@ replay_pid*
 
 client_secret.json
 tokens/
+
+.vagrant/
+docker_initialized
+react-app/
