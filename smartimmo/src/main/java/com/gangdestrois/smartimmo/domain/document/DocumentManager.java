@@ -25,7 +25,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.*;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.CONVERT_DOCUMENT_ERROR;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_ERROR;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_NAME_NOT_SPECIFIED;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.DOCUMENT_WITH_SAME_NAME_ALREADY_EXISTS;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -47,9 +50,8 @@ public class DocumentManager implements DocumentApi {
 
     @Override
     public File uploadFile(byte[] file, String fileName, String fileType, String documentTypeCode, Long ownerId) {
-        var owner = prospectSpi.findById(ownerId).orElseThrow(() ->
-                new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
-                        String.format("Prospect with id %d doesn't exists.", ownerId)));
+        var owner = prospectSpi.findById(ownerId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
+                String.format("Prospect with id %d doesn't exists.", ownerId)));
         var documentType = documentTypeSpi.findDocumentTypeFromCode(documentTypeCode)
                 .orElseThrow(() -> new BadRequestException(DOCUMENT_ERROR,
                         String.format("Document of type %s does not exists.", documentTypeCode)));
@@ -95,9 +97,9 @@ public class DocumentManager implements DocumentApi {
     }
 
     @Override
-    public Map<DocumentType, List<File>> getFile(DocumentHolderType documentHolderType, Long documentHolderId) {
+    public Map<String, List<File>> getFile(DocumentHolderType documentHolderType, Long documentHolderId) {
         return documentHolderType.getDocuments(documentHolderId).stream()
-                .collect(Collectors.groupingBy(File::getDocumentType));
+                .collect(Collectors.groupingBy(file -> file.getDocumentType().name()));
     }
 
     public java.io.File convertBytesToFile(byte[] fileToConvert, String fileName) {

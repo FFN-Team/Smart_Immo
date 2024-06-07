@@ -1,7 +1,14 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
 import com.gangdestrois.smartimmo.domain.document.model.File;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
@@ -40,7 +47,7 @@ public class FileEntity {
     private PropertyEntity property;
 
     @JoinColumn(name = "fk_document_type", referencedColumnName = "id_document_type")
-    @ManyToOne(targetEntity = DocumentTypeEntity.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = DocumentTypeEntity.class)
     private DocumentTypeEntity documentType;
 
     @Column(name = "created")
@@ -76,11 +83,11 @@ public class FileEntity {
     }
 
     public static FileEntity fromModel(File file, ProspectEntity prospectEntity, FolderEntity parentEntity,
-                                       LocalDate created) {
+                                       DocumentTypeEntity documentTypeEntity, LocalDate created) {
         if (isNull(parentEntity)) return new FileEntity(file.getDocumentId(), file.getName(),
                 file.getWebContentLink(), file.getWebLink(), prospectEntity, created);
         return new FileEntity(file.getDocumentId(), file.getName(), file.getWebContentLink(), file.getWebLink(),
-                parentEntity, prospectEntity, DocumentTypeEntity.fromModel(file.getDocumentType()), created);
+                parentEntity, prospectEntity, documentTypeEntity, created);
     }
 
     public static File toModel(FileEntity fileEntity) {
