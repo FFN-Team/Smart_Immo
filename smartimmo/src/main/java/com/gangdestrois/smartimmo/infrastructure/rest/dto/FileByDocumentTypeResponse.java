@@ -1,6 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.dto;
 
 import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.DocumentResponse;
 
 import java.util.ArrayList;
 import java.util.List;
