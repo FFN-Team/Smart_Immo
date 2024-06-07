@@ -16,6 +16,7 @@ import com.gangdestrois.smartimmo.domain.property.PropertyManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectAnalyzer;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
+import com.gangdestrois.smartimmo.domain.salesHistory.SalesHistoryStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
 import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
@@ -108,6 +109,12 @@ public class BeanConfiguration {
     public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter,
                                            DocumentTypeDataAdapter documentTypeDataAdapter) {
         return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter, documentTypeDataAdapter);
+    }
+
+    @Bean
+    public SalesHistoryStatisticsGenerator salesHistoryStatisticsGenerator
+            (SalesHistoryDataAdapter salesHistoryDataAdapter, PropertyDataAdapter propertyDataAdapter) {
+        return new SalesHistoryStatisticsGenerator(salesHistoryDataAdapter, propertyDataAdapter);
     }
 
     @Bean

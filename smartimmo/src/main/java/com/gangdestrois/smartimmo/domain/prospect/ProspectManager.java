@@ -7,7 +7,7 @@ import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import java.util.List;
 
 public class ProspectManager implements ProspectManagerApi {
-    ProspectSpi prospectSpi;
+    private final ProspectSpi prospectSpi;
 
     public ProspectManager(ProspectSpi prospectSpi) {
         this.prospectSpi = prospectSpi;

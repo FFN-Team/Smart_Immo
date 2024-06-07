@@ -21,6 +21,8 @@ public class PropertyOwnerEntity {
     private PropertyEntity property;
     @Column(name = "main")
     private boolean main;
+    @OneToOne(mappedBy = "propertyOwner")
+    private SalesHistoryEntity salesHistory;
 
     public LocalDate getAcquisitionDate() {
         return this.acquisitionDate;
