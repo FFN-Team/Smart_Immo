@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.PropertyRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

@@ -1,5 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.configuration;
 
+import com.gangdestrois.smartimmo.domain.agenda.AgendaManager;
 import com.gangdestrois.smartimmo.domain.buyer.BuyerManager;
 import com.gangdestrois.smartimmo.domain.document.DocumentManager;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
@@ -18,6 +19,7 @@ import com.gangdestrois.smartimmo.domain.prospect.ProspectManager;
 import com.gangdestrois.smartimmo.domain.prospect.ProspectStatisticsGenerator;
 import com.gangdestrois.smartimmo.domain.salesHistory.SalesHistoryStatisticsGenerator;
 import com.gangdestrois.smartimmo.infrastructure.jpa.*;
+import com.gangdestrois.smartimmo.infrastructure.service.GAgendaApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GmailApi;
 import com.gangdestrois.smartimmo.infrastructure.service.GoogleDriveApi;
 import com.gangdestrois.smartimmo.infrastructure.service.ThymeleafConfigurer;
@@ -97,6 +99,12 @@ public class BeanConfiguration {
     public EmailManager emailManager(ThymeleafConfigurer thymeleafTemplateEngine, GmailApi gmailApi, ProspectDataAdapter prospectDataAdapter) {
         if (nonNull(gmailApi)) return new EmailManager(thymeleafTemplateEngine, gmailApi, prospectDataAdapter);
         else return new EmailManager(thymeleafTemplateEngine, prospectDataAdapter);
+    }
+
+    @Bean
+    public AgendaManager agendaManager(GAgendaApi agendaApi) {
+        if (nonNull(agendaApi)) return new AgendaManager(agendaApi);
+        else return new AgendaManager();
     }
 
     @Bean
