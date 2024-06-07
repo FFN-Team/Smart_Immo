@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.port.PropertyToFollowApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyToFollowStatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.PropertyToFollowResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.PropertyToFollowStatusRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

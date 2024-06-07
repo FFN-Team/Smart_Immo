@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.error;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ApiErrorResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.ApiErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

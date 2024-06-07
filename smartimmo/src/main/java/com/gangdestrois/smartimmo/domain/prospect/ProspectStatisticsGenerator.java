@@ -4,8 +4,8 @@ import com.gangdestrois.smartimmo.domain.prospect.enums.AgeCategory;
 import com.gangdestrois.smartimmo.domain.prospect.model.ProspectStatistic;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectStatisticsGeneratorApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectDataResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectStatisticsResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.ProspectDataResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.ProspectStatisticsResponse;
 
 import java.util.ArrayList;
 import java.util.List;

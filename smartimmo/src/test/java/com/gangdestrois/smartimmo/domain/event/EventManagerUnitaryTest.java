@@ -8,7 +8,7 @@ import com.gangdestrois.smartimmo.domain.event.port.SubscriptionSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.EventTypeNotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.NotificationDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.SubscriptionDataAdapter;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.NotificationStatusRequest;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;

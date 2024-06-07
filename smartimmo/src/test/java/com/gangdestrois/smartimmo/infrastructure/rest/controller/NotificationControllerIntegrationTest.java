@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.NotificationStatusRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

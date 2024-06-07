@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentType;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.DocumentResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -20,6 +20,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.List;
 
+import static com.google.api.services.calendar.CalendarScopes.CALENDAR;
 import static com.google.api.services.drive.DriveScopes.DRIVE;
 import static com.google.api.services.drive.DriveScopes.DRIVE_FILE;
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
@@ -62,7 +63,7 @@ public class GoogleApi {
     public static Credential getCredentials(NetHttpTransport netHttpTransport) throws IOException {
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         if (isNull(googleAuthorizationCodeFlow)) getCredentialsWithClientSecretFile(
-                List.of(GMAIL_SEND, DRIVE_FILE, DRIVE), netHttpTransport);
+                List.of(GMAIL_SEND, DRIVE_FILE, DRIVE,CALENDAR), netHttpTransport);
         return new AuthorizationCodeInstalledApp(googleAuthorizationCodeFlow, receiver).authorize("user");
     }
 
@@ -75,7 +76,6 @@ public class GoogleApi {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
         googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(netHttpTransport, JSON_FACTORY,
                 clientSecrets, scopes)
-                .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
     }
