@@ -3,7 +3,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 import com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType;
 import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.DocumentResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.DocumentResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.dto.FilesByHolderResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
