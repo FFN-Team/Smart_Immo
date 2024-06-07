@@ -2,9 +2,9 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationsResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.EventResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.NotificationsResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.ProspectResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;

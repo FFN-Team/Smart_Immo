@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.port.SubscriptionApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.IsSubscribeResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.IsSubscribeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;

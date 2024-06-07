@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.event.port.NotificationApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.EventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.NotificationStatusRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.EventResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.NotificationStatusRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;

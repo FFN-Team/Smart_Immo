@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.EmailRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.EmailRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
