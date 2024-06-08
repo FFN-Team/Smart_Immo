@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS potential_project
 CREATE TABLE IF NOT EXISTS notification
 (
     id_notification      SERIAL,
-    status                VARCHAR(255),
+    status               VARCHAR(255),
     message              VARCHAR(255),
     priority             VARCHAR(255),
     fk_potential_project INTEGER,

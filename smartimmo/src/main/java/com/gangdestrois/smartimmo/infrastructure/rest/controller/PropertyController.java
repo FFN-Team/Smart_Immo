@@ -4,8 +4,8 @@ import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyRequest;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.PropertyRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.PropertyResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
@@ -160,7 +160,7 @@ public class PropertyController {
     public ResponseEntity<PropertyResponse> delete(@PathVariable Long propertyId) {
         Property property = propertyApi.findById(propertyId)
                 .orElseThrow(() -> new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.PROPERTY_NOT_FOUND,
-                        String.format("Property ot found for this id : %d", propertyId)));
+                        String.format("Property not found for this id : %d", propertyId)));
         PropertyResponse propertyResponse = PropertyResponse.fromModel(property);
 
         propertyApi.deleteById(propertyId);

@@ -2,8 +2,9 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.event.NotificationAlertListener;
 import com.gangdestrois.smartimmo.domain.potentialProject.port.PotentialProjectApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PotentialProjectEventResponse;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.ProspectResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.EventResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.NotificationsResponse;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Response.ProspectResponse;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,7 +26,6 @@ public class PotentialProjectController {
         this.notificationAlertListener = notificationAlertListener;
     }
 
-    @Deprecated(since = "v0.1.0")
     @PostMapping("/subscription")
     @Operation(
             description = "Authorize potential projects to send notifications when due date is approaching.",
@@ -36,15 +35,25 @@ public class PotentialProjectController {
         potentialProjectApi.subscription(notificationAlertListener);
     }
 
-    @PostMapping("/notification")
+    @PostMapping("/unsubscription")
+    @Operation(
+            description = "Unauthorized potential projects to send notifications when due date is approaching.",
+            responses = @ApiResponse(responseCode = "200", description = "Unsubscribe successfully."))
+    @ResponseStatus(HttpStatus.OK)
+    public void unsubscription() {
+        potentialProjectApi.unsubscription(notificationAlertListener);
+    }
+
+    @PostMapping("/notifications")
     @Operation(description = "Update the list of notification of potential projects and " +
             "return all notifications of potentials projects that need to be recontact soon.",
             responses = @ApiResponse(responseCode = "200", description = "Update and retrieve successfully.")
     )
-    public ResponseEntity<Set<PotentialProjectEventResponse>> notifyPotentialProjects() {
-        return ResponseEntity.ok(potentialProjectApi.notifyPotentialProjects().stream()
-                .map(PotentialProjectEventResponse::fromModel)
-                .collect(Collectors.toSet()));
+    public ResponseEntity<NotificationsResponse> notifyPotentialProjects() {
+        var potentialProjectNotifications = potentialProjectApi.notifyPotentialProjects().stream()
+                .map(EventResponse::fromModel)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new NotificationsResponse(potentialProjectNotifications));
     }
 
     @GetMapping("/{potential-project-id}/prospect")

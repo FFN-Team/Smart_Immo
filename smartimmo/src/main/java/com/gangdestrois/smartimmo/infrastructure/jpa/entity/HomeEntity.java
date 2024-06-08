@@ -1,12 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.prospect.model.Child;
 import com.gangdestrois.smartimmo.domain.prospect.model.Home;
 import com.gangdestrois.smartimmo.domain.prospect.model.MaritalStatus;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,7 +27,8 @@ public class HomeEntity {
         this.children = children;
     }
 
-    public HomeEntity() {}
+    public HomeEntity() {
+    }
 
     public static HomeEntity fromModelToEntity(Home home) {
         return (home != null) ?

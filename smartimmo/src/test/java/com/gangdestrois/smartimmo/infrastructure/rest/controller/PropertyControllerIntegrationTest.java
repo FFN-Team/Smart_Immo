@@ -2,7 +2,7 @@ package com.gangdestrois.smartimmo.infrastructure.rest.controller;
 
 import com.gangdestrois.smartimmo.domain.property.port.AddressApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
-import com.gangdestrois.smartimmo.infrastructure.rest.dto.PropertyRequest;
+import com.gangdestrois.smartimmo.infrastructure.rest.dto.Request.PropertyRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -55,13 +55,7 @@ class PropertyControllerIntegrationTest {
     @Test
     void update() throws Exception {
         PropertyRequest propertyRequest = new PropertyRequest(
-                "Property name",
-                "Description",
-                4,
-                80.0,
-                1L
-        );
-
+                "Property name", "Description", 4, 80.0, 1L);
         mockMvc.perform(put("/api/v1/properties/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(propertyRequest.toString())

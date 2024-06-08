@@ -17,16 +17,17 @@ public class ChildEntity {
     private HomeEntity home;
 
     public ChildEntity(Integer age) {
-        this.age=age;
+        this.age = age;
     }
 
-    public ChildEntity() {}
+    public ChildEntity() {
+    }
 
     public Child toModel() {
         return new Child(this.age);
     }
 
-    public static ChildEntity fromModelToEntity(Child child){
+    public static ChildEntity fromModelToEntity(Child child) {
         return new ChildEntity(child.age());
     }
 }

@@ -1,10 +1,10 @@
 package com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.model;
 
 import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
-import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.PropertyToFollowStatus;
+import com.gangdestrois.smartimmo.domain.portfolio.propertiesToFollow.enums.PropertyToFollowStatus;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 
-public class PropertyToFollow{
+public class PropertyToFollow {
     private final Long id;
     private final Buyer buyer;
     private final Property property;
@@ -17,8 +17,19 @@ public class PropertyToFollow{
         this.status = status;
     }
 
-    public Long getId() { return id; }
-    public Buyer getBuyer() { return buyer; }
-    public Property getProperty() { return property; }
-    public PropertyToFollowStatus getStatus() { return status; }
+    public Long getId() {
+        return id;
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public PropertyToFollowStatus getStatus() {
+        return status;
+    }
 }

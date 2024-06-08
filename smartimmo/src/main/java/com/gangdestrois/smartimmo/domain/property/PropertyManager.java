@@ -1,7 +1,7 @@
 package com.gangdestrois.smartimmo.domain.property;
 
-import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.property.port.PropertyApi;
 import com.gangdestrois.smartimmo.domain.property.port.PropertySpi;
 
@@ -26,7 +26,7 @@ public class PropertyManager implements PropertyApi {
     }
 
     @Override
-    public Property save(Property property){
+    public Property save(Property property) {
         return propertySpi.save(property);
     }
 

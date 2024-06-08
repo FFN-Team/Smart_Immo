@@ -1,9 +1,27 @@
-ALTER TABLE project
-    ADD COLUMN fk_prospect INT,
-    ADD CONSTRAINT fk_project_prospect FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect);
+DO
+$$
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM information_schema.columns
+                       WHERE table_name = 'project' AND column_name = 'fk_prospect') THEN
+            ALTER TABLE project
+                ADD COLUMN fk_prospect INT,
+                ADD CONSTRAINT fk_project_prospect FOREIGN KEY (fk_prospect) REFERENCES prospect (id_prospect);
+        END IF;
+    END
+$$;
 
-ALTER TABLE notification
-    ADD COLUMN type VARCHAR(255);
+DO
+$$
+    BEGIN
+        IF NOT EXISTS (SELECT 1
+                       FROM information_schema.columns
+                       WHERE table_name = 'notification' AND column_name = 'type') THEN
+            ALTER TABLE notification
+                ADD COLUMN type VARCHAR(255);
+           END IF;
+    END
+$$;
 
 -- Insertion du prospect
 INSERT INTO project (fk_prospect)
@@ -20,7 +38,8 @@ VALUES ('COHABITATION');
 -- Mise à jour du prospect pour ajouter la clé étrangère vers le domicile
 UPDATE prospect
 SET fk_home = currval('home_id_home_seq')
-WHERE last_name = 'Dupont' AND first_name = 'Jean';
+WHERE last_name = 'Dupont'
+  AND first_name = 'Jean';
 
 -- Insertion du propriétaire
 INSERT INTO owner (active, fk_prospect)

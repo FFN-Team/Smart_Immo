@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.project.Project;
+import com.gangdestrois.smartimmo.domain.project.model.Project;
 import jakarta.persistence.*;
 
 import java.util.Optional;

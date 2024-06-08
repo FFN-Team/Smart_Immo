@@ -1,10 +1,14 @@
 package com.gangdestrois.smartimmo.domain.document;
 
 import com.gangdestrois.smartimmo.DataForUnitaryTest;
+import com.gangdestrois.smartimmo.domain.document.model.DocumentType;
+import com.gangdestrois.smartimmo.domain.document.model.Folder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
+import com.gangdestrois.smartimmo.domain.document.port.DocumentTypeSpi;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.jpa.DocumentDataAdapter;
+import com.gangdestrois.smartimmo.infrastructure.jpa.DocumentTypeDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.jpa.ProspectDataAdapter;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
@@ -17,14 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.gangdestrois.smartimmo.domain.actor.enums.Actor.OWNER;
+import static com.gangdestrois.smartimmo.domain.document.enums.DocumentHolderType.PROPERTY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class DocumentManagerUnitaryTest {
 
     private DocumentSpi documentSpi;
     private ProspectSpi prospectSpi;
+    private DocumentTypeSpi documentTypeSpi;
     private DocumentService documentService;
     private DocumentManager documentManager;
     private final DataForUnitaryTest dataForUT = new DataForUnitaryTest();
@@ -34,7 +41,8 @@ public class DocumentManagerUnitaryTest {
         documentSpi = mock(DocumentDataAdapter.class);
         prospectSpi = mock(ProspectDataAdapter.class);
         documentService = mock(GoogleDriveApi.class);
-        documentManager = new DocumentManager(documentService, documentSpi, prospectSpi);
+        documentTypeSpi = mock(DocumentTypeDataAdapter.class);
+        documentManager = new DocumentManager(documentService, documentSpi, prospectSpi, documentTypeSpi);
     }
 
     @Test
@@ -43,11 +51,14 @@ public class DocumentManagerUnitaryTest {
         Long ownerId = 1L;
         byte[] file = dataForUT.file;
         var fileName = "test";
-        var documentType = DocumentType.VISITE_PHOTO;
+        var documentTypeCode = "VISIT_PHOTO";
+        var documentType = new DocumentType(documentTypeCode, "Visite photo", List.of(OWNER), PROPERTY);
         when(prospectSpi.findById(ownerId)).thenReturn(Optional.empty());
+        when(documentTypeSpi.findDocumentTypeFromCode(documentTypeCode)).thenReturn(Optional.of(documentType));
 
         // When and then
-        var result = assertThrows(NotFoundException.class, () -> documentManager.uploadFile(file, fileName, documentType,
+        var result = assertThrows(NotFoundException.class, () -> documentManager.uploadFile(file, fileName, "application/pdf",
+                documentTypeCode,
                 ownerId));
         assertEquals(ExceptionEnum.PROSPECT_NOT_FOUND, result.getError());
     }
@@ -55,30 +66,30 @@ public class DocumentManagerUnitaryTest {
     @Test
     public void getParentFolder_should_throw_internal_server_error_exception_when_document_to_upload_have_more_than_one_parent() {
         // Getters
-        var documentType = DocumentType.VISITE_PHOTO;
+        var documentType = new DocumentType("VISIT_PHOTO", "Visite photo", List.of(OWNER), PROPERTY);
         List<Folder> list = new ArrayList<>();
         var folder = dataForUT.folder1;
         list.add(folder);
         list.add(folder);
-        when(documentSpi.getFolderByName(documentType.getName())).thenReturn(list);
+        when(documentSpi.getFolderByName(documentType.description())).thenReturn(list);
 
         // When and then
-        var result = assertThrows(BadRequestException.class, () -> documentManager.getParentFolder(documentType));
+        var result = assertThrows(BadRequestException.class, () -> documentManager.getParentFolder(documentType.description()));
         assertEquals(ExceptionEnum.DOCUMENT_ERROR, result.getError());
     }
 
     @Test
     public void getParentFolder_should_return_a_new_folder_when_document_type_is_conform() {
         // Getters
-        var documentType = DocumentType.VISITE_PHOTO;
-        var folderName = documentType.getName();
+        var documentType = new DocumentType("VISIT_PHOTO", "Visite photo", List.of(OWNER), PROPERTY);
+        var folderName = documentType.description();
         var parentFolder = dataForUT.folder1;
         List<Folder> parentFolders = new ArrayList<>();
         parentFolders.add(parentFolder);
         when(documentSpi.getFolderByName(folderName)).thenReturn(parentFolders);
 
         // When
-        var result = documentManager.getParentFolder(documentType);
+        var result = documentManager.getParentFolder(documentType.description());
 
         // Then
         assertEquals(parentFolder, result);

@@ -1,9 +1,9 @@
 package com.gangdestrois.smartimmo.infrastructure.service;
 
 import com.gangdestrois.smartimmo.domain.email.port.EmailSender;
-import com.gangdestrois.smartimmo.domain.statusCode.HttpStatusCode;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
+import com.gangdestrois.smartimmo.infrastructure.service.statusCode.HttpStatusCode;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -13,7 +13,6 @@ import com.google.api.services.gmail.model.Message;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -24,16 +23,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.gangdestrois.smartimmo.domain.tool.ApplicationData.TECHNIMMO;
+import static com.gangdestrois.smartimmo.infrastructure.service.ApplicationData.TECHNIMMO;
 import static java.util.Objects.nonNull;
 import static javax.mail.Message.RecipientType.TO;
 
 @Component
 public class GmailApi implements EmailSender {
     private static final Logger log = LogManager.getLogger(GmailApi.class);
-
-    @Autowired
-    public GmailApi() {}
 
     public void sendEmail(String subject, String message, String senderEmail, String recipientEmail) throws GoogleJsonResponseException {
         Gmail service = initialize();

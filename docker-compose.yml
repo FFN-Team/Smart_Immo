@@ -1,13 +1,30 @@
 # Remarque : pour que le docker fonctionne correctement,
 # il ne doit pas y avoir plusieurs serveurs qui tournent sur le port voulu.
 version: "3.8"
+
 services:
-  technimmo:
+  psql-db:
     image: postgres
-    ports:
-      - "5432:5432"
+    container_name: psql-db
+    restart: always
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-    volumes:
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - POSTGRES_DB=technimmo
+    ports:
+      - '5432:5432'
+
+  back-end:
+    container_name: back-end_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '9001:9001'
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/technimmo
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - psql-db

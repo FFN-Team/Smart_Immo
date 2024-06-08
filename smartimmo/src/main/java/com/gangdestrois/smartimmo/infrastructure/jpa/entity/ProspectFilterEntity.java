@@ -1,10 +1,10 @@
 package com.gangdestrois.smartimmo.infrastructure.jpa.entity;
 
-import com.gangdestrois.smartimmo.domain.filter.prospect.MathematicalComparator;
+import com.gangdestrois.smartimmo.domain.filter.prospect.enums.MathematicalComparator;
 import com.gangdestrois.smartimmo.domain.filter.prospect.model.ProspectFilter;
-import com.gangdestrois.smartimmo.domain.prospect.ContactOrigin;
-import com.gangdestrois.smartimmo.domain.prospect.Profession;
-import com.gangdestrois.smartimmo.domain.prospect.Title;
+import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;
+import com.gangdestrois.smartimmo.domain.prospect.enums.Title;
 import jakarta.persistence.*;
 
 
@@ -54,9 +54,10 @@ public class ProspectFilterEntity {
         this.authorizeContactOnSocialMedia = authorizeContactOnSocialMedia;
     }
 
-    public ProspectFilterEntity() {}
+    public ProspectFilterEntity() {
+    }
 
-    public static ProspectFilterEntity fromModelToEntity(ProspectFilter prospectFilter){
+    public static ProspectFilterEntity fromModelToEntity(ProspectFilter prospectFilter) {
         return new ProspectFilterEntity(
                 prospectFilter.getProspectFilterName(), prospectFilter.getContactOrigin(), prospectFilter.getTitle(),
                 prospectFilter.getAgeComparator(), prospectFilter.getAge(), prospectFilter.getProfession(),
@@ -64,10 +65,10 @@ public class ProspectFilterEntity {
         );
     }
 
-    public ProspectFilter toModel(){
+    public ProspectFilter toModel() {
         return new ProspectFilter(
-                this.id,this.prospectFilterName,this.contactOrigine,this.title,
-                this.ageComparator,this.age,this.profession,
+                this.id, this.prospectFilterName, this.contactOrigine, this.title,
+                this.ageComparator, this.age, this.profession,
                 this.authorizeContactOnSocialMedia
         );
     }

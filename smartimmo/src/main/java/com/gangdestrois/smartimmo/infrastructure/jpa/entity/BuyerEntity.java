@@ -5,7 +5,6 @@ import com.gangdestrois.smartimmo.domain.buyer.model.Buyer;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "buyer")
@@ -31,33 +30,39 @@ public class BuyerEntity {
         this.status = status;
     }
 
-    public BuyerEntity() {  }
+    public BuyerEntity() {
+    }
 
-    public Buyer toModel(){
+    public Buyer toModel() {
         return new Buyer(
                 id, prospect.toModel(), status, searchStartDate, searchEndDate
         );
     }
 
-    public static BuyerEntity fromModelToEntity(Buyer buyer){
-        return new BuyerEntity(buyer.getId(),ProspectEntity.fromModelToEntity(buyer.getProspect()), buyer.getStatus());
+    public static BuyerEntity fromModelToEntity(Buyer buyer) {
+        return new BuyerEntity(buyer.getId(), ProspectEntity.fromModelToEntity(buyer.getProspect()), buyer.getStatus());
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public BuyerStatus getStatus() {
         return status;
     }
+
     public LocalDate getSearchStartDate() {
         return searchStartDate;
     }
+
     public LocalDate getSearchEndDate() {
         return searchEndDate;
     }
+
     public ProspectEntity getProspect() {
         return prospect;
     }
