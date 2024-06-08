@@ -14,22 +14,35 @@ import java.util.function.Function;
 import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.OWNER_NOT_FOUND;
 
 public enum DocumentHolderType {
-    PROPERTY((Long reference) -> findDocuments(reference, DataSource.propertySpi)),
-    PROSPECT((Long reference) -> findDocuments(reference, DataSource.prospectSpi));
+    PROPERTY((Long reference) -> findDocuments(reference, DataSource.propertySpi),
+            (Long reference) -> findOwner(reference, DataSource.prospectSpi)),
+    PROSPECT((Long reference) -> findDocuments(reference, DataSource.prospectSpi),
+            (Long reference) -> findOwner(reference, DataSource.prospectSpi));
     private final Function<Long, List<File>> getDocuments;
+    private final Function<Long, Holder> getOwner;
 
-    DocumentHolderType(Function<Long, List<File>> getDocuments) {
+    DocumentHolderType(Function<Long, List<File>> getDocuments, Function<Long, Holder> getOwner) {
         this.getDocuments = getDocuments;
+        this.getOwner = getOwner;
     }
 
     public List<File> getDocuments(Long reference) {
         return this.getDocuments.apply(reference);
     }
 
+    public Holder getOwner(Long reference) {
+        return this.getOwner.apply(reference);
+    }
+
     private static List<File> findDocuments(Long reference, HolderSpi<? extends Holder> modelSpi) {
         var owner = modelSpi.findById(reference).orElseThrow(
                 () -> new NotFoundException(OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", reference)));
         return owner.getFiles(DataSource.documentSpi);
+    }
+
+    private static Holder findOwner(Long reference, HolderSpi<? extends Holder> modelSpi) {
+        return modelSpi.findById(reference).orElseThrow(
+                () -> new NotFoundException(OWNER_NOT_FOUND, String.format("Owner with id %d doesn't exists.", reference)));
     }
 
     public static class DataSource {

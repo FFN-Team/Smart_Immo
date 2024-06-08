@@ -46,7 +46,7 @@ public class DocumentDataAdapter implements DocumentSpi {
     public File saveFile(LocalDate created, File file, Folder folder) {
         Optional<FolderEntity> parentEntity = folderRepository.findById(folder.id());
         Optional<ProspectEntity> prospectEntity = Optional.empty();
-        if (file.getOwner().isPresent()) prospectEntity = prospectRepository.findById(file.getOwner().get().id());
+        if (file.getProspect().isPresent()) prospectEntity = prospectRepository.findById(file.getProspect().get().id());
         var documentTypeEntity = documentTypeRepository.findByName(file.getDocumentType().name())
                 .orElseThrow(() -> new BadRequestException(DOCUMENT_ERROR,
                         String.format("Document of type %s does not exists.", file.getDocumentType().name())));

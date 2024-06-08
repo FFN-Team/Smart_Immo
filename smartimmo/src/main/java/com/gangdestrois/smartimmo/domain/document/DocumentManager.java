@@ -8,12 +8,11 @@ import com.gangdestrois.smartimmo.domain.document.port.DocumentApi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentService;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentTypeSpi;
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 import com.gangdestrois.smartimmo.domain.prospect.port.ProspectSpi;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.BadRequestException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum;
 import com.gangdestrois.smartimmo.infrastructure.rest.error.InternalServerErrorException;
-import com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException;
 import com.google.common.base.Strings;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,14 +49,12 @@ public class DocumentManager implements DocumentApi {
 
     @Override
     public File uploadFile(byte[] file, String fileName, String fileType, String documentTypeCode, Long ownerId) {
-        var owner = prospectSpi.findById(ownerId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
-                String.format("Prospect with id %d doesn't exists.", ownerId)));
         var documentType = documentTypeSpi.findDocumentTypeFromCode(documentTypeCode)
                 .orElseThrow(() -> new BadRequestException(DOCUMENT_ERROR,
                         String.format("Document of type %s does not exists.", documentTypeCode)));
         var parentFolder = getParentFolder(documentType.description());
         var fileToUpload = convertBytesToFile(file, fileName);
-        return saveFile(fileName, fileType, owner, parentFolder, fileToUpload, documentType);
+        return saveFile(fileName, fileType, parentFolder, fileToUpload, documentType, ownerId);
     }
 
     public Folder getParentFolder(String description) {
@@ -68,11 +65,14 @@ public class DocumentManager implements DocumentApi {
         return parentFolders.isEmpty() ? createFolder(description, null) : parentFolders.getFirst();
     }
 
-    private File saveFile(String fileName, String fileType, Prospect owner, Folder parentFolder, java.io.File fileToUpload,
-                          DocumentType documentType) {
+    private File saveFile(String fileName, String fileType, Folder parentFolder, java.io.File fileToUpload,
+                          DocumentType documentType, Long ownerId) {
         var fileId = documentService.uploadFileIntoFolder(fileToUpload, fileName, fileType, parentFolder.getDocumentId());
         var fileUploaded = documentService.generatePublicUrl(fileId);
-        fileUploaded.setOwner(owner);
+        switch (documentType.ownerType()) {
+            case PROSPECT -> fileUploaded.setProspect((Prospect) documentType.ownerType().getOwner(ownerId));
+            case PROPERTY -> fileUploaded.setProperty((Property) documentType.ownerType().getOwner(ownerId));
+        }
         fileUploaded.setDocumentType(documentType);
         parentFolder.addChild(fileUploaded);
         documentSpi.saveFile(LocalDate.now(), fileUploaded, parentFolder);

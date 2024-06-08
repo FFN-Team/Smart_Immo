@@ -1,28 +1,35 @@
 package com.gangdestrois.smartimmo.domain.document.model;
 
+import com.gangdestrois.smartimmo.domain.property.model.Property;
 import com.gangdestrois.smartimmo.domain.prospect.model.Prospect;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 public class File extends DocumentImplementation {
-    private Prospect owner;
+    private Prospect prospect;
+    private Property property;
     private DocumentType documentType;
     private final LocalDate created;
 
     protected File(FileBuilder builder) {
         super(builder);
-        this.owner = builder.owner;
+        this.prospect = builder.propspect;
+        this.property = builder.property;
         this.documentType = builder.documentType;
         this.created = builder.created;
     }
 
-    public Optional<Prospect> getOwner() {
-        return Optional.ofNullable(owner);
+    public Optional<Prospect> getProspect() {
+        return Optional.ofNullable(prospect);
     }
 
-    public void setOwner(Prospect owner) {
-        this.owner = owner;
+    public void setProspect(Prospect prospect) {
+        this.prospect = prospect;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public DocumentType getDocumentType() {
@@ -34,12 +41,18 @@ public class File extends DocumentImplementation {
     }
 
     public static class FileBuilder extends DocumentImplementation.DocumentImplementationBuilder {
-        private Prospect owner;
+        private Prospect propspect;
+        private Property property;
         private DocumentType documentType;
         private LocalDate created;
 
-        public FileBuilder owner(Prospect owner) {
-            this.owner = owner;
+        public FileBuilder prospect(Prospect owner) {
+            this.propspect = owner;
+            return self();
+        }
+
+        public FileBuilder property(Property owner) {
+            this.property = owner;
             return self();
         }
 

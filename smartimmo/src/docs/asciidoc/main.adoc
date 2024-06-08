@@ -53,13 +53,82 @@ Notre objectif est de développer une application qui combine le meilleur des de
 * *Formation et support* : Offre des ressources de formation et un support client.
 * *Outils de recherche avancée* : Propose une recherche par emplacement, prix, type de bien, et d'autres critères pertinents.
 
-=== Prévisions marketing
+=== Marketing
 
-Stratégies :
+==== Prévisions stratégiques :
 
 * Démarcher les agents immobiliers sur place, sur les réseaux sociaux
 * Faire jouer le réseau professionnel / personnel
 * Faire un site web
+
+==== Analyse du marché
+
+Dans cette section, après avoir analysé le marché de l’immobilier, nous fixerons nos segments de marché.
+
+* *Opportunités* :
+1. Le renforcement de dispositifs tels que MaPrimeRénov’ et le maintien du dispositif Pinel jusqu'à la fin de 2024 offrent des opportunités tant pour les investisseurs que pour les acquéreurs.
+2. La baisse annoncée des taux d'intérêt constitue une incitation pour les acquéreurs à agir rapidement.
+3. Après 2024, une stabilisation des prix de l'immobilier est prévue pour l'année 2025, voire une légère reprise.
+Toutefois, il est important de souligner que cette reprise ne sera pas uniforme et sera influencée par plusieurs facteurs, notamment les conditions de prêt, la situation économique globale, les tendances démographiques et les politiques locales.
+
+
+* *Tendances d'Achat* :
+1. L'âge moyen des primo-accédants augmente, ce qui prolonge leur attente pour accéder à la propriété en raison de contraintes financières et de la hausse des prix immobiliers.
+2. Les acheteurs élargissent leur recherche géographique et sont plus flexibles sur certains critères tout en privilégiant des éléments essentiels tels que l'environnement et la performance énergétique des biens immobiliers.
+
+
+* *État du Marché* :
+1. En 2024, une tendance baissière est observée sur le marché immobilier français, avec une estimation de -4% sur les prix immobiliers, principalement due à la hausse des taux d'emprunt.
+2. Malgré cela, une reprise progressive est anticipée grâce au retour des banques sur le marché et aux baisses de taux d'emprunt, bien qu'une diminution du volume des transactions soit prévue.
+
+
+* *Durabilité dans le marché immobilier* :
+1. La tendance vers la durabilité est un moteur majeur dans le secteur immobilier, avec une préférence croissante pour les propriétés écologiques et écoénergétiques.
+2. L'objectif de neutralité carbone fixé par l'Union Européenne ouvre des opportunités pour les acteurs du marché immobilier durable, tout comme la montée en importance de la réglementation ESG.
+
+
+* *Marché des Applications Immobilières* :
+1. Les avancées technologiques telles que les visites virtuelles, la réalité augmentée, la réalité virtuelle et l'intelligence artificielle transforment l'expérience d'achat immobilier, offrant aux acheteurs une manière immersive de visualiser les propriétés et une personnalisation accrue de la recherche de biens immobiliers.
+
+==== Segmentation du marché :
+
+* *Segmentation Géographique* :
+** Villes Moyennes vs Grandes Villes : Les caractéristiques et les besoins des utilisateurs peuvent varier selon la localisation géographique des biens immobiliers.
+Par exemple, les attentes des acheteurs et des vendeurs dans les grandes villes peuvent différer de celles dans les villes moyennes.
+
+
+* *Segmentation Démographique* :
+** Primo-Accédants par âge : Segmenter les utilisateurs en fonction de leur tranche d'âge peut permettre de mieux cibler les fonctionnalités et les services de l'application.
+Par exemple, une interface conviviale pour les jeunes adultes et une assistance financière pour les personnes plus âgées.
+
+
+* *Segmentation Comportementale* :
+** Investisseurs Immobiliers vs Acheteurs Résidentiels : Différencier les utilisateurs en fonction de leurs objectifs d'investissement peut permettre de personnaliser les offres.
+Par exemple, fournir des outils d'analyse financière pour les investisseurs et des conseils sur la recherche de propriétés pour les acheteurs résidentiels.
+** Sensibilité à la Durabilité : Segmenter les utilisateurs en fonction de leur sensibilité à la durabilité peut permettre de proposer des biens immobiliers écologiques et écoénergétiques.
+Par exemple, des filtres de recherche pour les propriétés certifiées durables.
+
+
+* *Segmentation Technologique* :
+** Utilisateurs d'Applications Immobilières : Segmenter les utilisateurs en fonction de leur expérience et de leur utilisation des technologies peut permettre d'adapter l'interface et les fonctionnalités de l'application.
+Par exemple, des tutoriels pour les nouveaux utilisateurs et des fonctionnalités avancées pour les utilisateurs expérimentés.
+
+==== A quel besoin répond notre produit ?
+
+Notre application répond aux besoins de l’agent immobilier en combinant les fonctionnalités classiques d’une application destinée aux agents et des fonctionnalités novatrices liées au développement durable.
+
+Les fonctionnalités générales de l’application permettent de répondre aux besoins :
+
+* d’organiser son travail en optimisant son temps ;
+* d’automatiser la prospection ;
+* d’accompagner au mieux son client en anticipant ses besoins, pour être plus proche de lui.
+
+Les fonctionnalités spécifiques de notre application permettent au besoin d’accompagner son client dans un projet durable en s’inscrivant dans les dimensions :
+
+* économique avec la fonctionnalité d’estimation des coûts à long terme des rénovations et des améliorations d’un bien ;
+* environnementale avec une offre de conseils sur la conception d'un aménagement paysager écologique ;
+* sociale avec un espace d’interaction et de partage de conseils sur la durabilité entre clients.
+
 
 <<<
 
@@ -497,8 +566,8 @@ Envoi un email en fonction des données envoyées.
 '''
 
 ==== Petite fonctionnalité : Avoir accès à l'avancement des biens
-Pour les biens correspondants de l’acquéreur, il faut définir un état de traitement pour savoir si par exemple ce
-bien est “à proposer”, “en cours de négociation” ou si le bien “a été visité” etc.
+
+Pour les biens correspondants de l’acquéreur, il faut définir un état de traitement pour savoir si par exemple ce bien est “à proposer”, “en cours de négociation” ou si le bien “a été visité” etc.
 
 Cette fonctionnalité permet de changer le statut du bien à suivre (TO_STUDY, TO_VISIT, VISITED).
 
@@ -682,6 +751,7 @@ Retourne les statistiques qui comparent le prix moyen dans les zones géographiq
   }
 ]
 ----
+
 "price" et "difference" peuvent être null.
 
 '''
@@ -690,3 +760,11 @@ Retourne les statistiques qui comparent le prix moyen dans les zones géographiq
 
 .Page affichant le tableau comparatif du prix d'un bien
 image::v0.1.0/gf_price_comparison_table.png[alt=Page affichant le tableau comparatif du prix d'un bien]
+
+=== v?.?.?
+
+==== Grande fonctionnalité : Gestion des documents d'un bien et d'un prospect
+
+Cette fonctionnalité permet à l'utilisateur de pouvoir enregistrer et stocker des documents.
+Les documents à enregistrer sont de plusieurs type et correspondent soit à un prospect, soit à un bien.
+
