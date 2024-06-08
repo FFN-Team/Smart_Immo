@@ -22,7 +22,6 @@
         <asciidoctorj.diagram.version>2.2.14</asciidoctorj.diagram.version>
         <jruby.version>9.4.2.0</jruby.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
