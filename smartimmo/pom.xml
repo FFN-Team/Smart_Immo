@@ -277,9 +277,9 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <configuration>
-                    <url>${SPRING_DATASOURCE_URL}</url>
-                    <user>${SPRING_DATASOURCE_USERNAME}</user>
-                    <password>${SPRING_DATASOURCE_PASSWORD}</password>
+                    <url>jdbc:postgresql://psql-db:5432/technimmo</url>
+                    <user>user</user>
+                    <password>password</password>
                 </configuration>
             </plugin>
             <plugin>
