@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.domain.property.model;
 
 import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Holder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
-import com.gangdestrois.smartimmo.domain.document.util.Holder;
 
 import java.util.List;
 

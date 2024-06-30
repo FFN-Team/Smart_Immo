@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.prospect.port;
 
-import com.gangdestrois.smartimmo.domain.document.util.HolderSpi;
+import com.gangdestrois.smartimmo.domain.document.port.HolderSpi;
 import com.gangdestrois.smartimmo.domain.filter.prospect.enums.MathematicalComparator;
 import com.gangdestrois.smartimmo.domain.prospect.enums.ContactOrigin;
 import com.gangdestrois.smartimmo.domain.prospect.enums.Profession;

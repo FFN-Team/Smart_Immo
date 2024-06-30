@@ -52,6 +52,6 @@ public class DocumentTypeEntity {
     }
 
     public static DocumentTypeEntity fromModel(DocumentType documentType) {
-        return new DocumentTypeEntity(documentType.name(), documentType.description(), documentType.ownerType().name());
+        return new DocumentTypeEntity(documentType.name(), documentType.description(), documentType.holderType().name());
     }
 }

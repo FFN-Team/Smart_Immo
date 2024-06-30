@@ -1,6 +1,6 @@
 package com.gangdestrois.smartimmo.domain.property.port;
 
-import com.gangdestrois.smartimmo.domain.document.util.HolderSpi;
+import com.gangdestrois.smartimmo.domain.document.port.HolderSpi;
 import com.gangdestrois.smartimmo.domain.property.model.Address;
 import com.gangdestrois.smartimmo.domain.property.model.Property;
 

@@ -14,6 +14,8 @@ import org.springframework.jmx.export.notification.UnableToSendNotificationExcep
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.EMAIL_SENDER_NOT_FOUND;
+import static com.gangdestrois.smartimmo.infrastructure.rest.error.ExceptionEnum.PROSPECT_NOT_FOUND;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -37,22 +39,25 @@ public class EmailManager implements EmailApi {
     @Override
     public void configAndSendEmail(Long prospectId, EventType eventType) throws Exception {
         if (isNull(emailSender))
-            throw new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(ExceptionEnum.EMAIL_SENDER_NOT_FOUND,
+            throw new com.gangdestrois.smartimmo.infrastructure.rest.error.NotFoundException(EMAIL_SENDER_NOT_FOUND,
                     "No email sender found.");
-        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(ExceptionEnum.PROSPECT_NOT_FOUND,
+        var prospect = prospectSpi.findById(prospectId).orElseThrow(() -> new NotFoundException(PROSPECT_NOT_FOUND,
                 String.format("Prospect with id %d not found.", prospectId)));
         if (!prospect.authorizeContactOnSocialMedia())
             throw new UnauthorizedException(ExceptionEnum.CONTACT_ON_SOCIAL_MEDIA_UNAUTHORIZED,
                     String.format("this prospect %s with id %d does not wish to be contacted via social networks.", prospect.getCompleteName(),
                             prospectId));
+        // TODO : mettre ca générique avec google auth
         String from = "plantefloni@gmail.com";
         String to = prospect.getMail();
+        // TODO : trouver d'autres critères et les affiner
         Map<String, Object> templateModel = switch (eventType) {
             case PROSPECT_MAY_BUY_BIGGER_HOUSE, PROJECT_DUE_DATE_APPROACHING -> setTemplateModel(prospect);
         };
         sendEmail(from, to, eventType.emailSubject(), templateModel, eventType.getEmailTemplate());
     }
 
+    // TODO : faire des modèles de mail
     private Map<String, Object> setTemplateModel(Prospect prospect) {
         Map<String, Object> templateModel = new HashMap<>();
         templateModel.put("prospectName", prospect.getCompleteName());
@@ -65,6 +70,7 @@ public class EmailManager implements EmailApi {
             throws Exception {
         var htmlBody = emailConfigurer.getEmailHtmlBody(templateModel, templateFile);
         if (nonNull(emailSender)) emailSender.sendEmail(subject, htmlBody, from, to);
+            // TODO : changer l'exception
         else throw new UnableToSendNotificationException("emailSender is null");
     }
 }

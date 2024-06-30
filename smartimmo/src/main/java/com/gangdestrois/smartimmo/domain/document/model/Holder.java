@@ -1,6 +1,5 @@
-package com.gangdestrois.smartimmo.domain.document.util;
+package com.gangdestrois.smartimmo.domain.document.model;
 
-import com.gangdestrois.smartimmo.domain.document.model.File;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
 import com.gangdestrois.smartimmo.domain.utils.Model;
 

@@ -36,7 +36,7 @@ public class DocumentType {
         return this.holders;
     }
 
-    public DocumentHolderType ownerType() {
+    public DocumentHolderType holderType() {
         return this.documentHolderType;
     }
 }

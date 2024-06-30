@@ -1,8 +1,8 @@
 package com.gangdestrois.smartimmo.domain.prospect.model;
 
 import com.gangdestrois.smartimmo.domain.document.model.File;
+import com.gangdestrois.smartimmo.domain.document.model.Holder;
 import com.gangdestrois.smartimmo.domain.document.port.DocumentSpi;
-import com.gangdestrois.smartimmo.domain.document.util.Holder;
 import com.gangdestrois.smartimmo.domain.event.enums.EventType;
 import com.gangdestrois.smartimmo.domain.event.enums.NotificationStatus;
 import com.gangdestrois.smartimmo.domain.event.enums.Priority;
@@ -98,7 +98,7 @@ public class Prospect extends Holder implements Notify {
     }
 
     public Event<Prospect> mapToEvent() {
-        return new Event(
+        return new Event<>(
                 NotificationStatus.TO_READ,
                 String.format("Suggestion : le prospect %s %s est susceptible de vouloir changer de logement. " +
                                 "Vous pouvez consulter sa fiche en cliquant sur le bouton ci-dessous.",

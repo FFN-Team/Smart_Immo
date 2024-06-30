@@ -114,9 +114,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, ProspectDataAdapter prospectDataAdapter,
-                                           DocumentTypeDataAdapter documentTypeDataAdapter) {
-        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, prospectDataAdapter, documentTypeDataAdapter);
+    public DocumentManager documentManager(DocumentDataAdapter documentDataAdapter, DocumentTypeDataAdapter documentTypeDataAdapter) {
+        return new DocumentManager(new GoogleDriveApi(), documentDataAdapter, documentTypeDataAdapter);
     }
 
     @Bean
